@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout " xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Market</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <h1>Market!</h1>
+    <h2>Tu możesz kupić karty innych graczy</h2>
+    <div th:if="${not #lists.isEmpty(marketCards)}">
+        <tr th:each="card:${marketCards}">
+            <td><img th:src="${card.url}"></td>
+        </tr>
+    </div>
+    <div th:if="${#lists.isEmpty(cards)}">
+        Nie ma aktualnie żadnych kart w markecie.
+    </div>
+</section>
+</body>
+</html>

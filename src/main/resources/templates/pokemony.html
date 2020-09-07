@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout " xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Pokemony</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <h1>Moje pokemony!</h1>
+        <div th:if="${not #lists.isEmpty(cards)}">
+            <tr th:each="card:${cards}">
+                <td><img th:src="${card.url}"></td>
+            </tr>
+        </div>
+        <div th:if="${#lists.isEmpty(cards)}">
+            Trener nie posiada pokemonów!
+        </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign up</title>
+</head>
+<body>
+<h1>Registration</h1>
+<form th:action="@{/register}" th:object="${appUser}" method="post">
+    <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+        <p th:each="err : ${#fields.errors('*')}" th:text="${err}">        </p>
+    </div>
+    Register:
+    <input type="email" name="username" placeholder="email">
+    Password:
+    <input type="password" name="password" placeholder="password">
+    <input type="submit" value="Sign up!">
+</form>
+</body>
+</html>
+

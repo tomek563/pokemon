@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout " xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Dodaj nowego trenera</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <h1>Dodaj nowego trenera!</h1>
+    <div th:if="${coach!=null}"> <!--todo jesli juz masz trenera to nie mozesz miec wiecej-->
+    <form th:action="@{/dodano-trenera}" th:object="${coach}" method="post">
+        Imię:
+        <input type="text" name="coachName" placeholder="imie">
+        <input type="submit" value="Zapisz!">
+    </form>
+    </div>
+</section>
+
+</body>
+</html>

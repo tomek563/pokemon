@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout " xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">>Pokemony</title>
+</head>
+<body>
+
+<Menu  name="Pokemony">
+    <Item><a href="/">Strona główna</a></Item>
+    <Item><a href="/market">Market</a></Item>
+    <Item sec:authorize="isAuthenticated()"><a href="/pokemony">Moje pokemony</a> </Item>
+    <Item sec:authorize="isAuthenticated()"><a href="/draw-random-cards">Zbierz nowe</a></Item>
+    <Item sec:authorize="isAuthenticated()"><a href="/dodaj-trenera">Dodaj trenera</a></Item>
+    <Item><a href="/sign-up">Zarejestruj się</a></Item>
+    <Item sec:authorize="isAuthenticated()"><a href="/logout">Wyloguj się</a></Item>
+    <Item sec:authorize="!isAuthenticated()"><a href="/login">Zaloguj się</a></Item>
+    <Item sec:authorize="isAuthenticated()">Witaj <span sec:authentication="name"></span></Item>
+</Menu>
+
+<section layout:fragment="content">
+</section>
+
+<!--<div sec:authorize="isAuthenticated()">-->
+<!--    Authenticated as <span sec:authentication="name"></span></div>-->
+
+
+</body>
+</html>
