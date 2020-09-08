@@ -7,4 +7,5 @@ import pokemon.pl.pokemon.model.Coach;
 @Repository
 public interface CoachRepo extends JpaRepository<Coach, Long> {
     Coach findByAppUserId(Long id);
+    Coach findByCardsName(String name);
 }

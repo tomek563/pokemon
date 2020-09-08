@@ -23,7 +23,6 @@
                 <input type="hidden" name="url" th:value="${card.url}">
                 <input type="hidden" name="price" th:value="${card.price}">
                 <input type="hidden" name="onSale" th:value="${card.onSale}">
-                <input type="hidden" name="coach" th:value="${card.coach}">
                 <input sec:authorize="isAuthenticated()" type="submit" value="Kup!">
                 <input sec:authorize="!isAuthenticated()" type="submit" value="Kup!" disabled>
             </form>

@@ -27,9 +27,15 @@ public class CoachController {
 
     private CardService cardService;
 
-    public CoachController(CoachService coachService, CardService cardService) {
+    private CardRepo cardRepo;
+
+    private CoachRepo coachRepo;
+
+    public CoachController(CoachService coachService, CardService cardService, CardRepo cardRepo, CoachRepo coachRepo) {
         this.coachService = coachService;
         this.cardService = cardService;
+        this.cardRepo = cardRepo;
+        this.coachRepo = coachRepo;
     }
 
     @GetMapping("/pokemony")
@@ -43,11 +49,11 @@ public class CoachController {
     @GetMapping("/pokemony/{name}")
     public String pokazKonkretnaKarte(@PathVariable String name, Model model) {
         Coach coach = coachService.findCoachOfLoggedUser();
-        Optional<Card> pikachu = Optional.of(coach.getCards().stream()
+        Optional<Card> chosenCard = Optional.of(coach.getCards().stream()
                 .filter(card -> card.getName().equals(name))
                 .findFirst()
                 .get());
-        model.addAttribute("karta", pikachu.get());
+        model.addAttribute("karta", chosenCard.get());
         return "pokemon";
     }
     @PostMapping("/wystawiono")
@@ -58,8 +64,24 @@ public class CoachController {
     }
     @PostMapping("/kupiono")
     public String kupKarte(@ModelAttribute Card card) {
+        Coach currentOwnerOfTheCard = coachRepo.findByCardsName(card.getName());
 
-        return "market";
+        Coach coachOfLoggedUser = coachService.findCoachOfLoggedUser();
+        if (coachOfLoggedUser.getAmountMoney()>=card.getPrice()) {
+            card.setOnSale(false);
+            card.setCoach(coachOfLoggedUser);
+            coachOfLoggedUser.getCards().add(card);
+            coachOfLoggedUser.setAmountMoney(coachOfLoggedUser.getAmountMoney()-card.getPrice());
+            currentOwnerOfTheCard.setAmountMoney(currentOwnerOfTheCard.getAmountMoney()+card.getPrice());
+            cardRepo.save(card);
+            coachRepo.save(coachOfLoggedUser);
+            coachRepo.save(currentOwnerOfTheCard);
+            return "sukces";
+        } else {
+            System.out.println("nie masz kasy");
+            return "failure";
+        }
+
     }
 
     @GetMapping("/trener")
