@@ -11,8 +11,8 @@
     <h1>Zdobądź nowe pokemony!</h1>
     <p>Naciśnij przycisk by wylosować swoje karty</p>
     <p>Każdy nowy zestaw kart kosztuje 50$</p>
-    <p>Masz aktualnie:</p>
-    <p th:text="${money}"></p>
+    <p>Masz aktualnie: <span th:text="${money}"></span>$</p>
+    <p>Co godzinę dostajesz extra 100$</p><br>
     <form th:action="@{/drawn}" method="post">
         <div th:if="${not #lists.isEmpty(randomCards)}">
             <tr th:each="card:${randomCards}">

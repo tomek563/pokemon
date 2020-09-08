@@ -13,12 +13,30 @@ package pokemon.pl.pokemon;
 //podstrona przeglądanie własnych kart
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import pokemon.pl.pokemon.model.AppUser;
+import pokemon.pl.pokemon.repositories.CoachRepo;
 
 @SpringBootApplication
+@EnableScheduling
 public class Application {
+//	private CoachRepo coachRepo;
+
+//	public Application(CoachRepo coachRepo) {
+//		this.coachRepo = coachRepo;
+//	}
+
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}
-
+//	@Scheduled(fixedRate = 3600000, initialDelay = 3600000)
+//	public void addMoneyAfterOneHour() {
+//		coachRepo.findAll()
+//				.forEach(coach -> {
+//					coach.setAmountMoney(coach.getAmountMoney()+100);
+//					coachRepo.save(coach);
+//				});
+//		System.out.println("dodano");
+//	}
 }

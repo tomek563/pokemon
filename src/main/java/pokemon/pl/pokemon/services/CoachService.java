@@ -1,5 +1,6 @@
 package pokemon.pl.pokemon.services;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,7 @@ import pokemon.pl.pokemon.repositories.CardRepo;
 import pokemon.pl.pokemon.repositories.CoachRepo;
 
 import java.util.List;
+import java.util.Timer;
 
 
 @Service
@@ -55,5 +57,14 @@ public class CoachService {
             return new Coach();
         }
         return findCoachOfLoggedUser();
+    }
+    @Scheduled(fixedRate = 3600000, initialDelay = 3600000)
+    public void addMoneyAfterOneHour() {
+
+        coachRepo.findAll()
+                .forEach(coach -> {
+                    coach.setAmountMoney(coach.getAmountMoney()+100);
+                    coachRepo.save(coach);
+                });
     }
 }
