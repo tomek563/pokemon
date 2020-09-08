@@ -9,7 +9,9 @@
 <body>
 <section layout:fragment="content">
     <h1 th:text="${karta.name}"></h1>
+    <h2 th:text="${karta.coach}"></h2>
     <p><img th:src="${karta.url}"></p>
+
     <form th:action="@{/wystawiono}" th:object="${nowaKarta}" method="post">
         Cena:
         <input type="text" name="price" placeholder="cena">

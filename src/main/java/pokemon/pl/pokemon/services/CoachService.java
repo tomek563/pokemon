@@ -34,10 +34,24 @@ public class CoachService {
     public void drawCards(List<Card> cards) {
         Coach one = findCoachOfLoggedUser();
 
+        for (Card card : cards) {
+            card.setCoach(one);
+            System.out.println("pokaze coacha "+card.getCoach().getCoachName());
+            cardRepo.save(card);
+            coachRepo.save(one);
+        }
+        for (Card card : one.getCards()) {
+            System.out.println("!!!!!!!!!!nazwa trenera");
+            card.getCoach().getCoachName();
+        }
 
-        one.getCards().addAll(cards.subList(0, 5));
+        one.getCards().addAll(cards);
         one.setAmountMoney(one.getAmountMoney() - 50);
         coachRepo.save(one);
+        for (Card card : one.getCards()) {
+            System.out.println("po save nazwa trenera"+            card.getCoach().getCoachName());
+
+        }
     }
 
     public Coach findCoachOfLoggedUser() {

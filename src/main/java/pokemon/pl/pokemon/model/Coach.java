@@ -17,7 +17,7 @@ public class Coach {
 
     private int amountMoney = 100;
 
-    @OneToMany
+    @OneToMany(mappedBy = "coach")
     private List<Card> cards = new ArrayList<>();
 
     public Coach() {

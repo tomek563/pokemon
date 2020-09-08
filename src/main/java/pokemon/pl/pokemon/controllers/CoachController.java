@@ -10,13 +10,15 @@ import pokemon.pl.pokemon.model.Coach;
 import pokemon.pl.pokemon.repositories.AppUserRepo;
 import pokemon.pl.pokemon.repositories.CardRepo;
 import pokemon.pl.pokemon.repositories.CoachRepo;
-import pokemon.pl.pokemon.repositories.MarketRepo;
+//import pokemon.pl.pokemon.repositories.MarketRepo;
 import pokemon.pl.pokemon.services.CardService;
 import pokemon.pl.pokemon.services.CoachService;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 public class CoachController {
@@ -27,15 +29,15 @@ public class CoachController {
 
     private CardRepo cardRepo;
 
-    private MarketRepo marketRepo;
+//    private MarketRepo marketRepo;
 
     private CardService cardService;
 
-    public CoachController(CoachService coachService, CoachRepo coachRepo, CardRepo cardRepo, MarketRepo marketRepo, CardService cardService) {
+    public CoachController(CoachService coachService, CoachRepo coachRepo, CardRepo cardRepo/*, MarketRepo marketRepo*/, CardService cardService) {
         this.coachService = coachService;
         this.coachRepo = coachRepo;
         this.cardRepo = cardRepo;
-        this.marketRepo = marketRepo;
+//        this.marketRepo = marketRepo;
         this.cardService = cardService;
     }
 
@@ -55,7 +57,6 @@ public class CoachController {
                 .filter(card -> card.getName().equals(name))
                 .findFirst()
                 .get());
-
         model.addAttribute("karta", pikachu.get());
         return "pokemon";
     }
@@ -68,13 +69,17 @@ public class CoachController {
 
         System.out.println("cena "+card.getPrice());
         Coach coach = coachService.findCoachOfLoggedUser();
+        card.setOnSale(true);
+        card.setCoach(coach);
+        System.out.println("ustawia sie na true "+card.isOnSale());
 //        if (coach.getCards().contains(card)) {
+//            coach.getCards().get().setOnSale(true);
 //            coach.getCards().remove(card);
 //        }
         cardRepo.save(card);
-//        coachRepo.save(coach);
-        marketRepo.getOne(1L).getCards().add(card);
-        marketRepo.save(marketRepo.getOne(1L));
+        coachRepo.save(coach);
+//        marketRepo.getOne(1L).getCards().add(card);
+//        marketRepo.save(marketRepo.getOne(1L));
         return "sukces";
     }
     @PostMapping("/kupiono")
@@ -88,6 +93,18 @@ public class CoachController {
     public String dodajTrenera(Model model) {
         model.addAttribute("coach", new Coach());
         return "nowy-trener";
+    }
+
+    @GetMapping("/market")
+    public String pokazMarket(Model model) {
+        List<Card> collect = Stream.of(cardRepo.findAll())
+                .flatMap(coaches -> coaches.stream())
+                .filter(card -> card.isOnSale())
+                .collect(Collectors.toList());
+        System.out.println("tu jest cala lista"+collect);
+//        System.out.println("trener nazywa sie"+collect.get(1).getCoach().getCoachName());
+        model.addAttribute("marketCards", collect);
+        return "market";
     }
 
     @PostMapping("/dodano-trenera")

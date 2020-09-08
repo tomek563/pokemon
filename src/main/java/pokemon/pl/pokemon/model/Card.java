@@ -21,6 +21,10 @@ public class Card {
 
     private int price = 50; /*default value*/
 
+    private boolean onSale = false;
+
+    @ManyToOne
+    private Coach coach;
 
     public Card() {
     }
@@ -57,6 +61,21 @@ public class Card {
         this.price = price;
     }
 
+    public boolean isOnSale() {
+        return onSale;
+    }
+
+    public void setOnSale(boolean onSale) {
+        this.onSale = onSale;
+    }
+
+    public Coach getCoach() {
+        return coach;
+    }
+
+    public void setCoach(Coach coach) {
+        this.coach = coach;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -77,6 +96,9 @@ public class Card {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", url='" + url + '\'' +
+                ", price=" + price +
+                ", onSale=" + onSale +
+                ", coach=" + coach +
                 '}';
     }
 }
