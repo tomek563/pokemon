@@ -45,39 +45,11 @@ public class CoachController {
         return "pokemon";
     }
 
-    @PostMapping("/wystawiono")
-    public String wystawNaSprzedaz(@ModelAttribute Card card) {
-        Coach coach = coachService.findCoachOfLoggedUser();
-        cardService.setCardOnSaleAndOwner(card, coach);
-        return "sukces";
-    }
-
-    @PostMapping("/kupiono")
-    public String kupKarte(@ModelAttribute Card card) {
-        Coach currentOwnerOfTheCard = coachService.findByCardsName(card);
-        Coach coachOfLoggedUser = coachService.findCoachOfLoggedUser();
-
-        if (coachService.hasCoachEnoughMoneyToBuyCard(coachOfLoggedUser, card)) {
-            coachService.finishTransaction(currentOwnerOfTheCard, coachOfLoggedUser, card);
-            return "sukces";
-        } else {
-            return "failure";
-        }
-    }
-
     @GetMapping("/trener")
     public String dodajTrenera(Model model) {
         Coach coachIfNotExist = coachService.createCoachIfNotExist();
         model.addAttribute("coach", coachIfNotExist);
         return "trener";
-    }
-
-    @GetMapping("/market")
-    public String pokazMarket(Model model) {
-        List<Card> cardsOnSale = cardService.showCardsOnSale();
-
-        model.addAttribute("marketCards", cardsOnSale);
-        return "market";
     }
 
     @PostMapping("/dodano-trenera")
