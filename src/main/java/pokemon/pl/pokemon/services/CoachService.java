@@ -18,8 +18,11 @@ import java.util.Timer;
 public class CoachService {
     private CoachRepo coachRepo;
 
-    public CoachService(CoachRepo coachRepo) {
+    private CardRepo cardRepo;
+
+    public CoachService(CoachRepo coachRepo, CardRepo cardRepo) {
         this.coachRepo = coachRepo;
+        this.cardRepo = cardRepo;
     }
 
     public void addCoach(Coach coach) {
@@ -53,18 +56,38 @@ public class CoachService {
     }
 
     public Coach createCoachIfNotExist() {
-        if (findCoachOfLoggedUser()==null) {
+        if (findCoachOfLoggedUser() == null) {
             return new Coach();
         }
         return findCoachOfLoggedUser();
     }
+
+    public Coach findByCardsName(Card card) {
+        return coachRepo.findByCardsName(card.getName());
+    }
+
     @Scheduled(fixedRate = 3600000, initialDelay = 3600000)
     public void addMoneyAfterOneHour() {
 
         coachRepo.findAll()
                 .forEach(coach -> {
-                    coach.setAmountMoney(coach.getAmountMoney()+100);
+                    coach.setAmountMoney(coach.getAmountMoney() + 100);
                     coachRepo.save(coach);
                 });
+    }
+
+    public boolean hasCoachEnoughMoneyToBuyCard(Coach coach, Card card) {
+        return coach.getAmountMoney() >= card.getPrice();
+    }
+
+    public void finishTransaction(Coach currentOwnerOfTheCard, Coach coachOfLoggedUser, Card card) {
+        card.setOnSale(false);
+        card.setCoach(coachOfLoggedUser);
+        coachOfLoggedUser.getCards().add(card);
+        coachOfLoggedUser.setAmountMoney(coachOfLoggedUser.getAmountMoney() - card.getPrice());
+        currentOwnerOfTheCard.setAmountMoney(currentOwnerOfTheCard.getAmountMoney() + card.getPrice());
+        cardRepo.save(card);
+        coachRepo.save(coachOfLoggedUser);
+        coachRepo.save(currentOwnerOfTheCard);
     }
 }

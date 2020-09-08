@@ -1,24 +1,17 @@
 package pokemon.pl.pokemon.controllers;
 
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import pokemon.pl.pokemon.model.AppUser;
+import pokemon.pl.pokemon.exceptions.CardNotFoundException;
+import pokemon.pl.pokemon.exceptions.CoachNotFoundException;
 import pokemon.pl.pokemon.model.Card;
 import pokemon.pl.pokemon.model.Coach;
-import pokemon.pl.pokemon.repositories.AppUserRepo;
-import pokemon.pl.pokemon.repositories.CardRepo;
-import pokemon.pl.pokemon.repositories.CoachRepo;
-//import pokemon.pl.pokemon.repositories.MarketRepo;
 import pokemon.pl.pokemon.services.CardService;
 import pokemon.pl.pokemon.services.CoachService;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Controller
 public class CoachController {
@@ -27,62 +20,49 @@ public class CoachController {
 
     private CardService cardService;
 
-    private CardRepo cardRepo;
-
-    private CoachRepo coachRepo;
-
-    public CoachController(CoachService coachService, CardService cardService, CardRepo cardRepo, CoachRepo coachRepo) {
+    public CoachController(CoachService coachService, CardService cardService) {
         this.coachService = coachService;
         this.cardService = cardService;
-        this.cardRepo = cardRepo;
-        this.coachRepo = coachRepo;
     }
 
     @GetMapping("/pokemony")
     public String pokazPokemony(Model model) {
-//        Coach coach = coachRepo.findById(1L).orElseThrow(() -> new CoachNotFoundException(1L));
-        Coach coach = coachService.findCoachOfLoggedUser();
-
-        model.addAttribute("cards", coach.getCards());
+        Optional<Coach> coach = Optional.ofNullable(coachService.findCoachOfLoggedUser());
+        Coach currentCoach = coach.orElseThrow(() -> new CoachNotFoundException(1L));
+        model.addAttribute("cards", currentCoach.getCards());
         return "pokemony";
     }
+
     @GetMapping("/pokemony/{name}")
     public String pokazKonkretnaKarte(@PathVariable String name, Model model) {
         Coach coach = coachService.findCoachOfLoggedUser();
         Optional<Card> chosenCard = Optional.of(coach.getCards().stream()
                 .filter(card -> card.getName().equals(name))
                 .findFirst()
-                .get());
+                .orElseThrow(() -> new CardNotFoundException(1L)));
+
         model.addAttribute("karta", chosenCard.get());
         return "pokemon";
     }
+
     @PostMapping("/wystawiono")
     public String wystawNaSprzedaz(@ModelAttribute Card card) {
         Coach coach = coachService.findCoachOfLoggedUser();
         cardService.setCardOnSaleAndOwner(card, coach);
         return "sukces";
     }
+
     @PostMapping("/kupiono")
     public String kupKarte(@ModelAttribute Card card) {
-        Coach currentOwnerOfTheCard = coachRepo.findByCardsName(card.getName());
-
+        Coach currentOwnerOfTheCard = coachService.findByCardsName(card);
         Coach coachOfLoggedUser = coachService.findCoachOfLoggedUser();
-        if (coachOfLoggedUser.getAmountMoney()>=card.getPrice()) {
-            card.setOnSale(false);
-            card.setCoach(coachOfLoggedUser);
-            coachOfLoggedUser.getCards().add(card);
-            coachOfLoggedUser.setAmountMoney(coachOfLoggedUser.getAmountMoney()-card.getPrice());
-            currentOwnerOfTheCard.setAmountMoney(currentOwnerOfTheCard.getAmountMoney()+card.getPrice());
-            cardRepo.save(card);
-            coachRepo.save(coachOfLoggedUser);
-            coachRepo.save(currentOwnerOfTheCard);
+
+        if (coachService.hasCoachEnoughMoneyToBuyCard(coachOfLoggedUser, card)) {
+            coachService.finishTransaction(currentOwnerOfTheCard, coachOfLoggedUser, card);
             return "sukces";
         } else {
-            System.out.println("nie masz kasy");
             return "failure";
         }
-
-
     }
 
     @GetMapping("/trener")
@@ -108,8 +88,9 @@ public class CoachController {
 
     @GetMapping("/draw-random-cards")
     public String draw(Model model) {
-        Coach coach = coachService.findCoachOfLoggedUser();
-        model.addAttribute("money", coach.getAmountMoney());
+        Optional<Coach> coach = Optional.ofNullable(coachService.findCoachOfLoggedUser());
+        Coach currentCoach = coach.orElseThrow(() -> new CoachNotFoundException(1L));
+        model.addAttribute("money", currentCoach.getAmountMoney());
         return "random-cards";
     }
 
@@ -127,12 +108,3 @@ public class CoachController {
 
 
 }
-//    Optional
-//    public String pokazPokemony(Model model, @PathVariable long id) {
-//        Optional<Coach> coach = coachRepo.findById(id);
-////        System.out.println("trener "+coach.getId());
-//        if (coach.isPresent()) {
-//            model.addAttribute("cards", coach);
-//        }
-//        return "pokemony";
-//    }

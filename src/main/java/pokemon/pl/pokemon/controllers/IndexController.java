@@ -30,5 +30,16 @@ public class IndexController {
         return "failure";
     }
 
+    @GetMapping("/brak-trenera")
+    public String pokazWyjatekTrener() {
+
+        return "brak-trenera";
+    }
+    @GetMapping("/brak-karty")
+    public String pokazWyjatekKarta() {
+
+        return "brak-karty";
+    }
+
 
 }
