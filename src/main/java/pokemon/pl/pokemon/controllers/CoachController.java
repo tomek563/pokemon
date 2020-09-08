@@ -25,19 +25,10 @@ public class CoachController {
 
     private CoachService coachService;
 
-    private CoachRepo coachRepo;
-
-    private CardRepo cardRepo;
-
-//    private MarketRepo marketRepo;
-
     private CardService cardService;
 
-    public CoachController(CoachService coachService, CoachRepo coachRepo, CardRepo cardRepo/*, MarketRepo marketRepo*/, CardService cardService) {
+    public CoachController(CoachService coachService, CardService cardService) {
         this.coachService = coachService;
-        this.coachRepo = coachRepo;
-        this.cardRepo = cardRepo;
-//        this.marketRepo = marketRepo;
         this.cardService = cardService;
     }
 
@@ -45,8 +36,7 @@ public class CoachController {
     public String pokazPokemony(Model model) {
 //        Coach coach = coachRepo.findById(1L).orElseThrow(() -> new CoachNotFoundException(1L));
         Coach coach = coachService.findCoachOfLoggedUser();
-        System.out.println(coach.getCoachName());
-        System.out.println(coach.getCards());
+
         model.addAttribute("cards", coach.getCards());
         return "pokemony";
     }
@@ -62,48 +52,28 @@ public class CoachController {
     }
     @PostMapping("/wystawiono")
     public String wystawNaSprzedaz(@ModelAttribute Card card) {
-
-        System.out.println("nazwa karty "+card.getName());
-        System.out.println("id "+card.getId());
-        System.out.println("url "+card.getUrl());
-
-        System.out.println("cena "+card.getPrice());
         Coach coach = coachService.findCoachOfLoggedUser();
-        card.setOnSale(true);
-        card.setCoach(coach);
-        System.out.println("ustawia sie na true "+card.isOnSale());
-//        if (coach.getCards().contains(card)) {
-//            coach.getCards().get().setOnSale(true);
-//            coach.getCards().remove(card);
-//        }
-        cardRepo.save(card);
-        coachRepo.save(coach);
-//        marketRepo.getOne(1L).getCards().add(card);
-//        marketRepo.save(marketRepo.getOne(1L));
+        cardService.setCardOnSaleAndOwner(card, coach);
         return "sukces";
     }
     @PostMapping("/kupiono")
     public String kupKarte(@ModelAttribute Card card) {
-        System.out.println("kupiono "+card.getName());
-        System.out.println("cena "+card.getPrice());
+
         return "market";
     }
 
-    @GetMapping("/dodaj-trenera")
+    @GetMapping("/trener")
     public String dodajTrenera(Model model) {
-        model.addAttribute("coach", new Coach());
-        return "nowy-trener";
+        Coach coachIfNotExist = coachService.createCoachIfNotExist();
+        model.addAttribute("coach", coachIfNotExist);
+        return "trener";
     }
 
     @GetMapping("/market")
     public String pokazMarket(Model model) {
-        List<Card> collect = Stream.of(cardRepo.findAll())
-                .flatMap(coaches -> coaches.stream())
-                .filter(card -> card.isOnSale())
-                .collect(Collectors.toList());
-        System.out.println("tu jest cala lista"+collect);
-//        System.out.println("trener nazywa sie"+collect.get(1).getCoach().getCoachName());
-        model.addAttribute("marketCards", collect);
+        List<Card> cardsOnSale = cardService.showCardsOnSale();
+
+        model.addAttribute("marketCards", cardsOnSale);
         return "market";
     }
 

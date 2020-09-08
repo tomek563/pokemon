@@ -8,13 +8,17 @@
 </head>
 <body>
 <section layout:fragment="content">
-    <h1>Dodaj nowego trenera!</h1>
-    <div th:if="${coach!=null}"> <!--todo jesli juz masz trenera to nie mozesz miec wiecej-->
-    <form th:action="@{/dodano-trenera}" th:object="${coach}" method="post">
+    <div th:if="${#lists.isEmpty(coach)}">
+        <h1>Dodaj nowego trenera!</h1>
+        <form th:action="@{/dodano-trenera}" th:object="${coach}" method="post">
         Imię:
         <input type="text" name="coachName" placeholder="imie">
         <input type="submit" value="Zapisz!">
     </form>
+    </div>
+    <div th:if="${not #lists.isEmpty(coach)}">
+        <h1>Twój trener!</h1>
+        <h2 th:text="${coach.coachName}"></h2>
     </div>
 </section>
 
