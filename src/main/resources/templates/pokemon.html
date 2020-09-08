@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout.html}" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout " xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">>Karta</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <h1 th:text="${karta.name}"></h1>
+    <p><img th:src="${karta.url}"></p>
+    <form th:action="@{/wystawiono}" th:object="${nowaKarta}" method="post">
+        Cena:
+        <input type="text" name="price" placeholder="cena">
+        <input type="hidden" name="id" th:value="${karta.id}">
+        <input type="hidden" name="name" th:value="${karta.name}">
+        <input type="hidden" name="url" th:value="${karta.url}">
+        <input type="submit" value="Wystaw na sprzedaż!">
+
+    </form>
+</section>
+</body>
+</html>
+
+

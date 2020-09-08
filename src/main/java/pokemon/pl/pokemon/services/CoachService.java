@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import pokemon.pl.pokemon.model.AppUser;
 import pokemon.pl.pokemon.model.Card;
 import pokemon.pl.pokemon.model.Coach;
+import pokemon.pl.pokemon.repositories.CardRepo;
 import pokemon.pl.pokemon.repositories.CoachRepo;
 
 import java.util.List;
@@ -15,9 +16,12 @@ import java.util.List;
 public class CoachService {
     private CoachRepo coachRepo;
 
+    private CardRepo cardRepo;
 
-    public CoachService(CoachRepo coachRepo) {
+
+    public CoachService(CoachRepo coachRepo, CardRepo cardRepo) {
         this.coachRepo = coachRepo;
+        this.cardRepo = cardRepo;
     }
 
     public void addCoach(Coach coach) {
@@ -29,6 +33,8 @@ public class CoachService {
 
     public void drawCards(List<Card> cards) {
         Coach one = findCoachOfLoggedUser();
+
+
         one.getCards().addAll(cards.subList(0, 5));
         one.setAmountMoney(one.getAmountMoney() - 50);
         coachRepo.save(one);

@@ -10,21 +10,32 @@ import pokemon.pl.pokemon.model.Coach;
 import pokemon.pl.pokemon.repositories.AppUserRepo;
 import pokemon.pl.pokemon.repositories.CardRepo;
 import pokemon.pl.pokemon.repositories.CoachRepo;
+import pokemon.pl.pokemon.repositories.MarketRepo;
 import pokemon.pl.pokemon.services.CardService;
 import pokemon.pl.pokemon.services.CoachService;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class CoachController {
 
     private CoachService coachService;
 
+    private CoachRepo coachRepo;
+
+    private CardRepo cardRepo;
+
+    private MarketRepo marketRepo;
+
     private CardService cardService;
 
-    public CoachController(CoachService coachService, CardService cardService) {
+    public CoachController(CoachService coachService, CoachRepo coachRepo, CardRepo cardRepo, MarketRepo marketRepo, CardService cardService) {
         this.coachService = coachService;
+        this.coachRepo = coachRepo;
+        this.cardRepo = cardRepo;
+        this.marketRepo = marketRepo;
         this.cardService = cardService;
     }
 
@@ -32,8 +43,45 @@ public class CoachController {
     public String pokazPokemony(Model model) {
 //        Coach coach = coachRepo.findById(1L).orElseThrow(() -> new CoachNotFoundException(1L));
         Coach coach = coachService.findCoachOfLoggedUser();
+        System.out.println(coach.getCoachName());
+        System.out.println(coach.getCards());
         model.addAttribute("cards", coach.getCards());
         return "pokemony";
+    }
+    @GetMapping("/pokemony/{name}")
+    public String pokazKonkretnaKarte(@PathVariable String name, Model model) {
+        Coach coach = coachService.findCoachOfLoggedUser();
+        Optional<Card> pikachu = Optional.of(coach.getCards().stream()
+                .filter(card -> card.getName().equals(name))
+                .findFirst()
+                .get());
+
+        model.addAttribute("karta", pikachu.get());
+        return "pokemon";
+    }
+    @PostMapping("/wystawiono")
+    public String wystawNaSprzedaz(@ModelAttribute Card card) {
+
+        System.out.println("nazwa karty "+card.getName());
+        System.out.println("id "+card.getId());
+        System.out.println("url "+card.getUrl());
+
+        System.out.println("cena "+card.getPrice());
+        Coach coach = coachService.findCoachOfLoggedUser();
+//        if (coach.getCards().contains(card)) {
+//            coach.getCards().remove(card);
+//        }
+        cardRepo.save(card);
+//        coachRepo.save(coach);
+        marketRepo.getOne(1L).getCards().add(card);
+        marketRepo.save(marketRepo.getOne(1L));
+        return "sukces";
+    }
+    @PostMapping("/kupiono")
+    public String kupKarte(@ModelAttribute Card card) {
+        System.out.println("kupiono "+card.getName());
+        System.out.println("cena "+card.getPrice());
+        return "market";
     }
 
     @GetMapping("/dodaj-trenera")

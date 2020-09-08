@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Entity;
 
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import java.util.Objects;
 
 @Entity
 public class Card {
@@ -18,6 +20,7 @@ public class Card {
     private String url;
 
     private int price = 50; /*default value*/
+
 
     public Card() {
     }
@@ -52,6 +55,20 @@ public class Card {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Card card = (Card) o;
+        return Objects.equals(id, card.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 
     @Override
