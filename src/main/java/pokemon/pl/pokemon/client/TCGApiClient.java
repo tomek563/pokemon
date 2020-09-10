@@ -21,13 +21,12 @@ import java.util.Random;
 public class TCGApiClient {
     private CardRepo cardRepo;
     private RestTemplate restTemplate;
-    //    private MarketRepo marketRepo;
+
     private static final String URL = "https://api.pokemontcg.io/v1/";
 
-    public TCGApiClient(CardRepo cardRepo, RestTemplate restTemplate/*, MarketRepo marketRepo*/) {
+    public TCGApiClient(CardRepo cardRepo, RestTemplate restTemplate) {
         this.cardRepo = cardRepo;
         this.restTemplate = restTemplate;
-//        this.marketRepo = marketRepo;
     }
 
     @PostConstruct
@@ -48,19 +47,7 @@ public class TCGApiClient {
         }
 
     }
-//    @PostConstruct
-//    public void createEmptyMarket() {
-//        Market market = new Market();
-//        System.out.println("tu dochodze");
-//        Optional<Card> pikachu = cardRepo.findAll().stream()
-//                .filter(card -> card.getId().equals("pl2-103"))
-//                .findFirst();
-//        Card card = pikachu.get();
-//        System.out.println("MOJA KARTA TO "+card.getName());
-//
-//        market.getCards().add(card);
-//        marketRepo.save(market);
-//    }
+
 
     static class Cards {
         private List<Card> cards;

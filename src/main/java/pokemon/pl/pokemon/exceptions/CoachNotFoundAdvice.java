@@ -12,6 +12,6 @@ public class CoachNotFoundAdvice {
     @ExceptionHandler(CoachNotFoundException.class)
     public String coachNotFoundHandler(CoachNotFoundException ex) {
 
-        return "brak-trenera";
+        return "no-coach";
     }
 }

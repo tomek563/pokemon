@@ -22,32 +22,32 @@ public class IndexController {
         return "layout";
     }
 
-    @GetMapping("/sukces")
+    @GetMapping("/success")
     public String loginSuccess(@RequestParam(defaultValue = "true") boolean firstTime, Model model) {
         if (firstTime) {
-            model.addAttribute("sukces", "Zostałeś poprawnie zalogowany"+
+            model.addAttribute("success", "Zostałeś poprawnie zalogowany"+
                     ". Najpierw wejdź w zakładke 'trener' i stwórz nowego trenera, dzięki temu będziesz mógł rozpocząć kolekcjonowanie kart!");
         } else {
-            model.addAttribute( "sukces", "Zostałeś poprawnie zalogowany");
+            model.addAttribute( "success", "Zostałeś poprawnie zalogowany");
         }
-        return "sukces";
+        return "success";
     }
 
-    @GetMapping("/porazka")
+    @GetMapping("/failure")
     public String loginFailure(Model model) {
         model.addAttribute("failure", "Nie udało się zalogować. Sprawdź nazwę użytkownika i hasło ");
         return "failure";
     }
 
-    @GetMapping("/brak-trenera")
-    public String pokazWyjatekTrener() {
+    @GetMapping("/no-coach")
+    public String showNoCoach() {
 
-        return "brak-trenera";
+        return "no-coach";
     }
-    @GetMapping("/brak-karty")
-    public String pokazWyjatekKarta() {
+    @GetMapping("/no-card")
+    public String showNoCard() {
 
-        return "brak-karty";
+        return "no-card";
     }
 
 

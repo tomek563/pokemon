@@ -12,9 +12,9 @@
 <Menu  name="Pokemony">
     <Item><a href="/">Strona główna</a></Item>
     <Item><a href="/market">Market</a></Item>
-    <Item sec:authorize="isAuthenticated()"><a href="/pokemony">Moje pokemony</a> </Item>
+    <Item sec:authorize="isAuthenticated()"><a href="/pokemon">Moje pokemony</a> </Item>
     <Item sec:authorize="isAuthenticated()"><a href="/draw-random-cards">Zbierz nowe</a></Item>
-    <Item sec:authorize="isAuthenticated()"><a href="/trener" >Trener</a></Item>
+    <Item sec:authorize="isAuthenticated()"><a href="/coach" >Trener</a></Item>
     <Item><a href="/sign-up">Zarejestruj się</a></Item>
     <Item sec:authorize="isAuthenticated()"><a href="/logout">Wyloguj się</a></Item>
     <Item sec:authorize="!isAuthenticated()"><a href="/login" >Zaloguj się</a></Item>

@@ -47,8 +47,8 @@ public class UserController {
             return "sign-up";
         } else {
             appUserService.addUser(appUser);
-            model.addAttribute("sukces","Dodano nowego użytkownika");
-            return "sukces";
+            model.addAttribute("success","Dodano nowego użytkownika");
+            return "success";
         }
     }
 

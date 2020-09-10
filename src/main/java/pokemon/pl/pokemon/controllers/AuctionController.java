@@ -27,31 +27,31 @@ public class AuctionController {
     }
 
     @GetMapping("/market")
-    public String pokazMarket(Model model) {
+    public String showMarket(Model model) {
         List<Card> cardsOnSale = cardService.showCardsOnSale();
 
         model.addAttribute("marketCards", cardsOnSale);
         return "market";
     }
 
-    @PostMapping("/wystawiono")
-    public String wystawNaSprzedaz(@ModelAttribute Card card, Model model) {
+    @PostMapping("/on-sale")
+    public String putUpOnSale(@ModelAttribute Card card, Model model) {
         Coach coach = coachService.findCoachOfLoggedUser();
         cardService.setCardOnSaleAndOwner(card, coach);
-        model.addAttribute("sukces", "Wystawiono kartę na sprzedaż");
-        return "sukces";
+        model.addAttribute("success", "Wystawiono kartę na sprzedaż");
+        return "success";
     }
 
-    @PostMapping("/kupiono")
-    public String kupKarte(@ModelAttribute Card card, Model model) {
+    @PostMapping("/bought")
+    public String buyCard(@ModelAttribute Card card, Model model) {
         Coach currentOwnerOfTheCard = coachService.findByCardsName(card);
         Optional<Coach> coach = Optional.ofNullable(coachService.findCoachOfLoggedUser());
         Coach coachOfLoggedUser = coach.orElseThrow(() -> new CoachNotFoundException(1L));
 
         if (coachService.hasCoachEnoughMoneyToBuyCard(coachOfLoggedUser, card)) {
             coachService.finishTransaction(currentOwnerOfTheCard, coachOfLoggedUser, card);
-            model.addAttribute("sukces", "Zakupiono nową kartę");
-            return "sukces";
+            model.addAttribute("success", "Zakupiono nową kartę");
+            return "success";
         } else {
             model.addAttribute("failure", "Nie masz wystarczająco pieniędzy by kupić nową kartę");
             return "failure";

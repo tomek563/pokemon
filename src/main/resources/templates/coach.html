@@ -11,7 +11,7 @@
 
     <div th:if="${coach.coachName==null}">
         <h1>Dodaj nowego trenera!</h1>
-        <form th:action="@{/dodano-trenera}" th:object="${coach}" method="post">
+        <form th:action="@{/coach-added}" th:object="${coach}" method="post">
         Imię:
         <input type="text" name="coachName" placeholder="imie">
         <input type="submit" value="Zapisz!">

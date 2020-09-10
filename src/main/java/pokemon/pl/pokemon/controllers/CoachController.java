@@ -25,38 +25,38 @@ public class CoachController {
         this.cardService = cardService;
     }
 
-    @GetMapping("/pokemony")
-    public String pokazPokemony(Model model) {
+    @GetMapping("/pokemon")
+    public String showPokemon(Model model) {
         Optional<Coach> coach = Optional.ofNullable(coachService.findCoachOfLoggedUser());
         Coach currentCoach = coach.orElseThrow(() -> new CoachNotFoundException(1L));
         model.addAttribute("cards", currentCoach.getCards());
-        return "pokemony";
+        return "all-pokemon";
     }
 
-    @GetMapping("/pokemony/{name}")
-    public String pokazKonkretnaKarte(@PathVariable String name, Model model) {
+    @GetMapping("/pokemon/{name}")
+    public String showPokemonCard(@PathVariable String name, Model model) {
         Coach coach = coachService.findCoachOfLoggedUser();
         Optional<Card> chosenCard = Optional.of(coach.getCards().stream()
                 .filter(card -> card.getName().equals(name))
                 .findFirst()
                 .orElseThrow(() -> new CardNotFoundException(1L)));
 
-        model.addAttribute("karta", chosenCard.get());
+        model.addAttribute("card", chosenCard.get());
         return "pokemon";
     }
 
-    @GetMapping("/trener")
-    public String dodajTrenera(Model model) {
+    @GetMapping("/coach")
+    public String addCoach(Model model) {
         Coach coachIfNotExist = coachService.createCoachIfNotExist();
         model.addAttribute("coach", coachIfNotExist);
-        return "trener";
+        return "coach";
     }
 
-    @PostMapping("/dodano-trenera")
-    public String zapiszTrenera(@ModelAttribute Coach coach, Model model) {
+    @PostMapping("/coach-added")
+    public String saveCoach(@ModelAttribute Coach coach, Model model) {
         coachService.addCoach(coach);
-        model.addAttribute("sukces", "Dodano nowego trenera");
-        return "sukces";
+        model.addAttribute("success", "Dodano nowego trenera");
+        return "success";
     }
 
     @GetMapping("/draw-random-cards")

@@ -68,7 +68,6 @@ public class CoachService {
 
     @Scheduled(fixedRate = 3600000, initialDelay = 3600000)
     public void addMoneyAfterOneHour() {
-
         coachRepo.findAll()
                 .forEach(coach -> {
                     coach.setAmountMoney(coach.getAmountMoney() + 100);

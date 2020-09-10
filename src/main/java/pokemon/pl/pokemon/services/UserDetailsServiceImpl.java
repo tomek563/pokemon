@@ -22,4 +22,3 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
 }
-//    UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

@@ -17,7 +17,7 @@
             Nazwa karty: <span th:text="${card.name}"></span> <br>
             Trener: <span th:text="${card.coach.coachName}"></span> <br>
             Cena: <span th:text="${card.price}"></span> <br>
-            <form th:action="@{/kupiono}" th:object="${card}" method="post">
+            <form th:action="@{/bought}" th:object="${card}" method="post">
                 <input type="hidden" name="id" th:value="${card.id}">
                 <input type="hidden" name="name" th:value="${card.name}">
                 <input type="hidden" name="url" th:value="${card.url}">

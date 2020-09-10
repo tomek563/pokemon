@@ -8,16 +8,16 @@
 </head>
 <body>
 <section layout:fragment="content">
-    <h1 th:text="${karta.name}"></h1>
-    <h2>Trener: <span th:text="${karta.coach}"></span></h2>
-    <p><img th:src="${karta.url}"></p>
+    <h1 th:text="${card.name}"></h1>
+    <h2>Trener: <span th:text="${card.coach}"></span></h2>
+    <p><img th:src="${card.url}"></p>
 
-    <form th:action="@{/wystawiono}" th:object="${nowaKarta}" method="post">
+    <form th:action="@{/on-sale}" th:object="${newCard}" method="post">
         Cena:
         <input type="text" name="price" placeholder="cena">
-        <input type="hidden" name="id" th:value="${karta.id}">
-        <input type="hidden" name="name" th:value="${karta.name}">
-        <input type="hidden" name="url" th:value="${karta.url}">
+        <input type="hidden" name="id" th:value="${card.id}">
+        <input type="hidden" name="name" th:value="${card.name}">
+        <input type="hidden" name="url" th:value="${card.url}">
         <input type="submit" value="Wystaw na sprzedaż!">
 
     </form>

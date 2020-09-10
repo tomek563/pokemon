@@ -8,7 +8,7 @@ public class CardNotFoundAdvice {
     @ExceptionHandler(CardNotFoundException.class)
     public String cardNotFoundHandler(CardNotFoundException ex) {
 
-        return "brak-karty";
+        return "no-card";
     }
 }
 

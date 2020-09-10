@@ -18,7 +18,8 @@ public class AppUserService {
     private AppUserRepo appUserRepo;
     private PasswordEncoder passwordEncoder;
 
-    public AppUserService(TokenRepo tokenRepo, MailService mailService, AppUserRepo appUserRepo, PasswordEncoder passwordEncoder) {
+    public AppUserService(TokenRepo tokenRepo, MailService mailService, AppUserRepo appUserRepo,
+                          PasswordEncoder passwordEncoder) {
         this.tokenRepo = tokenRepo;
         this.mailService = mailService;
         this.appUserRepo = appUserRepo;
