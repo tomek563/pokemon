@@ -21,12 +21,14 @@ public class IndexController {
     }
 
     @GetMapping("/sukces")
-    public String loginSuccess() {
+    public String loginSuccess(Model model) {
+        model.addAttribute("sukces", "Zostałeś poprawnie zalogowany");
         return "sukces";
     }
 
     @GetMapping("/porazka")
-    public String loginFailure() {
+    public String loginFailure(Model model) {
+        model.addAttribute("failure", "Nie udało się zalogować. Sprawdź nazwę użytkownika i hasło ");
         return "failure";
     }
 

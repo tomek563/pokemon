@@ -11,6 +11,7 @@ public class CoachNotFoundAdvice {
     /*@ResponseBody zwraca tylko String albo jakby był obiekt to Jsona*/
     @ExceptionHandler(CoachNotFoundException.class)
     public String coachNotFoundHandler(CoachNotFoundException ex) {
+
         return "brak-trenera";
     }
 }

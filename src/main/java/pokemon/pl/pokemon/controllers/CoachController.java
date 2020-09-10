@@ -53,8 +53,9 @@ public class CoachController {
     }
 
     @PostMapping("/dodano-trenera")
-    public String zapiszTrenera(@ModelAttribute Coach coach) {
+    public String zapiszTrenera(@ModelAttribute Coach coach, Model model) {
         coachService.addCoach(coach);
+        model.addAttribute("sukces", "Dodano nowego trenera");
         return "sukces";
     }
 

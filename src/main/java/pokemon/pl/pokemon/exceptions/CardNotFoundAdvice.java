@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class CardNotFoundAdvice {
     @ExceptionHandler(CardNotFoundException.class)
     public String cardNotFoundHandler(CardNotFoundException ex) {
+
         return "brak-karty";
     }
 }

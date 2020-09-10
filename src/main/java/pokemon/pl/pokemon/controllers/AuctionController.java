@@ -1,5 +1,6 @@
 package pokemon.pl.pokemon.controllers;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,6 +14,7 @@ import pokemon.pl.pokemon.services.CoachService;
 import java.util.List;
 import java.util.Optional;
 
+@Controller
 public class AuctionController {
 
     private CoachService coachService;
@@ -33,22 +35,25 @@ public class AuctionController {
     }
 
     @PostMapping("/wystawiono")
-    public String wystawNaSprzedaz(@ModelAttribute Card card) {
+    public String wystawNaSprzedaz(@ModelAttribute Card card, Model model) {
         Coach coach = coachService.findCoachOfLoggedUser();
         cardService.setCardOnSaleAndOwner(card, coach);
+        model.addAttribute("sukces", "Wystawiono kartę na sprzedaż");
         return "sukces";
     }
 
     @PostMapping("/kupiono")
-    public String kupKarte(@ModelAttribute Card card) {
+    public String kupKarte(@ModelAttribute Card card, Model model) {
         Coach currentOwnerOfTheCard = coachService.findByCardsName(card);
         Optional<Coach> coach = Optional.ofNullable(coachService.findCoachOfLoggedUser());
         Coach coachOfLoggedUser = coach.orElseThrow(() -> new CoachNotFoundException(1L));
 
         if (coachService.hasCoachEnoughMoneyToBuyCard(coachOfLoggedUser, card)) {
             coachService.finishTransaction(currentOwnerOfTheCard, coachOfLoggedUser, card);
+            model.addAttribute("sukces", "Zakupiono nową kartę");
             return "sukces";
         } else {
+            model.addAttribute("failure", "Nie masz wystarczająco pieniędzy by kupić nową kartę");
             return "failure";
         }
     }

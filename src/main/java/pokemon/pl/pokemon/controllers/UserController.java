@@ -37,7 +37,8 @@ public class UserController {
 // druga opcja walidacji: wyskakuje informacja co jest wpisane niepoprawnie
 
     @PostMapping("/register") //
-    public String register(@Valid @ModelAttribute /*mozliwe przekazanie z widoku do POJO*/ AppUser appUser, BindingResult bindingResult) {
+    public String register(@Valid @ModelAttribute /*mozliwe przekazanie z widoku do POJO*/ AppUser appUser,
+                           BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             List<ObjectError> errorsList = bindingResult.getAllErrors();
             for (ObjectError error : errorsList) {
@@ -46,6 +47,7 @@ public class UserController {
             return "sign-up";
         } else {
             appUserService.addUser(appUser);
+            model.addAttribute("sukces","Dodano nowego użytkownika");
             return "sukces";
         }
     }
