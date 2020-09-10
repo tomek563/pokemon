@@ -8,7 +8,7 @@
 <h1>Registration</h1>
 <form th:action="@{/register}" th:object="${appUser}" method="post">
     <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
-        <p th:each="err : ${#fields.errors('*')}" th:text="${err}">        </p>
+        <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
     </div>
     Register:
     <input type="email" name="username" placeholder="email">

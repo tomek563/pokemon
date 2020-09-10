@@ -29,16 +29,13 @@ public class CardService {
         return randomCards.subList(0, 5);
     }
 
-    public List<Card> showCardsOnSale() {
+    public List<Card> getCardsOnSale() {
         return Stream.of(cardRepo.findAll())
                 .flatMap(coaches -> coaches.stream())
                 .filter(card -> card.isOnSale())
                 .collect(Collectors.toList());
     }
 
-    public void saveCurrentCard(Card card) {
-        cardRepo.save(card);
-    }
 
     public void setCardOnSaleAndOwner(Card card, Coach coach) {
         card.setCoach(coach);

@@ -28,8 +28,7 @@ public class AuctionController {
 
     @GetMapping("/market")
     public String showMarket(Model model) {
-        List<Card> cardsOnSale = cardService.showCardsOnSale();
-
+        List<Card> cardsOnSale = cardService.getCardsOnSale();
         model.addAttribute("marketCards", cardsOnSale);
         return "market";
     }
@@ -45,11 +44,10 @@ public class AuctionController {
     @PostMapping("/bought")
     public String buyCard(@ModelAttribute Card card, Model model) {
         Coach currentOwnerOfTheCard = coachService.findByCardsName(card);
-        Optional<Coach> coach = Optional.ofNullable(coachService.findCoachOfLoggedUser());
-        Coach coachOfLoggedUser = coach.orElseThrow(() -> new CoachNotFoundException(1L));
+        Coach currentCoach = coachService.findCoachOfLoggedUser();
 
-        if (coachService.hasCoachEnoughMoneyToBuyCard(coachOfLoggedUser, card)) {
-            coachService.finishTransaction(currentOwnerOfTheCard, coachOfLoggedUser, card);
+        if (coachService.hasCoachEnoughMoneyToBuyCard(currentCoach, card)) {
+            coachService.finishTransaction(currentOwnerOfTheCard, currentCoach, card);
             model.addAttribute("success", "Zakupiono nową kartę");
             return "success";
         } else {

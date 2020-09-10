@@ -4,6 +4,8 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import pokemon.pl.pokemon.exceptions.CardNotFoundException;
+import pokemon.pl.pokemon.exceptions.CoachNotFoundException;
 import pokemon.pl.pokemon.model.AppUser;
 import pokemon.pl.pokemon.model.Card;
 import pokemon.pl.pokemon.model.Coach;
@@ -11,6 +13,7 @@ import pokemon.pl.pokemon.repositories.CardRepo;
 import pokemon.pl.pokemon.repositories.CoachRepo;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Timer;
 
 
@@ -20,9 +23,12 @@ public class CoachService {
 
     private CardRepo cardRepo;
 
-    public CoachService(CoachRepo coachRepo, CardRepo cardRepo) {
+    private CardService cardService;
+
+    public CoachService(CoachRepo coachRepo, CardRepo cardRepo, CardService cardService) {
         this.coachRepo = coachRepo;
         this.cardRepo = cardRepo;
+        this.cardService = cardService;
     }
 
     public void addCoach(Coach coach) {
@@ -32,18 +38,18 @@ public class CoachService {
         coachRepo.save(coach);
     }
 
-    public void drawCards(List<Card> cards) {
-        Coach one = findCoachOfLoggedUser();
-        cards.forEach(card -> card.setCoach(one));
-
-        one.getCards().addAll(cards);
-        one.setAmountMoney(one.getAmountMoney() - 50);
-        coachRepo.save(one);
-    }
-
     public Coach findCoachOfLoggedUser() {
         Long principalId = getLoggedUserId();
-        return coachRepo.findByAppUserId(principalId);
+        Optional<Coach> byAppUserId = Optional.ofNullable(coachRepo.findByAppUserId(principalId));
+        Coach coach = byAppUserId.orElseThrow(() -> new CoachNotFoundException(1L));
+        return coach;
+    }
+    public boolean findNoCoachOfUser() {
+        Long principalId = getLoggedUserId();
+        if(coachRepo.findByAppUserId(principalId)==null) {
+            return true;
+        }
+        return false;
     }
 
     private Long getLoggedUserId() {
@@ -51,16 +57,8 @@ public class CoachService {
         return principal.getId();
     }
 
-    public void saveCurrentCoach(Coach coach) {
-        coachRepo.save(coach);
-    }
 
-    public Coach createCoachIfNotExist() {
-        if (findCoachOfLoggedUser() == null) {
-            return new Coach();
-        }
-        return findCoachOfLoggedUser();
-    }
+
 
     public Coach findByCardsName(Card card) {
         return coachRepo.findByCardsName(card.getName());
@@ -88,5 +86,32 @@ public class CoachService {
         cardRepo.save(card);
         coachRepo.save(coachOfLoggedUser);
         coachRepo.save(currentOwnerOfTheCard);
+    }
+
+    public boolean coachHasMoneyToDrawCard(Coach coach) {
+        int cardCost = 50;
+        return coach.getAmountMoney()>=cardCost;
+    }
+
+
+    public Card getCardOfCoachWith(String name, Coach currentCoach) {
+        return currentCoach.getCards().stream()
+                .filter(card -> card.getName().equals(name))
+                .findFirst()
+                .orElseThrow(() -> new CardNotFoundException(1L));
+    }
+
+    public List<Card> getFivePokemonCardsAndPayForThem(Coach coach) {
+        List<Card> sublistedCards = cardService.drawFiveRandomCards();
+        sublistedCards.forEach(card -> card.setCoach(coach));
+
+        coach.getCards().addAll(sublistedCards);
+        coach.setAmountMoney(coach.getAmountMoney() - 50);
+        coachRepo.save(coach);
+        return sublistedCards;
+    }
+
+    public boolean isCoachRepoEmpty() {
+        return coachRepo.count()==0;
     }
 }

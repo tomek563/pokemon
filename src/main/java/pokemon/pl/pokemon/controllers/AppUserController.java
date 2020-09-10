@@ -15,10 +15,10 @@ import java.util.*;
 
 
 @Controller
-public class UserController {
+public class AppUserController {
     private AppUserService appUserService;
 
-    public UserController(AppUserService appUserService) {
+    public AppUserController(AppUserService appUserService) {
         this.appUserService = appUserService;
     }
 
@@ -35,9 +35,9 @@ public class UserController {
 //        }
 
 // druga opcja walidacji: wyskakuje informacja co jest wpisane niepoprawnie
-
-    @PostMapping("/register") //
-    public String register(@Valid @ModelAttribute /*mozliwe przekazanie z widoku do POJO*/ AppUser appUser,
+/*@Modelattribute mozliwe przekazanie z widoku do POJO*/
+@PostMapping("/register") //
+    public String register(@Valid @ModelAttribute AppUser appUser,
                            BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             List<ObjectError> errorsList = bindingResult.getAllErrors();
