@@ -19,8 +19,8 @@
                 <td><img th:src="${card.url}"></td>
             </tr>
         </div>
-        <p th:if="${money>50}"> <input type="submit" value="Losuj karty!"> </p>
-        <p th:if="${money<=50}"> <input type="submit" value="Losuj karty!" disabled> </p>
+        <p th:if="${money>=50}"> <input type="submit" value="Losuj karty!"> </p>
+        <p th:if="${money<50}"> <input type="submit" value="Losuj karty!" disabled> </p>
     </form>
 </section>
 

@@ -3,6 +3,8 @@ package pokemon.pl.pokemon.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import pokemon.pl.pokemon.model.Coach;
 import pokemon.pl.pokemon.services.CoachService;
 
@@ -21,8 +23,13 @@ public class IndexController {
     }
 
     @GetMapping("/sukces")
-    public String loginSuccess(Model model) {
-        model.addAttribute("sukces", "Zostałeś poprawnie zalogowany");
+    public String loginSuccess(@RequestParam(defaultValue = "true") boolean firstTime, Model model) {
+        if (firstTime) {
+            model.addAttribute("sukces", "Zostałeś poprawnie zalogowany"+
+                    ". Najpierw wejdź w zakładke 'trener' i stwórz nowego trenera, dzięki temu będziesz mógł rozpocząć kolekcjonowanie kart!");
+        } else {
+            model.addAttribute( "sukces", "Zostałeś poprawnie zalogowany");
+        }
         return "sukces";
     }
 

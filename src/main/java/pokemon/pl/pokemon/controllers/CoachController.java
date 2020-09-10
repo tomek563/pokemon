@@ -69,15 +69,18 @@ public class CoachController {
 
     @PostMapping("/drawn")
     public String drawRandomCards(Model model) {
+        int cardCost = 50;
         Coach coach = coachService.findCoachOfLoggedUser();
 
-        List<Card> sublistedCards = cardService.drawFiveRandomCards();
-        coachService.drawCards(sublistedCards);
-
-        model.addAttribute("randomCards", sublistedCards);
-        model.addAttribute("money", coach.getAmountMoney());
-        return "random-cards";
+        if (coach.getAmountMoney()>=cardCost) {
+            List<Card> sublistedCards = cardService.drawFiveRandomCards();
+            coachService.drawCards(sublistedCards);
+            model.addAttribute("randomCards", sublistedCards);
+            model.addAttribute("money", coach.getAmountMoney());
+            return "random-cards";
+        } else {
+            model.addAttribute("failure", "Nie masz wystarczająco pieniędzy");
+            return "failure";
+        }
     }
-
-
 }

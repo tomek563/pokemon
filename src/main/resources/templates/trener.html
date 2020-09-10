@@ -15,7 +15,8 @@
         Imię:
         <input type="text" name="coachName" placeholder="imie">
         <input type="submit" value="Zapisz!">
-    </form>
+        </form>
+
     </div>
     <div th:if="${coach.coachName!=null}">
         <h1>Twój trener: <span th:text="${coach.coachName}"></span></h1>
