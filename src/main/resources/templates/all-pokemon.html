@@ -10,14 +10,19 @@
 <section layout:fragment="content">
     <h1>Moje pokemony!</h1>
     <h2>Kliknij na kartę by zobaczyć szczegóły</h2>
-        <div th:if="${not #lists.isEmpty(cards)}">
-            <tr th:each="card:${cards}">
+        <div th:if="${not #lists.isEmpty(pages)}">
+            <tr th:each="card:${pages}">
                 <td><a th:href="@{/pokemon/{cardName}(cardName=${card.name})}" ><img th:src="${card.url}"></a></td>
             </tr>
         </div>
-        <div th:if="${#lists.isEmpty(cards)}">
+        <div th:if="${pages.isEmpty()}">
             Trener nie posiada pokemonów!
         </div>
+    <div th:if="${pages.totalPages > 0}" class="pagination"
+         th:each="pageNumber : ${pageNumbers}">
+        <a th:href="@{/pokemon(size=${pages.size}, page=${pageNumber-1})}"
+           th:text=${pageNumber}></a>
+    </div>
 </section>
 
 </body>
