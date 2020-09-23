@@ -21,13 +21,12 @@ class TokenServiceTest {
     TokenRepo tokenRepo;
     @Mock
     AppUserRepo appUserRepo;
-
     Token token;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        token = prepareToken();
+        token = PrepareData.prepareToken();
     }
 
     @Test
@@ -41,11 +40,5 @@ class TokenServiceTest {
 //        then
         assertThat(appUser.isEnabled(), equalTo(true));
         verify(appUserRepo).save(appUser);
-    }
-
-    private Token prepareToken() {
-        Token token = new Token();
-        token.setAppUser(new AppUser(2L, "jannowak@gmail.com"));
-        return token;
     }
 }

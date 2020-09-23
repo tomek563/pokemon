@@ -26,20 +26,23 @@ class PageServiceTest {
 
     @Mock
     CoachService coachService;
-
     @InjectMocks
     PageService pageService;
+    Coach coach;
+    List<Card> cards;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        coach = PrepareData.prepareCoach();
+        cards = PrepareData.prepareCards();
     }
 
     @Test
-    void buildPagesToShowPokemon() {
+    void buildPagesToShowPokemon_Should_Return_Proper_Pages() {
 //        given
         Optional<Integer> page = Optional.of(0);
-        when(coachService.findCoachOfLoggedUser()).thenReturn(prepareCoach());
+        when(coachService.findCoachOfLoggedUser()).thenReturn(coach);
         Page<Card> cards = pageService.buildPagesToShowPokemon(page);
 //        then
         assertThat(cards.getTotalPages(), equalTo(1));
@@ -49,7 +52,7 @@ class PageServiceTest {
     @Test
     void getListOfPageNumbers_Should_Return_List_Of_Integers_When_TotalPages_Not_Equal_Zero() {
 //        given
-        Page<Card> pages = preparePages(prepareCards(), 1);
+        Page<Card> pages = PrepareData.preparePages(cards, 1);
         int totalPages = pages.getTotalPages();
 //        when
         List<Integer> listOfPageNumbers = pageService.getListOfPageNumbers(pages);
@@ -61,39 +64,12 @@ class PageServiceTest {
     @Test
     void getListOfPageNumbers_Should_Return_EmptyList_When_TotalPages_Equal_Zero() {
 //        given
-        List<Card> preparedCards = prepareCards();
-        preparedCards.clear();
-        Page<Card> pages = preparePages(preparedCards, 0);
+        cards.clear();
+        Page<Card> pages = PrepareData.preparePages(cards, 0);
         List<Integer> listOfPageNumbers = pageService.getListOfPageNumbers(pages);
 //        then
         assertThat(pages.getTotalPages(), equalTo(0));
         assertThat(listOfPageNumbers.isEmpty(), equalTo(true));
     }
 
-    private Page<Card> preparePages(List<Card> cards, int page) {
-        Pageable pageable = PageRequest.of(page, 4);
-        int start = (int) pageable.getOffset();
-        int end = Math.min((start + pageable.getPageSize()), cards.size());
-        return new PageImpl<>(cards.subList(start, end), pageable, cards.size());
-    }
-
-    private List<Card> prepareCards() {
-        List<Card> cards = new ArrayList<>();
-        cards.add(new Card("1", "Pikachu", 50, false));
-        cards.add(new Card("2", "Charmander", 50, true));
-        cards.add(new Card("3", "Bulbasaur", 50, true));
-        cards.add(new Card("4", "Squirtle", 50, false));
-        cards.add(new Card("5", "Wartortle", 50, true));
-        cards.add(new Card("6", "Venusaur", 50, false));
-        cards.add(new Card("7", "Ivysaur", 50, false));
-        return cards;
-    }
-
-    private Coach prepareCoach() {
-        Coach coach = new Coach();
-        coach.setCoachName("Mark");
-        coach.setAmountMoney(50);
-        coach.setCards(prepareCards());
-        return coach;
-    }
 }

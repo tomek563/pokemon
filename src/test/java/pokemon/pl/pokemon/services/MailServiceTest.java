@@ -29,22 +29,20 @@ class MailServiceTest {
 
     @Mock
     JavaMailSender javaMailSender;
-
     String to = "jannowak@gmail.com";
     String subject = "reply";
     String text = "it is a test generated message";
     boolean isHtmlContent = false;
-
     MimeMessage mimeMessage;
 
     @BeforeEach
     public void setUp() throws MessagingException {
         MockitoAnnotations.initMocks(this);
-        mimeMessage = prepareMimeMessage();
+        mimeMessage = PrepareData.prepareMimeMessage();
     }
 
     @Test
-    void sendMail() throws MessagingException {
+    void sendMail_Should_Capture_ArgumentCaptor_With_Its_Correct_Properties() throws MessagingException {
 //        given
         when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
         MailService mailService = new MailService(javaMailSender);
@@ -57,9 +55,4 @@ class MailServiceTest {
         assertThat(argumentCaptor.getValue().getSubject(), equalTo(subject));
     }
 
-    public MimeMessage prepareMimeMessage() throws MessagingException {
-        Properties properties = new Properties(0);
-        Session session = Session.getInstance(properties);
-        return new MimeMessage(session);
-    }
 }

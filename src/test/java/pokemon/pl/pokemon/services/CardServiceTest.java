@@ -25,30 +25,35 @@ class CardServiceTest {
     CardRepo cardRepo;
     @Mock
     CoachRepo coachRepo;
-
     @InjectMocks
     CardService cardService;
+    List<Card> cards;
+    Card card;
+    Coach coach;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        cards = PrepareData.prepareCards();
+        card = PrepareData.prepareCard();
+        coach = PrepareData.prepareCoach();
     }
 
     @Test
-    void drawFiveRandomCards() {
+    void drawFiveRandomCards_Should_Return_ListOf_Exact_FiveCards() {
 //        given
-        when(cardRepo.findAll()).thenReturn(prepareCards());
+        when(cardRepo.findAll()).thenReturn(cards);
 //        when
 //        then
         List<Card> returnedCards = cardService.drawFiveRandomCards();
         assertThat(returnedCards, hasSize(5));
-        assertTrue(prepareCards().containsAll(returnedCards));
+        assertTrue(cards.containsAll(returnedCards));
     }
 
     @Test
-    void getCardsOnSale() {
+    void getCardsOnSale_Should_Get_Only_Cards_OnSale() {
 //        given
-        when(cardRepo.findAll()).thenReturn(prepareCards());
+        when(cardRepo.findAll()).thenReturn(cards);
 //        when
 //        then
         assertThat(cardService.getCardsOnSale().size(), equalTo(3));
@@ -56,10 +61,8 @@ class CardServiceTest {
     }
 
     @Test
-    void setCardOnSaleAndOwner() {
+    void setCardOnSaleAndOwner_Should_Set_Card_Properties() {
 //        given
-        Card card = new Card();
-        Coach coach = new Coach();
         cardService.setCardOnSaleAndOwner(card, coach);
 //        when
 //        then
@@ -67,18 +70,6 @@ class CardServiceTest {
         assertThat(card.isOnSale(), equalTo(true));
         verify(coachRepo).save(coach);
         verify(cardRepo).save(card);
-    }
-
-    private List<Card> prepareCards() {
-        List<Card> cards = new ArrayList<>();
-        cards.add(new Card("1", "Pikachu", 50, false));
-        cards.add(new Card("2", "Charmander", 50, true));
-        cards.add(new Card("3", "Bulbasaur", 50, true));
-        cards.add(new Card("4", "Squirtle", 50, false));
-        cards.add(new Card("5", "Wartortle", 50, true));
-        cards.add(new Card("6", "Venusaur", 50, false));
-        cards.add(new Card("7", "Ivysaur", 50, false));
-        return cards;
     }
 
 }

@@ -35,13 +35,12 @@ class AppUserServiceTest {
     MailService mailService;
     @InjectMocks
     AppUserService appUserService;
-
     AppUser appUser;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        appUser = prepareAppUser();
+        appUser = PrepareData.prepareAppUser();
     }
 
     @Test
@@ -54,16 +53,13 @@ class AppUserServiceTest {
         ArgumentCaptor<Token> argumentCaptor = ArgumentCaptor.forClass(Token.class);
 //        then
         verify(appUserRepo).save(appUser);
-        verify(mailService).sendMail(anyString(),anyString(),anyString(),anyBoolean());
+        verify(mailService).sendMail(anyString(), anyString(), anyString(), anyBoolean());
         verify(tokenRepo).save(argumentCaptor.capture());
-        assertThat(appUser.getPassword(),not(equalTo(passwordBeforeTest)));
-        assertThat(appUser.getRole(),not(equalTo(roleBeforeTest)));
+        assertThat(appUser.getPassword(), not(equalTo(passwordBeforeTest)));
+        assertThat(appUser.getRole(), not(equalTo(roleBeforeTest)));
 
         Token token = argumentCaptor.getValue();
         assertThat(token.getAppUser(), equalTo(appUser));
-    }
-    private AppUser prepareAppUser() {
-        return new AppUser(2L, "jannowak@gmail.com");
     }
 
 }
