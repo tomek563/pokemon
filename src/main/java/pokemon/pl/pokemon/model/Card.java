@@ -29,6 +29,13 @@ public class Card {
     public Card() {
     }
 
+    public Card(String id, String name, int price, boolean onSale) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.onSale = onSale;
+    }
+
     public String getId() {
         return id;
     }

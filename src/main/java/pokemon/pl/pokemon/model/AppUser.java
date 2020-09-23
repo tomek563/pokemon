@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 
 
 @Entity
@@ -28,6 +29,14 @@ public class AppUser implements UserDetails {
     private String role;
 
     private boolean isEnabled;
+
+    public AppUser() {
+    }
+
+    public AppUser(Long id, @NotEmpty(message = "Musisz podać email") @Email(message = "Podany username musi zawierać '@'") String username) {
+        this.id = id;
+        this.username = username;
+    }
 
     public Long getId() {
         return id;
@@ -56,6 +65,7 @@ public class AppUser implements UserDetails {
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -95,5 +105,19 @@ public class AppUser implements UserDetails {
     @Override
     public String toString() {
         return username;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AppUser appUser = (AppUser) o;
+        return Objects.equals(id, appUser.id) &&
+                Objects.equals(username, appUser.username);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username);
     }
 }

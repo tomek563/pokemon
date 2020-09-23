@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import pokemon.pl.pokemon.model.Card;
 import pokemon.pl.pokemon.model.Coach;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -22,13 +23,13 @@ public class PageService {
     }
 
     public Page<Card> buildPagesToShowPokemon(Optional<Integer> page) {
+//        page = page < 0 ? 0 : page;
         Coach currentCoach = coachService.findCoachOfLoggedUser();
         List<Card> allCards = currentCoach.getCards();
         Pageable pageable = PageRequest.of(page.orElse(0), 10);
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), allCards.size());
         return new PageImpl<>(allCards.subList(start,end), pageable, allCards.size());
-
     }
 
     public List<Integer> getListOfPageNumbers(Page<Card> pages) {
@@ -38,6 +39,7 @@ public class PageService {
                     .boxed()
                     .collect(Collectors.toList());
         }
-        return null;
+//        return null;
+        return new ArrayList<>();
     }
 }

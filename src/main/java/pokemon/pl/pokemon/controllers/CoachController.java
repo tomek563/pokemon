@@ -15,13 +15,17 @@ public class CoachController {
         this.coachService = coachService;
     }
 
+
+    //przekazywanie danych przez redirect
+    //1. RedirectAtributes dajesz addAtribute, zgarniasz po argumentach
+    //2. -||- addFlashAtribute, zgarniasz z modelu
     @GetMapping("/coach") /*!!!!!! JAK MOZNA TO INACZEJ ZREFACTOROWAC??*/
-    public String addCoach(Model model) {
-        if(coachService.findNoCoachOfUser()) {
-            Coach coach = new Coach();
+    public String getCoachPage(Model model) {
+        if (coachService.hasUserGotCoach()) {
+            Coach coach = coachService.findCoachOfLoggedUser();
             model.addAttribute("coach", coach);
         } else {
-            Coach coach = coachService.findCoachOfLoggedUser();
+            Coach coach = new Coach();
             model.addAttribute("coach", coach);
         }
         return "coach";

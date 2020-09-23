@@ -1,5 +1,6 @@
 package pokemon.pl.pokemon.services;
 
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pokemon.pl.pokemon.model.AppUser;
@@ -17,6 +18,8 @@ public class AppUserService {
     private MailService mailService;
     private AppUserRepo appUserRepo;
     private PasswordEncoder passwordEncoder;
+    private String url = "http://localhost:8080/token?value=";
+
 
     public AppUserService(TokenRepo tokenRepo, MailService mailService, AppUserRepo appUserRepo,
                           PasswordEncoder passwordEncoder) {
@@ -36,17 +39,23 @@ public class AppUserService {
     private void sendToken(AppUser appUser) {
         String tokenValue = UUID.randomUUID().toString();
 
-        Token token = new Token();
+        Token token = new Token();   // new Token(tokenValue,appUser)
         token.setValue(tokenValue);
         token.setAppUser(appUser);
         tokenRepo.save(token);
 
-        String url = "http://localhost:8080/token?value="+tokenValue;
+        sendMail(appUser, tokenValue);
+    }
 
+    private void sendMail(AppUser appUser, String tokenValue) {
         try {
-            mailService.sendMail(appUser.getUsername(), "Potwierdzaj to!", url, false);
+            mailService.sendMail(appUser.getUsername(), "Potwierdzaj to!", url+tokenValue, false);
         } catch (MessagingException e) {
-            e.printStackTrace();
+            e.printStackTrace(); /*testuj tylko mailservice jako mock*/
         }
+    }
+
+    public AppUser getCurrentUser() {
+        return (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

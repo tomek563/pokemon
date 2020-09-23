@@ -13,6 +13,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private AppUserRepo appUserRepo;
 
     public UserDetailsServiceImpl(AppUserRepo appUserRepo) {
+
         this.appUserRepo = appUserRepo;
     }
 

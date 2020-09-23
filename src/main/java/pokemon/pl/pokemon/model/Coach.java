@@ -3,6 +3,7 @@ package pokemon.pl.pokemon.model;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Coach {
@@ -61,6 +62,22 @@ public class Coach {
 
     public void setCards(List<Card> cards) {
         this.cards = cards;
+    }
+
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Coach coach = (Coach) o;
+        return Objects.equals(id, coach.id) &&
+                Objects.equals(coachName, coach.coachName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, coachName);
     }
 
     @Override

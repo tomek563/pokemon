@@ -15,7 +15,6 @@ import java.util.stream.Stream;
 public class CardService {
 
     private CardRepo cardRepo;
-
     private CoachRepo coachRepo;
 
     public CardService(CardRepo cardRepo, CoachRepo coachRepo) {
@@ -23,13 +22,13 @@ public class CardService {
         this.coachRepo = coachRepo;
     }
 
-    public List<Card> drawFiveRandomCards() {
+    public List<Card> drawFiveRandomCards() {/*test done*/
         List<Card> randomCards = cardRepo.findAll();
         Collections.shuffle(randomCards);
         return randomCards.subList(0, 5);
     }
 
-    public List<Card> getCardsOnSale() {
+    public List<Card> getCardsOnSale() { /*test done*/
         return Stream.of(cardRepo.findAll())
                 .flatMap(coaches -> coaches.stream())
                 .filter(card -> card.isOnSale())
@@ -37,7 +36,7 @@ public class CardService {
     }
 
 
-    public void setCardOnSaleAndOwner(Card card, Coach coach) {
+    public void setCardOnSaleAndOwner(Card card, Coach coach) {/*test half done pytanie czy set tez?*/
         card.setCoach(coach);
         card.setOnSale(true);
         coachRepo.save(coach);

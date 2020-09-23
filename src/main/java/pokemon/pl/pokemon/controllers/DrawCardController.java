@@ -32,7 +32,7 @@ public class DrawCardController {
     @PostMapping("/drawn")
     public String drawRandomCards(Model model) {
         Coach coach = coachService.findCoachOfLoggedUser();
-        if (coachService.coachHasMoneyToDrawCard(coach)) {
+        if (coachService.hasCoachHasMoneyToDrawCard(coach)) {
             List<Card> sublistedCards = coachService.getFivePokemonCardsAndPayForThem(coach);
 
             model.addAttribute("randomCards", sublistedCards);
