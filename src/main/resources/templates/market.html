@@ -6,31 +6,45 @@
 <head>
     <meta charset="UTF-8">
     <title>Market</title>
+    <link rel="stylesheet" href="pokemon.css">
 </head>
 <body>
 <section layout:fragment="content">
-    <h1>Market!</h1>
-    <h2>Tu możesz kupić karty innych graczy</h2>
-    <div th:if="${not #lists.isEmpty(marketCards)}">
-        <div th:each="card:${marketCards}">
-            <td><img th:src="${card.url}"></td><br>
-            Nazwa karty: <span th:text="${card.name}"></span> <br>
-            Trener: <span th:text="${card.coach.coachName}"></span> <br>
-            Cena: <span th:text="${card.price}"></span> <br>
-            <form th:action="@{/bought}" th:object="${card}" method="post">
-                <input type="hidden" name="id" th:value="${card.id}">
-                <input type="hidden" name="name" th:value="${card.name}">
-                <input type="hidden" name="url" th:value="${card.url}">
-                <input type="hidden" name="price" th:value="${card.price}">
-                <input type="hidden" name="onSale" th:value="${card.onSale}">
-                <input sec:authorize="isAuthenticated()" type="submit" value="Kup!">
-                <input sec:authorize="!isAuthenticated()" type="submit" value="Kup!" disabled>
-            </form>
-            <br>
+    <div class="container">
+        <div class="jumbotron">
+            <h1>Market!</h1>
+            <h2>Tu możesz kupić karty innych graczy</h2>
+
+            <div class="card mb-3" style="max-width: 1200px;" th:if="${not #lists.isEmpty(marketCards)}">
+                <div class="row no-gutters">
+                    <div class="col-sm" th:each="card:${marketCards}">
+                        <img class="card-img-top" th:src="${card.url}">
+                        <div class="card-body">
+                            Nazwa karty: <span th:text="${card.name}"></span> <br>
+                            Trener: <span th:text="${card.coach.coachName}"></span> <br>
+                            Cena: <span th:text="${card.price}"></span> <br>
+                            <form th:action="@{/bought}" th:object="${card}" method="post">
+                                <input type="hidden" name="id" th:value="${card.id}">
+                                <input type="hidden" name="name" th:value="${card.name}">
+                                <input type="hidden" name="url" th:value="${card.url}">
+                                <input type="hidden" name="price" th:value="${card.price}">
+                                <input type="hidden" name="onSale" th:value="${card.onSale}">
+                                <input class="btn btn-success" sec:authorize="isAuthenticated()" type="submit"
+                                       value="Kup!">
+                                <input class="btn btn-success" sec:authorize="!isAuthenticated()" type="submit"
+                                       value="Kup!"
+                                       disabled>
+                            </form>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div th:if="${#lists.isEmpty(marketCards)}">
-        Nie ma aktualnie żadnych kart w markecie.
+
+    <div class="jumbotron" th:if="${#lists.isEmpty(marketCards)}">
+        <p>Nie ma aktualnie żadnych kart w markecie</p>
     </div>
 </section>
 </body>

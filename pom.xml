@@ -137,6 +137,19 @@
 			<artifactId>json-path</artifactId>
 			<version>2.4.0</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.webjars/bootstrap -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>4.5.2</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/net.sourceforge.cssparser/cssparser -->
+		<dependency>
+			<groupId>net.sourceforge.cssparser</groupId>
+			<artifactId>cssparser</artifactId>
+			<version>0.9.27</version>
+		</dependency>
+
 
 
 

@@ -6,21 +6,52 @@
 <head>
     <meta charset="UTF-8">
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">>Pokemony</title>
+    <link rel="stylesheet" href="pokemon.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
 <body>
 
-<Menu  name="Pokemony">
-    <Item><a href="/">Strona główna</a></Item>
-    <Item><a href="/market">Market</a></Item>
-    <Item sec:authorize="isAuthenticated()"><a href="/pokemon">Moje pokemony</a> </Item>
-    <Item sec:authorize="isAuthenticated()"><a href="/draw-random-cards">Zbierz nowe</a></Item>
-    <Item sec:authorize="isAuthenticated()"><a href="/coach" >Trener</a></Item>
-    <Item><a href="/sign-up">Zarejestruj się</a></Item>
-    <Item sec:authorize="isAuthenticated()"><a href="/logout">Wyloguj się</a></Item>
-    <Item sec:authorize="!isAuthenticated()"><a href="/login" >Zaloguj się</a></Item>
-    <Item sec:authorize="isAuthenticated()">Witaj <span sec:authentication="name"></span></Item>
-<!--    <Item sec:authorize="isAuthenticated()">Twój trener: <span th:text="${coach.coachName}"></span></Item>-->
-</Menu>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <Item><a class="navbar-brand" href="/">Strona główna</a></Item>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <Item><a class="nav-link" href="/market">Market </a></Item>
+            </li>
+            <li class="nav-item">
+                <Item sec:authorize="isAuthenticated()" ><a class="nav-link" href="/pokemon">Moje pokemony </a></Item>
+            </li>
+            <li class="nav-item">
+                <Item sec:authorize="isAuthenticated()"><a class="nav-link" href="/draw-random-cards">Zbierz nowe </a></Item>
+            </li>
+            <li class="nav-item">
+                <Item sec:authorize="isAuthenticated()"><a class="nav-link" href="/coach">Trener </a></Item>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="nav-item">
+                <Item><a class="nav-link" href="/sign-up">Zarejestruj się </a></Item>
+            </li>
+            <li class="nav-item">
+                <Item sec:authorize="isAuthenticated()"><a class="nav-link" href="/logout">Wyloguj się </a></Item>
+            </li>
+            <li class="nav-item">
+                <Item sec:authorize="!isAuthenticated()"><a class="nav-link" href="/login">Zaloguj się </a></Item>
+            </li>
+            <li class="nav-item">
+                <Item class="nav-link" sec:authorize="isAuthenticated()">Witaj <span sec:authentication="name"></span></Item>
+                <!--    <Item sec:authorize="isAuthenticated()">Twój trener: <span th:text="${coach.coachName}"></span></Item>-->
+            </li>
+        </ul>
+
+
+<!--        <form class="form-inline my-2 my-lg-0">-->
+<!--            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
+<!--            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
+<!--        </form>-->
+    </div>
+</nav>
 
 <section layout:fragment="content">
 </section>

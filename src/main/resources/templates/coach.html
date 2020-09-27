@@ -4,24 +4,30 @@
       xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout " xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Dodaj nowego trenera</title>
+    <title>Trener</title>
+    <link rel="stylesheet" href="pokemon.css">
 </head>
 <body>
 <section layout:fragment="content">
 
     <div th:if="${coach.coachName==null}">
-        <h1>Dodaj nowego trenera!</h1>
+        <div class="container">
+            <h1>Dodaj nowego trenera!</h1>
         <form th:action="@{/coach-added}" th:object="${coach}" method="post">
         Imię:
-        <input type="text" name="coachName" placeholder="imie">
-        <input type="submit" value="Zapisz!">
+        <input class="form-control"  type="text" name="coachName" placeholder="imie">
+        <input class="btn btn-success btn-lg" type="submit" value="Zapisz!">
         </form>
+        </div>
 
     </div>
     <div th:if="${coach.coachName!=null}">
-        <h1>Twój trener: <span th:text="${coach.coachName}"></span></h1>
-        <h2>Posiadasz: <span th:text="${coach.amountMoney}"></span>$</h2>
-        <h2>Co godzinę dostajesz extra 100$</h2>
+        <div class="jumbotron">
+            <p>Twój trener: <span th:text="${coach.coachName}"></span></p>
+            <p>Posiadasz: <span th:text="${coach.amountMoney}"></span>$</p>
+            <p>Co godzinę dostajesz extra 100$</p>
+        </div>
+
     </div>
 </section>
 

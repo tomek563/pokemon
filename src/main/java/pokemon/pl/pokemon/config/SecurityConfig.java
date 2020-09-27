@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import pokemon.pl.pokemon.services.UserDetailsServiceImpl;
 //import pokemon.pl.pokemon.services.UserDetailsServiceImpl;
-
+@EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -43,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new InMemoryUserDetailsManager(moderator,admin);
     }
 
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsServiceImpl);
@@ -58,11 +60,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers(HttpMethod.DELETE,"/api").hasRole("ADMIN")
                 .antMatchers("/").authenticated()
                 .and()
-                .formLogin().permitAll()
-                .failureUrl("/failure")
-                .loginProcessingUrl("/")
+                .formLogin(form->form
+//                .loginPage("/login.html")
+                .permitAll()
                 .defaultSuccessUrl("/success", true)
-                .and()
+                .failureUrl("/failure?error=true")
+                .and())
                 .logout().permitAll()
                 .logoutSuccessUrl("/");
 

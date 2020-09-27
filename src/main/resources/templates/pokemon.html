@@ -5,12 +5,16 @@
 <head>
     <meta charset="UTF-8">
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">>Karta</title>
+    <link rel="stylesheet" href="pokemon.css">
 </head>
 <body>
 <section layout:fragment="content">
-    <h1 th:text="${card.name}"></h1>
-    <h2>Trener: <span th:text="${card.coach}"></span></h2>
-    <p><img th:src="${card.url}"></p>
+    <div class="container">
+        <h1 th:text="${card.name}"></h1>
+        <h2>Trener: <span th:text="${card.coach}"></span></h2>
+        <p><img th:src="${card.url}"></p>
+    </div>
+
 
     <form th:action="@{/on-sale}" th:object="${newCard}" method="post">
         Cena:

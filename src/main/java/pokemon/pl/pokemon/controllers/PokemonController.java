@@ -40,7 +40,12 @@ public class PokemonController {
         Page<Card> pages = pageService.buildPagesToShowPokemon(page);
         model.addAttribute("pages", pages);
 
+        Integer pageInteger = page.orElse(0);
+
+        model.addAttribute("currentPage", pageInteger);
+
         List<Integer> pageNumbers = pageService.getListOfPageNumbers(pages);
+        System.out.println(pageNumbers);
         model.addAttribute("pageNumbers", pageNumbers);
 
         return "all-pokemon";
