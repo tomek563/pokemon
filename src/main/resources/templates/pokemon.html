@@ -1,30 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout.html}" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout " xmlns:th="http://www.w3.org/1999/xhtml">
+      xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout
+http://www.ultraq.net.nz/thymeleaf/layout " xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">>Karta</title>
-    <link rel="stylesheet" href="pokemon.css">
+    <link rel="stylesheet" type="text/css" href="pokemon.css">
 </head>
-<body>
+<body class="body-pokemon">
 <section layout:fragment="content">
-    <div class="container">
-        <h1 th:text="${card.name}"></h1>
+    <div class="container" style="text-align:center">
+        <p></p>
+        <h1>Nazwa karty: <span th:text="${card.name}"></span></h1>
         <h2>Trener: <span th:text="${card.coach}"></span></h2>
+        <p></p>
         <p><img th:src="${card.url}"></p>
+
+        <form th:action="@{/on-sale}" th:object="${newCard}" method="post">
+            Cena:
+            <input type="text" name="price" placeholder="cena">
+            <input type="hidden" name="id" th:value="${card.id}">
+            <input type="hidden" name="name" th:value="${card.name}">
+            <input type="hidden" name="url" th:value="${card.url}"><br>
+            <p></p>
+            <input type="submit" class="btn btn-success btn-lg" value="Wystaw na sprzedaż!">
+        </form>
     </div>
-
-
-    <form th:action="@{/on-sale}" th:object="${newCard}" method="post">
-        Cena:
-        <input type="text" name="price" placeholder="cena">
-        <input type="hidden" name="id" th:value="${card.id}">
-        <input type="hidden" name="name" th:value="${card.name}">
-        <input type="hidden" name="url" th:value="${card.url}">
-        <input type="submit" value="Wystaw na sprzedaż!">
-
-    </form>
 </section>
 </body>
 </html>

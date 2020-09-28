@@ -6,18 +6,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Market</title>
-    <link rel="stylesheet" href="pokemon.css">
+    <link rel="stylesheet" type="text/css" href="pokemon.css">
 </head>
-<body>
+<body class="body-market">
 <section layout:fragment="content">
-    <div class="container">
-        <div class="jumbotron">
-            <h1>Market!</h1>
-            <h2>Tu możesz kupić karty innych graczy</h2>
-
-            <div class="card mb-3" style="max-width: 1200px;" th:if="${not #lists.isEmpty(marketCards)}">
-                <div class="row no-gutters">
-                    <div class="col-sm" th:each="card:${marketCards}">
+    <div class="container" style="text-align:center">
+        <p></p>
+        <h1>Market!</h1>
+        <h2>Tu możesz kupić karty innych graczy</h2>
+        <p></p>
+        <div class="container">
+            <div class="row row-cols-2 row-cols-md-4" th:if="${not #lists.isEmpty(marketCards)}">
+                    <div class="col mb-4" th:each="card:${marketCards}">
                         <img class="card-img-top" th:src="${card.url}">
                         <div class="card-body">
                             Nazwa karty: <span th:text="${card.name}"></span> <br>
@@ -36,7 +36,6 @@
                                        disabled>
                             </form>
                             <br>
-                        </div>
                     </div>
                 </div>
             </div>

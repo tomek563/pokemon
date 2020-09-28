@@ -1,6 +1,33 @@
-body {
+.body-index {
+    background:#FFD700;
+}
+.body-all {
+/*    background:url(https://cdn.hipwallpaper.com/i/55/71/H8X67z.png);*/
+    background:#FFD700;;
+    background-size: 1500px 800px;
+}
+.body-pokemon {
+    background:url(https://images6.alphacoders.com/884/thumb-1920-884402.jpg);
+    background-size: 1500px 800px;
+}
+
+.body-layout {
     background:url(https://cdn.hipwallpaper.com/i/55/71/H8X67z.png);
     background-size: 1500px 800px;
 }
+.coach-body{
+    background:url(https://images2.alphacoders.com/105/thumb-1920-1052505.png);
+    background-size: 1500px 800px;
+}
+.random-body{
+    background:url(https://images6.alphacoders.com/423/thumb-1920-423150.jpg);
+    background-size: 1500px 800px;
+}
+.body-market {
+/*    background:url(https://cdn.hipwallpaper.com/i/55/71/H8X67z.png);*/
+    background:#FFD700;;
+    background-size: 1500px 800px;
+}
+
 
 

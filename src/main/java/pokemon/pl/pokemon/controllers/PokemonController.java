@@ -45,7 +45,7 @@ public class PokemonController {
         model.addAttribute("currentPage", pageInteger);
 
         List<Integer> pageNumbers = pageService.getListOfPageNumbers(pages);
-        System.out.println(pageNumbers);
+
         model.addAttribute("pageNumbers", pageNumbers);
 
         return "all-pokemon";
