@@ -33,7 +33,7 @@ public class PrepareData {
     }
 
     public static MimeMessage prepareMimeMessage() throws MessagingException {
-        Properties properties = new Properties(0);
+        Properties properties = new Properties();
         Session session = Session.getInstance(properties);
         return new MimeMessage(session);
     }
