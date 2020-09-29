@@ -41,9 +41,8 @@
             </div>
         </div>
     </div>
-
-    <div class="jumbotron" th:if="${#lists.isEmpty(marketCards)}">
-        <p>Nie ma aktualnie żadnych kart w markecie</p>
+    <div class="container" style="text-align:center" th:if="${#lists.isEmpty(marketCards)}">
+        <h2>Nie ma aktualnie żadnych kart w markecie</h2>
     </div>
 </section>
 </body>
