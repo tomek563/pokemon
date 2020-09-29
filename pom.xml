@@ -103,13 +103,7 @@
 			<version>5.2.8.RELEASE</version>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-test -->
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<version>2.3.3.RELEASE</version>
-			<scope>test</scope>
-		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest-all -->
 		<dependency>
 			<groupId>org.hamcrest</groupId>
@@ -150,14 +144,7 @@
 			<version>0.9.27</version>
 		</dependency>
 
-
-
-
-
-
-
-
-
+		
 
 	</dependencies>
 
