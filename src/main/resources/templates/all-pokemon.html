@@ -15,18 +15,22 @@
         <h2>Kliknij na kartę by zobaczyć szczegóły</h2>
         <p></p>
     </div>
-    <div class="container" th:if="${not #lists.isEmpty(pages)}">
-        <tr th:each="card:${pages}">
-            <td><a th:href="@{/pokemon/{cardName}(cardName=${card.name})}"><img th:src="${card.url}"></a></td>
-        </tr>
+    <div class="container">
+        <div class="row row-cols-2 row-cols-md-4" style="text-align:center" th:if="${not #lists.isEmpty(pages)}">
+            <div class="col mb-4" th:each="card:${pages}">
+                <div class="card-body">
+                    <td><a th:href="@{/pokemon/{cardName}(cardName=${card.name})}"><img class="card-img-top" th:src="${card.url}"></a></td>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="container" style="text-align:center" th:if="${pages.isEmpty()}">
         <h2>Trener nie posiada pokemonów!</h2>
     </div>
-    <div class="container">
+    <div class="container" style="text-align:center">
         <nav aria-label="Page navigation example">
             <!--przycisk wstecz-->
-            <div style="display:inline-block" class="page-item" th:if="${currentPage!=0}" >
+            <div style="display:inline-block" class="page-item" th:if="${currentPage!=0}">
                 <span style="display:inline-block" class="page-item"><a class="page-link"
                                                                         th:href="@{/pokemon(size=${pages.size},page=${currentPage-1})}">Wstecz</a></span>
             </div>
@@ -42,7 +46,8 @@
                                           th:text=${pageNumber}></a></div>
             </span>
             <!--przycisk dalej-->
-            <div style="display:inline-block" class="page-item" th:if="${currentPage!=pageNumbers.size()-1 and !pages.isEmpty()}" >
+            <div style="display:inline-block" class="page-item"
+                 th:if="${currentPage!=pageNumbers.size()-1 and !pages.isEmpty()}">
                 <span style="display:inline-block" class="page-item"><a class="page-link"
                                                                         th:href="@{/pokemon(size=${pages.size},page=${currentPage+1})}">Dalej</a></span>
             </div>

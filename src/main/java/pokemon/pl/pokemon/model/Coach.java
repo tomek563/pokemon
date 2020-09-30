@@ -1,6 +1,8 @@
 package pokemon.pl.pokemon.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -11,6 +13,7 @@ public class Coach {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotEmpty(message = "Musisz wpisać imię trenera")
     private String coachName;
 
     @OneToOne

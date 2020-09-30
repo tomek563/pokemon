@@ -7,16 +7,16 @@ The main goal of the project was to practice the basics of the web development
  other users.   
 
 ##Technologies:
-Java 11
-Spring Framework 2.3.2.RELEASE
-h2 database
-Thymeleaf 3.0.9
-Hibernate 6.0.13.Final
-Junit 4.13
-Hamcrest 1.3
-Mockito 1.10.19
-Bootstrap 4.5.2
-Maven 3.8.1
+1. Java 11
+2. Spring Framework 2.3.2.RELEASE
+3. h2 database
+4. Thymeleaf 3.0.9
+5. Hibernate 6.0.13.Final
+6. Junit 4.13
+7. Hamcrest 1.3
+8. Mockito 1.10.19
+9. Bootstrap 4.5.2
+10. Maven 3.8.1
 
 ##How to run a project?
 Link to page on Heroku: https://pokemon563.herokuapp.com/

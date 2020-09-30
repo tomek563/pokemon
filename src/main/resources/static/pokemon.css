@@ -2,9 +2,11 @@
     background:#FFD700;
 }
 .body-all {
-/*    background:url(https://cdn.hipwallpaper.com/i/55/71/H8X67z.png);*/
-    background:#FFD700;;
-    background-size: 1500px 800px;
+    background:url(http://img.fliptab.io/pokemon/1920x1200/pokemon-31.jpg);
+    background-color: #fec901
+    background-size: 1400px 1000px;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 .body-pokemon {
     background:url(https://images6.alphacoders.com/884/thumb-1920-884402.jpg);
@@ -27,6 +29,13 @@
 /*    background:url(https://cdn.hipwallpaper.com/i/55/71/H8X67z.png);*/
     background:#FFD700;;
     background-size: 1500px 800px;
+}
+.body-failure {
+    background:url(https://www.tapeciarnia.pl/tapety/normalne/61305_pikachu_grozny_pokemon.jpg);
+    background-color: #2f528a
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 

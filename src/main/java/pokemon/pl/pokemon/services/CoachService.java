@@ -39,7 +39,7 @@ public class CoachService {
     public void addCoach(Coach coach) {
         AppUser currentUser = appUserService.getCurrentUser();
         coach.setAppUser(currentUser);
-        coachRepo.save(coach);/*sprawdz verify czy wywoła save*/
+        coachRepo.save(coach);
     }
 
     public Coach findCoachOfLoggedUser() {
