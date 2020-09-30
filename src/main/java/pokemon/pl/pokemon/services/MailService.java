@@ -25,5 +25,5 @@ public class MailService {
         mimeMessageHelper.setSubject(subject);
         mimeMessageHelper.setText(text, isHtmlContent);
         javaMailSender.send(mimeMessage);
-    } //mock na sender i captor na mimeMessage sprawdzajacy czy ma poprawne dane przez porownanie go z poprawnie zlozonym na sztywno obiektem w klasie testowej
+    }
 }

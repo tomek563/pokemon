@@ -1,6 +1,4 @@
 package pokemon.pl.pokemon.client;
-//zapis do bazy sciagnietych kart
-//za pomocą pętli zapisz kolene karty z kolejnych stron (13000 kart)
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -31,8 +29,6 @@ public class TCGApiClient {
 
     @PostConstruct
     public void download() {
-//        restTemplate.headForHeaders().get()
-        // TODO: 02.09.2020 i w zaleznosci od ilosci kart - elasttczne wybieranie kart
         if (cardRepo.findAll().isEmpty()) {
             for (int i = 1; i < 14; i++) {
                 final int iCopy = i;

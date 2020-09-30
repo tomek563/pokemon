@@ -39,7 +39,7 @@ public class AppUserService {
     private void sendToken(AppUser appUser) {
         String tokenValue = UUID.randomUUID().toString();
 
-        Token token = new Token();   // new Token(tokenValue,appUser)
+        Token token = new Token();
         token.setValue(tokenValue);
         token.setAppUser(appUser);
         tokenRepo.save(token);
@@ -51,7 +51,7 @@ public class AppUserService {
         try {
             mailService.sendMail(appUser.getUsername(), "Potwierdzaj to!", url+tokenValue, false);
         } catch (MessagingException e) {
-            e.printStackTrace(); /*testuj tylko mailservice jako mock*/
+            e.printStackTrace();
         }
     }
 

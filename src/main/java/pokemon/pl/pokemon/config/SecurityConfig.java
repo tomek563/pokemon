@@ -13,7 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import pokemon.pl.pokemon.services.UserDetailsServiceImpl;
-//import pokemon.pl.pokemon.services.UserDetailsServiceImpl;
+
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -55,9 +55,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.headers().disable(); /*tylko do dostepu do bazy danych*/
         http.authorizeRequests()
-//                .antMatchers(HttpMethod.GET,"/api").permitAll()
-//                .antMatchers(HttpMethod.POST,"/api").hasAnyRole("MODERATOR","ADMIN")
-//                .antMatchers(HttpMethod.DELETE,"/api").hasRole("ADMIN")
                 .antMatchers("/").authenticated()
                 .and()
                 .formLogin(form->form

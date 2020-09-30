@@ -36,19 +36,19 @@ public class CoachService {
         this.appUserService = appUserService;
     }
 
-    public void addCoach(Coach coach) { /* done*/
+    public void addCoach(Coach coach) {
         AppUser currentUser = appUserService.getCurrentUser();
         coach.setAppUser(currentUser);
         coachRepo.save(coach);/*sprawdz verify czy wywoła save*/
     }
 
-    public Coach findCoachOfLoggedUser() { /*done*/
+    public Coach findCoachOfLoggedUser() {
         Long principalId = getLoggedUserId();
         Optional<Coach> byAppUserId = Optional.ofNullable(coachRepo.findByAppUserId(principalId));
         Coach coach = byAppUserId.orElseThrow(() -> new CoachNotFoundException(1L));
         return coach;
     }
-    public boolean hasUserGotCoach() { /*test done*/
+    public boolean hasUserGotCoach() {
         Long principalId = getLoggedUserId();
         if(coachRepo.findByAppUserId(principalId)!=null) {
             return true;
@@ -56,7 +56,7 @@ public class CoachService {
         return false;
     }
 
-    public Long getLoggedUserId() { /*done*/
+    public Long getLoggedUserId() {
         AppUser currentUser = appUserService.getCurrentUser();
         return currentUser.getId();
     }
@@ -64,9 +64,8 @@ public class CoachService {
 
     public Coach findByCardsName(Card card) { /*test done*/
         return coachRepo.findByCardsName(card.getName());
-    } /*done*/
-
-    @Scheduled(fixedRate = 3600000, initialDelay = 3600000) /*done*/
+    }
+    @Scheduled(fixedRate = 3600000, initialDelay = 3600000)
     public void addMoneyAfterOneHour() {
         coachRepo.findAll()
                 .forEach(coach -> {
@@ -75,11 +74,11 @@ public class CoachService {
                 });
     }
 
-    public boolean hasCoachEnoughMoneyToBuyCard(Coach coach, Card card) { /*done*/
+    public boolean hasCoachEnoughMoneyToBuyCard(Coach coach, Card card) {
         return coach.getAmountMoney() >= card.getPrice();
     }
 
-    public void finishTransaction(Coach currentOwnerOfTheCard, Coach coachOfLoggedUser, Card card) { /*done*/
+    public void finishTransaction(Coach currentOwnerOfTheCard, Coach coachOfLoggedUser, Card card) {
         card.setOnSale(false);
         card.setCoach(coachOfLoggedUser);
         coachOfLoggedUser.getCards().add(card);
@@ -95,7 +94,7 @@ public class CoachService {
     }
 
 
-    public Card getCardOfCoachWith(String name, Coach currentCoach) { /* ta metoda powinna byc w klasie Coach - done */
+    public Card getCardOfCoachWith(String name, Coach currentCoach) {
         return currentCoach.getCards().stream()
                 .filter(card -> card.getName().equals(name))
                 .findFirst()
@@ -112,7 +111,7 @@ public class CoachService {
         return sublistedCards;
     }
 
-    public boolean isCoachRepoEmpty() { /*test done*/
+    public boolean isCoachRepoEmpty() {
 
         return coachRepo.count()==0;
     }

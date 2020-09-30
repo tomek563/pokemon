@@ -22,13 +22,13 @@ public class CardService {
         this.coachRepo = coachRepo;
     }
 
-    public List<Card> drawFiveRandomCards() {/*test done*/
+    public List<Card> drawFiveRandomCards() {
         List<Card> randomCards = cardRepo.findAll();
         Collections.shuffle(randomCards);
         return randomCards.subList(0, 5);
     }
 
-    public List<Card> getCardsOnSale() { /*test done*/
+    public List<Card> getCardsOnSale() {
         return Stream.of(cardRepo.findAll())
                 .flatMap(coaches -> coaches.stream())
                 .filter(card -> card.isOnSale())
@@ -36,7 +36,7 @@ public class CardService {
     }
 
 
-    public void setCardOnSaleAndOwner(Card card, Coach coach) {/*test half done pytanie czy set tez?*/
+    public void setCardOnSaleAndOwner(Card card, Coach coach) {
         card.setCoach(coach);
         card.setOnSale(true);
         coachRepo.save(coach);
