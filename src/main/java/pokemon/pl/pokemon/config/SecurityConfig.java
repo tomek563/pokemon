@@ -52,8 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable();
-        http.headers().disable(); /*tylko do dostepu do bazy danych*/
+//        http.csrf().disable();
+//        http.headers().disable(); /*tylko do dostepu do bazy danych*/
         http.authorizeRequests()
                 .antMatchers("/").authenticated()
                 .and()
