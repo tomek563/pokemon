@@ -29,12 +29,16 @@ public class TCGApiClient {
 
     @PostConstruct
     public void download() {
-        if (cardRepo.findAll().isEmpty()) {
+
+       // if (cardRepo.findAll().isEmpty()) {
+       if(true){
             for (int i = 1; i < 14; i++) {
                 final int iCopy = i;
                 Thread thread = new Thread(() -> {
                     ArrayList<Card> cards = new ArrayList<>();
                     Cards response = restTemplate.getForObject(URL + "cards?page=" + iCopy + "&pageSize=1000", Cards.class);
+                    System.err.println("Downloaded page: " + iCopy);
+                    System.out.println(response.getCards());
                     cards.addAll(response.getCards());
                     cardRepo.saveAll(cards);
                 });

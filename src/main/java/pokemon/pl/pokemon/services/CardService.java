@@ -6,6 +6,7 @@ import pokemon.pl.pokemon.model.Coach;
 import pokemon.pl.pokemon.repositories.CardRepo;
 import pokemon.pl.pokemon.repositories.CoachRepo;
 
+import javax.annotation.PostConstruct;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,10 +23,15 @@ public class CardService {
         this.coachRepo = coachRepo;
     }
 
+    @PostConstruct
+    private void addTestCard() {
+        cardRepo.save(new Card("abc","test",10,true));
+    }
+
     public List<Card> drawFiveRandomCards() {
+        System.err.println(cardRepo.count());
         List<Card> randomCards = cardRepo.findAll();
         Collections.shuffle(randomCards);
-        System.out.println(randomCards);
         return randomCards.subList(0, 5);
     }
 
