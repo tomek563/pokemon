@@ -25,7 +25,8 @@ public class CardService {
     public List<Card> drawFiveRandomCards() {
         List<Card> randomCards = cardRepo.findAll();
         Collections.shuffle(randomCards);
-        return randomCards.subList(0, 2);
+        System.out.println(randomCards);
+        return randomCards.subList(0, 5);
     }
 
     public List<Card> getCardsOnSale() {

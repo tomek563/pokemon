@@ -41,9 +41,7 @@ public class TCGApiClient {
                 thread.start();
             }
         }
-
     }
-
 
     static class Cards {
         private List<Card> cards;
