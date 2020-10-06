@@ -16,4 +16,5 @@ public class RestTemplateConfig {
                 .setReadTimeout(Duration.ofMinutes(1))
                 .build();
     }
+
 }
