@@ -23,11 +23,6 @@ public class CardService {
         this.coachRepo = coachRepo;
     }
 
-    @PostConstruct
-    private void addTestCard() {
-        cardRepo.save(new Card("abc","test",10,true));
-    }
-
     public List<Card> drawFiveRandomCards() {
         System.err.println(cardRepo.count());
         List<Card> randomCards = cardRepo.findAll();

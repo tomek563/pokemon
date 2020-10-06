@@ -28,23 +28,17 @@ public class TCGApiClient {
     @PostConstruct
     public void download() {
 
-       // if (cardRepo.findAll().isEmpty()) {
-       if(true){
+        if (cardRepo.findAll().isEmpty()) {
             for (int i = 1; i < 14; i++) {
                 final int iCopy = i;
                 Thread thread = new Thread(() -> {
                     ArrayList<Card> cards = new ArrayList<>();
-
                     HttpHeaders headers = new HttpHeaders();
                     headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
                     headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
                     HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
 
-
-//                    Cards response = restTemplate.getForObject(URL + "cards?page=" + iCopy + "&pageSize=1000", Cards.class);
                     ResponseEntity<Cards> response = restTemplate.exchange(URL + "cards?page=" + iCopy + "&pageSize=1000", HttpMethod.GET,entity, Cards.class);
-                    System.err.println("Downloaded page: " + iCopy);
-                    System.out.println(response.getBody().getCards());
                     cards.addAll(response.getBody().getCards());
                     cardRepo.saveAll(cards);
                 });
