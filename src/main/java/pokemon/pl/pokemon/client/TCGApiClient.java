@@ -47,7 +47,7 @@ public class TCGApiClient {
         }
     }
 
-    
+
 
     static class Cards {
         private List<Card> cards;
