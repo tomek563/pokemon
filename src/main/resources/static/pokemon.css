@@ -37,6 +37,26 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
+#pokemon-cards-not-on-sale:hover {
+    -webkit-filter: brightness(50%);
+    filter: brightness(50%);
+    cursor: pointer;
+}
+#pokemon-cards-on-sale {
+    position:relative;
+    display: inline-block;
+    border: 5px solid red;
+}
+.text-on-picture {
+    position: absolute;
+    display:inline-block;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: red;
+    font-size: 40px;
+}
+
 
 
 

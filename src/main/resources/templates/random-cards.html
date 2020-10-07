@@ -7,7 +7,7 @@
     <title>Wylosuj karty</title>
     <link rel="stylesheet" type="text/css" href="pokemon.css">
 </head>
-<body class="random-body" >
+<body class="random-body">
 <section layout:fragment="content">
     <div class="container" style="text-align:center">
         <p></p>
@@ -17,17 +17,20 @@
         <br>
         <h3>Naciśnij przycisk by wylosować swoje karty. Każdy nowy zestaw kart kosztuje 50$.</h3>
         <h3>Aktualnie masz: <span th:text="${money}"></span>$, a co godzinę dostajesz extra 100$.</h3>
-        <form th:action="@{/drawn}" method="post">
-            <div th:if="${not #lists.isEmpty(randomCards)}">
-                <tr th:each="card:${randomCards}">
-                    <td><img th:src="${card.url}"></td>
-                </tr>
-            </div>
-            <p th:if="${money>=50}"><input class="btn btn-success btn-lg" type="submit" value="Losuj karty!"></p>
-            <p th:if="${money<50}"><input class="btn btn-success btn-lg" type="submit" value="Losuj karty!" disabled>
-            </p>
-        </form>
     </div>
+    <form th:action="@{/drawn}" style="text-align:center" method="post">
+        <br>
+        <div th:if="${not #lists.isEmpty(randomCards)}">
+            <tr th:each="card:${randomCards}">
+                <td><img th:src="${card.url}"></td>
+            </tr>
+        </div>
+        <br>
+        <p th:if="${money>=50}"><input class="btn btn-success btn-lg" type="submit" value="Losuj karty!"></p>
+        <p th:if="${money<50}"><input class="btn btn-success btn-lg" type="submit" value="Losuj karty!" disabled>
+        </p>
+    </form>
+
 </section>
 
 </body>

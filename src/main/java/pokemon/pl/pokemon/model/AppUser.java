@@ -23,7 +23,7 @@ public class AppUser implements UserDetails {
     private String username;
 
     @NotEmpty(message = "Musisz wpisać hasło użytkownika")
-    @Size(min = 7, message = "Hasło musi mieć przynajmniej 7 znaków")
+    @Size(min = 5, message = "Hasło musi mieć przynajmniej 5 znaków")
     private String password;
 
     private String role;

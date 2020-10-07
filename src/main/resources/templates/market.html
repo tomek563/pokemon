@@ -20,9 +20,10 @@
                 <div class="col mb-4" th:each="card:${marketCards}">
                     <img class="card-img-top" th:src="${card.url}">
                     <div class="card-body">
-                        Nazwa karty: <span th:text="${card.name}"></span> <br>
-                        Trener: <span th:text="${card.coach.coachName}"></span> <br>
-                        Cena: <span th:text="${card.price}"></span> <br>
+                        <strong>Nazwa karty:</strong> <span th:text="${card.name}"></span> <br>
+                        <strong>Trener:</strong> <span th:text="${card.coach.coachName}"></span> <br>
+                        <strong>Cena:</strong> <span th:text="${card.price}"></span>
+                        <br>
                         <form th:action="@{/bought}" th:object="${card}" method="post">
                             <input type="hidden" name="id" th:value="${card.id}">
                             <input type="hidden" name="name" th:value="${card.name}">

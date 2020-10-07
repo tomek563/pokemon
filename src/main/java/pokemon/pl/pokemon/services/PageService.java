@@ -26,7 +26,7 @@ public class PageService {
 //        page = page < 0 ? 0 : page;
         Coach currentCoach = coachService.findCoachOfLoggedUser();
         List<Card> allCards = currentCoach.getCards();
-        Pageable pageable = PageRequest.of(page.orElse(0), 8);
+        Pageable pageable = PageRequest.of(page.orElse(0), 10);
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), allCards.size());
         return new PageImpl<>(allCards.subList(start,end), pageable, allCards.size());
