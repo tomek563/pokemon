@@ -19,10 +19,11 @@ public class LoginController {
     public LoginController(CoachService coachService) {
         this.coachService = coachService;
     }
-//    @GetMapping("/login")
-//    public String loginPage(){
-//        return "login";
-//    }
+
+    @GetMapping("/login")
+    public String loginPage(){
+        return "login";
+    }
 
 
     @GetMapping("/success")

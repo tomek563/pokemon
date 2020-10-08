@@ -58,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/").authenticated()
                 .and()
                 .formLogin(form->form
-//                .loginPage("/login.html")
+                .loginPage("/login")
                 .permitAll()
                 .defaultSuccessUrl("/success", true)
                 .failureUrl("/failure?error=true")
