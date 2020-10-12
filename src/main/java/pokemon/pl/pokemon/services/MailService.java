@@ -9,7 +9,7 @@ import javax.mail.internet.MimeMessage;
 
 @Service
 public class MailService {
-    private JavaMailSender javaMailSender;
+    private final JavaMailSender javaMailSender;
 
     public MailService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;

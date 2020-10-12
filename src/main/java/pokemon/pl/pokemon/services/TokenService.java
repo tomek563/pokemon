@@ -8,9 +8,9 @@ import pokemon.pl.pokemon.repositories.TokenRepo;
 
 @Service
 public class TokenService {
-    private AppUserRepo appUserRepo;
+    private final AppUserRepo appUserRepo;
 
-    private TokenRepo tokenRepo;
+    private final TokenRepo tokenRepo;
 
     public TokenService(AppUserRepo appUserRepo, TokenRepo tokenRepo) {
         this.appUserRepo = appUserRepo;

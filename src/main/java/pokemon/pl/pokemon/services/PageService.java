@@ -16,7 +16,7 @@ import java.util.stream.IntStream;
 
 @Service
 public class PageService {
-    private CoachService coachService;
+    private final CoachService coachService;
 
     public PageService(CoachService coachService) {
         this.coachService = coachService;

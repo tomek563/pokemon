@@ -15,10 +15,10 @@ import java.util.*;
 
 @Component
 public class TCGApiClient {
-    private CardRepo cardRepo;
-    private RestTemplate restTemplate;
-
+    private final CardRepo cardRepo;
+    private final RestTemplate restTemplate;
     private static final String URL = "https://api.pokemontcg.io/v1/";
+    private static final int pageNumber = 14;
 
     public TCGApiClient(CardRepo cardRepo, RestTemplate restTemplate) {
         this.cardRepo = cardRepo;
@@ -27,31 +27,28 @@ public class TCGApiClient {
 
     @PostConstruct
     public void download() {
-
-        if (cardRepo.findAll().isEmpty()) {
-            for (int i = 1; i < 14; i++) {
-                final int iCopy = i;
-                Thread thread = new Thread(() -> {
-                    ArrayList<Card> cards = new ArrayList<>();
-                    HttpHeaders headers = new HttpHeaders();
-                    headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
-                    headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
-                    HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
-
-                    ResponseEntity<Cards> response = restTemplate.exchange(URL + "cards?page=" + iCopy + "&pageSize=1000", HttpMethod.GET,entity, Cards.class);
-                    cards.addAll(response.getBody().getCards());
-                    cardRepo.saveAll(cards);
-                });
-                thread.start();
+        if (cardRepo.count()==0) {
+            for (int i = 1; i < pageNumber; i++) {
+                createNewThread(i);
             }
         }
     }
 
-
+    private void createNewThread(int iCopy) {
+        Thread thread = new Thread(() -> {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+            headers.add("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2840.99 Safari/537.36");
+            HttpEntity<String> entity = new HttpEntity<String>("parameters", headers);
+            ResponseEntity<Cards> response = restTemplate.exchange(String.format("%scards?page=%d&pageSize=1000",URL,iCopy), HttpMethod.GET,entity, Cards.class);
+            List<Card> cards = new ArrayList<>(Objects.requireNonNull(response.getBody()).getCards());
+            cardRepo.saveAll(cards);
+        });
+        thread.start();
+    }
 
     static class Cards {
         private List<Card> cards;
-
         public List<Card> getCards() {
             return cards;
         }

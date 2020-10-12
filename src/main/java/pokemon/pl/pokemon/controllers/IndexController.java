@@ -20,7 +20,7 @@ public class IndexController {
 
     @GetMapping("/failure")
     public String getLoginFailure(Model model) {
-        model.addAttribute("failure", "Nie udało się zalogować. Sprawdź nazwę użytkownika i hasło ");
+        model.addAttribute("errorMessage", "Nie udało się zalogować. Sprawdź nazwę użytkownika i hasło ");
         return "failure";
     }
 

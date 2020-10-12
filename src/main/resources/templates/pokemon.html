@@ -16,13 +16,17 @@
         <p></p>
         <p><img th:src="${card.url}"></p>
 
-        <form th:action="@{/on-sale}" th:object="${newCard}" method="post">
+        <form th:action="@{/on-sale}" th:object="${card}" method="post">
             Cena:
             <input type="text" name="price" placeholder="cena">
             <input type="hidden" name="id" th:value="${card.id}">
             <input type="hidden" name="name" th:value="${card.name}">
+<!--            <input type="hidden" name="coach" th:object="${coach}"> --> <!--jak moge przez thymelefa przesłac obiekt?-->
             <input type="hidden" name="url" th:value="${card.url}"><br>
             <p></p>
+            <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
+                <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
+            </div>
             <input type="submit" class="btn btn-success btn-lg" value="Wystaw na sprzedaż!">
         </form>
     </div>

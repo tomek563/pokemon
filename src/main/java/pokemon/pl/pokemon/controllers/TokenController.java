@@ -12,7 +12,7 @@ import pokemon.pl.pokemon.services.TokenService;
 @Controller
 public class TokenController {
 
-    private TokenService tokenService;
+    private final TokenService tokenService;
 
     public TokenController(TokenService tokenService) {
         this.tokenService = tokenService;

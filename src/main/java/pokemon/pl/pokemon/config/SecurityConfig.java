@@ -18,7 +18,7 @@ import pokemon.pl.pokemon.services.UserDetailsServiceImpl;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private UserDetailsServiceImpl userDetailsServiceImpl;
+    private final UserDetailsServiceImpl userDetailsServiceImpl;
 
     public SecurityConfig(UserDetailsServiceImpl userDetailsServiceImpl) {
         this.userDetailsServiceImpl = userDetailsServiceImpl;

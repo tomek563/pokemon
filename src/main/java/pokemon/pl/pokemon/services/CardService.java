@@ -6,7 +6,7 @@ import pokemon.pl.pokemon.model.Coach;
 import pokemon.pl.pokemon.repositories.CardRepo;
 import pokemon.pl.pokemon.repositories.CoachRepo;
 
-import javax.annotation.PostConstruct;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,9 +14,8 @@ import java.util.stream.Stream;
 
 @Service
 public class CardService {
-
-    private CardRepo cardRepo;
-    private CoachRepo coachRepo;
+    private final CardRepo cardRepo;
+    private final CoachRepo coachRepo;
 
     public CardService(CardRepo cardRepo, CoachRepo coachRepo) {
         this.cardRepo = cardRepo;
@@ -24,7 +23,6 @@ public class CardService {
     }
 
     public List<Card> drawFiveRandomCards() {
-        System.err.println(cardRepo.count());
         List<Card> randomCards = cardRepo.findAll();
         Collections.shuffle(randomCards);
         return randomCards.subList(0, 5);
@@ -32,16 +30,25 @@ public class CardService {
 
     public List<Card> getCardsOnSale() {
         return Stream.of(cardRepo.findAll())
-                .flatMap(coaches -> coaches.stream())
-                .filter(card -> card.isOnSale())
+                .flatMap(Collection::stream)
+                .filter(Card::isOnSale)
                 .collect(Collectors.toList());
     }
-
 
     public void setCardOnSaleAndOwner(Card card, Coach coach) {
         card.setCoach(coach);
         card.setOnSale(true);
         coachRepo.save(coach);
         cardRepo.save(card);
+    }
+    public List<Card> getFivePokemonCardsAndPayForThem(Coach coach) {
+        List<Card> sublistedCards = drawFiveRandomCards();
+        sublistedCards.forEach(card -> card.setCoach(coach));
+
+        coach.getCards().addAll(sublistedCards);
+        int drawCardCost = 50;
+        coach.setAmountMoney(coach.getAmountMoney() - drawCardCost);
+        coachRepo.save(coach);
+        return sublistedCards;
     }
 }

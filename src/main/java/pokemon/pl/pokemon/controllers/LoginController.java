@@ -14,7 +14,7 @@ import pokemon.pl.pokemon.services.CoachService;
 
 @Controller
 public class LoginController {
-    private CoachService coachService;
+    private final CoachService coachService;
 
     public LoginController(CoachService coachService) {
         this.coachService = coachService;
@@ -30,7 +30,7 @@ public class LoginController {
     public String loginSuccess(Model model, RedirectAttributes redirectAttributes) {
 
         if (coachService.hasUserGotCoach()) {
-            model.addAttribute( "success", "Zostałeś poprawnie zalogowany");
+            model.addAttribute( "successMessage", "Zostałeś poprawnie zalogowany");
         } else {
             redirectAttributes.addFlashAttribute("redirect", true);
             return "redirect:coach";

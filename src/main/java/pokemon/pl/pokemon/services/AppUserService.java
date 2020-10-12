@@ -14,12 +14,11 @@ import java.util.UUID;
 @Service
 public class AppUserService {
 
-    private TokenRepo tokenRepo;
-    private MailService mailService;
-    private AppUserRepo appUserRepo;
-    private PasswordEncoder passwordEncoder;
-    private String url = "http://localhost:8080/token?value=";
-
+    private final TokenRepo tokenRepo;
+    private final MailService mailService;
+    private final AppUserRepo appUserRepo;
+    private final PasswordEncoder passwordEncoder;
+    private static final String url = "http://localhost:8080/token?value=";
 
     public AppUserService(TokenRepo tokenRepo, MailService mailService, AppUserRepo appUserRepo,
                           PasswordEncoder passwordEncoder) {
@@ -49,7 +48,7 @@ public class AppUserService {
 
     private void sendMail(AppUser appUser, String tokenValue) {
         try {
-            mailService.sendMail(appUser.getUsername(), "Potwierdzaj to!", url+tokenValue, false);
+            mailService.sendMail(appUser.getUsername(), "Potwierdź swój email!", url+tokenValue, false);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
@@ -57,5 +56,9 @@ public class AppUserService {
 
     public AppUser getCurrentUser() {
         return (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+    public Long getLoggedUserId() {
+        AppUser currentUser = getCurrentUser();
+        return currentUser.getId();
     }
 }

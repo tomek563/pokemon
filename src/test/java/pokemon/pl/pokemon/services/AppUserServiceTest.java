@@ -11,17 +11,11 @@ import pokemon.pl.pokemon.model.AppUser;
 import pokemon.pl.pokemon.model.Token;
 import pokemon.pl.pokemon.repositories.AppUserRepo;
 import pokemon.pl.pokemon.repositories.TokenRepo;
-
 import javax.mail.MessagingException;
-
-import java.util.UUID;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyChar;
 import static org.mockito.Mockito.*;
 
 class AppUserServiceTest {
@@ -61,5 +55,16 @@ class AppUserServiceTest {
         Token token = argumentCaptor.getValue();
         assertThat(token.getAppUser(), equalTo(appUser));
     }
+//    @Test
+//    void getLoggedUserId_Should_Return_LoggedUserId() { /*chyba nie do przetestowania, bo nie mam jak utowrzyc mocka z SecurityContext, co uwazasz Daniel?*/
+////        given
+//        when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(appUser);
+//        Long id = appUser.getId();
+//
+////        then
+//        assertThat(appUserService.getLoggedUserId(), equalTo(id));
+//    }
+
+
 
 }

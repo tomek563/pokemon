@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.*;
 import java.util.Objects;
 
 @Entity
@@ -19,6 +20,8 @@ public class Card {
     @JsonProperty(value = "imageUrl")
     private String url;
 
+    @PositiveOrZero(message = "Karta nie może kosztować mniej niż 0")
+    @NotNull(message = "Podaj cenę!")
     private int price = 50; /*default value*/
 
     private boolean onSale = false;

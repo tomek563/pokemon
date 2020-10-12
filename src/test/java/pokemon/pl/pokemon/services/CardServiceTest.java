@@ -30,6 +30,8 @@ class CardServiceTest {
     List<Card> cards;
     Card card;
     Coach coach;
+    int drawCardCost = 50;
+
 
     @BeforeEach
     public void setUp() {
@@ -70,6 +72,23 @@ class CardServiceTest {
         assertThat(card.isOnSale(), equalTo(true));
         verify(coachRepo).save(coach);
         verify(cardRepo).save(card);
+    }
+    @Test
+    void getFivePokemonCardsAndPayForThem_Should_Reduce_Coach_Money_By_CardCost_And_Give_Him_FiveCards() {
+        int moneyBeforeTest = coach.getAmountMoney();
+        coach.getCards().clear();
+
+        List<Card> preparedFiveCards = cards.subList(0, 5);
+        when(cardRepo.findAll()).thenReturn(preparedFiveCards);
+        CardService cardService = new CardService(cardRepo, coachRepo);
+        cardService.getFivePokemonCardsAndPayForThem(coach);
+
+        for (Card card : preparedFiveCards) {
+            assertThat(card.getCoach(), equalTo(coach));
+        }
+        assertThat(coach.getAmountMoney(), equalTo(moneyBeforeTest - drawCardCost));
+        assertThat(coach.getCards().size(), equalTo(preparedFiveCards.size()));
+        verify(coachRepo).save(coach);
     }
 
 }

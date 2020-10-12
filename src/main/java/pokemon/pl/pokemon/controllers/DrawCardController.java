@@ -12,10 +12,8 @@ import pokemon.pl.pokemon.services.CoachService;
 import java.util.List;
 @Controller
 public class DrawCardController {
-
-    private CoachService coachService;
-
-    private CardService cardService;
+    private final CoachService coachService;
+    private final CardService cardService;
 
     public DrawCardController(CoachService coachService, CardService cardService) {
         this.coachService = coachService;
@@ -33,13 +31,13 @@ public class DrawCardController {
     public String drawRandomCards(Model model) {
         Coach coach = coachService.findCoachOfLoggedUser();
         if (coachService.hasCoachHasMoneyToDrawCard(coach)) {
-            List<Card> sublistedCards = coachService.getFivePokemonCardsAndPayForThem(coach);
+            List<Card> sublistedCards = cardService.getFivePokemonCardsAndPayForThem(coach);
 
             model.addAttribute("randomCards", sublistedCards);
             model.addAttribute("money", coach.getAmountMoney());
             return "random-cards";
         } else {
-            model.addAttribute("failure", "Nie masz wystarczająco pieniędzy");
+            model.addAttribute("errorMessage", "Nie masz wystarczająco pieniędzy");
             return "failure";
         }
     }

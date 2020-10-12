@@ -16,23 +16,16 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Timer;
 
-
 @Service
 public class CoachService {
-    private CoachRepo coachRepo;
+    private final CoachRepo coachRepo;
+    private final CardRepo cardRepo;
+    private final AppUserService appUserService;
+    private final int extraMoney = 100;
 
-    private CardRepo cardRepo;
-
-    private CardService cardService;
-
-    private AppUserService appUserService;
-
-    private int drawCardCost = 50;
-
-    public CoachService(CoachRepo coachRepo, CardRepo cardRepo, CardService cardService, AppUserService appUserService) {
+    public CoachService(CoachRepo coachRepo, CardRepo cardRepo, AppUserService appUserService) {
         this.coachRepo = coachRepo;
         this.cardRepo = cardRepo;
-        this.cardService = cardService;
         this.appUserService = appUserService;
     }
 
@@ -43,33 +36,25 @@ public class CoachService {
     }
 
     public Coach findCoachOfLoggedUser() {
-        Long principalId = getLoggedUserId();
+        Long principalId = appUserService.getLoggedUserId();
         Optional<Coach> byAppUserId = Optional.ofNullable(coachRepo.findByAppUserId(principalId));
-        Coach coach = byAppUserId.orElseThrow(() -> new CoachNotFoundException(1L));
-        return coach;
+        return byAppUserId.orElseThrow(() -> new CoachNotFoundException(1L));
     }
+
     public boolean hasUserGotCoach() {
-        Long principalId = getLoggedUserId();
-        if(coachRepo.findByAppUserId(principalId)!=null) {
-            return true;
-        }
-        return false;
+        Long principalId = appUserService.getLoggedUserId();
+        return coachRepo.findByAppUserId(principalId) != null;
     }
-
-    public Long getLoggedUserId() {
-        AppUser currentUser = appUserService.getCurrentUser();
-        return currentUser.getId();
-    }
-
 
     public Coach findByCardsName(Card card) { /*test done*/
         return coachRepo.findByCardsName(card.getName());
     }
-    @Scheduled(fixedRate = 3600000, initialDelay = 3600000)
-    public void addMoneyAfterOneHour() {
+
+    @Scheduled(fixedRate = 300000, initialDelay = 300000)
+    public void addMoneyAfterSomeTime() {
         coachRepo.findAll()
                 .forEach(coach -> {
-                    coach.setAmountMoney(coach.getAmountMoney() + 100);
+                    coach.setAmountMoney(coach.getAmountMoney() + extraMoney);
                     coachRepo.save(coach);
                 });
     }
@@ -89,30 +74,19 @@ public class CoachService {
         coachRepo.save(currentOwnerOfTheCard);
     }
 
-    public boolean hasCoachHasMoneyToDrawCard(Coach coach) { /*test done*/
-        return coach.getAmountMoney()>=drawCardCost;
+    public boolean hasCoachHasMoneyToDrawCard(Coach coach) {
+        int drawCardCost = 50;
+        return coach.getAmountMoney() >= drawCardCost;
     }
 
-
-    public Card getCardOfCoachWith(String name, Coach currentCoach) {
-        return currentCoach.getCards().stream()
+    public Card getCardOfCurrentCoachWithCard(String name) {
+        return findCoachOfLoggedUser().getCards().stream()
                 .filter(card -> card.getName().equals(name))
                 .findFirst()
-                .orElseThrow(() -> new CardNotFoundException());
-    }
-
-    public List<Card> getFivePokemonCardsAndPayForThem(Coach coach) {
-        List<Card> sublistedCards = cardService.drawFiveRandomCards();
-        sublistedCards.forEach(card -> card.setCoach(coach));
-
-        coach.getCards().addAll(sublistedCards);
-        coach.setAmountMoney(coach.getAmountMoney() - drawCardCost);
-        coachRepo.save(coach);
-        return sublistedCards;
+                .orElseThrow(CardNotFoundException::new);
     }
 
     public boolean isCoachRepoEmpty() {
-
-        return coachRepo.count()==0;
+        return coachRepo.count() == 0;
     }
 }

@@ -15,16 +15,12 @@ import java.util.List;
 
 @Controller
 public class CoachController {
-
-    private CoachService coachService;
+    private final CoachService coachService;
 
     public CoachController(CoachService coachService) {
         this.coachService = coachService;
     }
 
-    //przekazywanie danych przez redirect
-    //1. RedirectAtributes dajesz addAtribute, zgarniasz po argumentach
-    //2. -||- addFlashAtribute, zgarniasz z modelu
     @GetMapping("/coach")
     public String getCoachPage(Model model) {
         if (coachService.hasUserGotCoach()) {
@@ -38,19 +34,15 @@ public class CoachController {
         }
     }
 
-
     @PostMapping("/coach-added")
     public String saveCoach(@Valid @ModelAttribute Coach coach, BindingResult bindingResult,
                             Model model, RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()||coachService.hasUserGotCoach()) {
             List<ObjectError> errorsList = bindingResult.getAllErrors();
-            for (ObjectError error : errorsList) {
-                System.out.println(error);
-            }
             return "add-coach";
         } else {
             coachService.addCoach(coach);
-            model.addAttribute("success", "Dodano nowego trenera");
+            model.addAttribute("successMessage", "Dodano nowego trenera");
             redirectAttributes.addFlashAttribute("redirect", true);
             return "redirect:draw-random-cards";
         }
