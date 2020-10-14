@@ -41,10 +41,10 @@ public class CardService {
         coachRepo.save(coach);
         cardRepo.save(card);
     }
+
     public List<Card> getFivePokemonCardsAndPayForThem(Coach coach) {
         List<Card> sublistedCards = drawFiveRandomCards();
         sublistedCards.forEach(card -> card.setCoach(coach));
-
         coach.getCards().addAll(sublistedCards);
         int drawCardCost = 50;
         coach.setAmountMoney(coach.getAmountMoney() - drawCardCost);

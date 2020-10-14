@@ -20,9 +20,7 @@ import java.util.Optional;
 
 @Controller
 public class AuctionController {
-
     private final CoachService coachService;
-
     private final CardService cardService;
 
     public AuctionController(CoachService coachService, CardService cardService) {
@@ -50,12 +48,8 @@ public class AuctionController {
 
     @PostMapping("/bought")
     public String buyCard(@ModelAttribute Card card, Model model) {
-
         Coach currentOwnerOfTheCard = coachService.findByCardsName(card);
-        System.out.println(currentOwnerOfTheCard);
         Coach currentCoach = coachService.findCoachOfLoggedUser();
-        System.out.println(currentCoach);
-
         if (coachService.hasCoachEnoughMoneyToBuyCard(currentCoach, card)) {
             coachService.finishTransaction(currentOwnerOfTheCard, currentCoach, card);
             model.addAttribute("successMessage", "Zakupiono nową kartę");

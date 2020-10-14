@@ -73,6 +73,7 @@ class CardServiceTest {
         verify(coachRepo).save(coach);
         verify(cardRepo).save(card);
     }
+
     @Test
     void getFivePokemonCardsAndPayForThem_Should_Reduce_Coach_Money_By_CardCost_And_Give_Him_FiveCards() {
         int moneyBeforeTest = coach.getAmountMoney();

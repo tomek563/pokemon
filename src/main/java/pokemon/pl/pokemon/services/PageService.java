@@ -29,7 +29,7 @@ public class PageService {
         Pageable pageable = PageRequest.of(page.orElse(0), 10);
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), allCards.size());
-        return new PageImpl<>(allCards.subList(start,end), pageable, allCards.size());
+        return new PageImpl<>(allCards.subList(start, end), pageable, allCards.size());
     }
 
     public List<Integer> getListOfPageNumbers(Page<Card> pages) {

@@ -10,6 +10,7 @@ import pokemon.pl.pokemon.services.CardService;
 import pokemon.pl.pokemon.services.CoachService;
 
 import java.util.List;
+
 @Controller
 public class DrawCardController {
     private final CoachService coachService;
@@ -32,7 +33,6 @@ public class DrawCardController {
         Coach coach = coachService.findCoachOfLoggedUser();
         if (coachService.hasCoachHasMoneyToDrawCard(coach)) {
             List<Card> sublistedCards = cardService.getFivePokemonCardsAndPayForThem(coach);
-
             model.addAttribute("randomCards", sublistedCards);
             model.addAttribute("money", coach.getAmountMoney());
             return "random-cards";

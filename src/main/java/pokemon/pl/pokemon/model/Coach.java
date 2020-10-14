@@ -12,15 +12,11 @@ public class Coach {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     @NotEmpty(message = "Musisz wpisać imię trenera")
     private String coachName;
-
     @OneToOne
     private AppUser appUser;
-
     private int amountMoney = 100;
-
     @OneToMany(mappedBy = "coach")
     private List<Card> cards = new ArrayList<>();
 
@@ -66,8 +62,6 @@ public class Coach {
     public void setCards(List<Card> cards) {
         this.cards = cards;
     }
-
-
 
     @Override
     public boolean equals(Object o) {

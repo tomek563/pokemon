@@ -13,7 +13,6 @@ import java.util.UUID;
 
 @Service
 public class AppUserService {
-
     private final TokenRepo tokenRepo;
     private final MailService mailService;
     private final AppUserRepo appUserRepo;
@@ -48,7 +47,7 @@ public class AppUserService {
 
     private void sendMail(AppUser appUser, String tokenValue) {
         try {
-            mailService.sendMail(appUser.getUsername(), "Potwierdź swój email!", url+tokenValue, false);
+            mailService.sendMail(appUser.getUsername(), "Potwierdź swój email!", url + tokenValue, false);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
@@ -57,6 +56,7 @@ public class AppUserService {
     public AppUser getCurrentUser() {
         return (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
+
     public Long getLoggedUserId() {
         AppUser currentUser = getCurrentUser();
         return currentUser.getId();

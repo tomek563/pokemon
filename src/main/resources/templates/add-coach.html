@@ -10,17 +10,17 @@
 <body class="coach-body">
 <section layout:fragment="content">
 
-        <div class="container" style="text-align:center">
-            <p></p>
-            <h1 style="color:white">Witaj w naszym serwisie! Najpierw powiedz nam, jak będzie się nazywał Twój trener.</h1>
+    <div class="container" style="text-align:center">
+        <p></p>
+        <h1 style="color:white">Witaj w naszym serwisie! Najpierw powiedz nam, jak będzie się nazywał Twój trener.</h1>
         <form th:action="@{/coach-added}" th:object="${coach}" method="post">
             <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">
                 <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
             </div>
-        <input class="form-control"  type="text" name="coachName" placeholder="Imię">
-        <input class="btn btn-success btn-lg" type="submit" value="Zapisz!">
+            <input class="form-control" type="text" name="coachName" placeholder="Imię">
+            <input class="btn btn-success btn-lg" type="submit" value="Zapisz!">
         </form>
-        </div>
+    </div>
 
 </section>
 

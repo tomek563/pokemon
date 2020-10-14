@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.ultraq.net.nz/thymeleaf/layout " xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
@@ -20,10 +19,11 @@
                 <Item><a class="nav-link" href="/market">Market </a></Item>
             </li>
             <li class="nav-item">
-                <Item sec:authorize="isAuthenticated()" ><a class="nav-link" href="/pokemon">Moje pokemony </a></Item>
+                <Item sec:authorize="isAuthenticated()"><a class="nav-link" href="/pokemon">Moje pokemony </a></Item>
             </li>
             <li class="nav-item">
-                <Item sec:authorize="isAuthenticated()"><a class="nav-link" href="/draw-random-cards">Zbierz nowe </a></Item>
+                <Item sec:authorize="isAuthenticated()"><a class="nav-link" href="/draw-random-cards">Zbierz nowe </a>
+                </Item>
             </li>
             <li class="nav-item">
                 <Item sec:authorize="isAuthenticated()"><a class="nav-link" href="/coach">Trener </a></Item>
@@ -40,25 +40,13 @@
                 <Item sec:authorize="!isAuthenticated()"><a class="nav-link" href="/login">Zaloguj się </a></Item>
             </li>
             <li class="nav-item">
-                <Item class="nav-link" sec:authorize="isAuthenticated()">Witaj <span sec:authentication="name"></span></Item>
-                <!--    <Item sec:authorize="isAuthenticated()">Twój trener: <span th:text="${coach.coachName}"></span></Item>-->
+                <Item class="nav-link" sec:authorize="isAuthenticated()">Witaj <span sec:authentication="name"></span>
+                </Item>
             </li>
         </ul>
-
-
-<!--        <form class="form-inline my-2 my-lg-0">-->
-<!--            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">-->
-<!--            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
-<!--        </form>-->
     </div>
 </nav>
-
 <section layout:fragment="content">
 </section>
-
-<!--<div sec:authorize="isAuthenticated()">-->
-<!--    Authenticated as <span sec:authentication="name"></span></div>-->
-
-
 </body>
 </html>

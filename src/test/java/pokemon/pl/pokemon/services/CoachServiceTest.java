@@ -172,7 +172,7 @@ class CoachServiceTest {
 //        given
         when(coachRepo.findByAppUserId(anyLong())).thenReturn(coachFirst);
         when(appUserService.getCurrentUser()).thenReturn(appUser);
-        CoachService coachService = new CoachService(coachRepo, null,  appUserService);
+        CoachService coachService = new CoachService(coachRepo, null, appUserService);
 //        then
         assertThat(coachService.hasUserGotCoach(), equalTo(true));
     }

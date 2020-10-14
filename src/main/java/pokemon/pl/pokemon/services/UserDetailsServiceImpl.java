@@ -11,11 +11,9 @@ import pokemon.pl.pokemon.repositories.AppUserRepo;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-
     private final AppUserRepo appUserRepo;
 
     public UserDetailsServiceImpl(AppUserRepo appUserRepo) {
-
         this.appUserRepo = appUserRepo;
     }
 

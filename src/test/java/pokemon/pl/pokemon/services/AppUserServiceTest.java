@@ -11,7 +11,9 @@ import pokemon.pl.pokemon.model.AppUser;
 import pokemon.pl.pokemon.model.Token;
 import pokemon.pl.pokemon.repositories.AppUserRepo;
 import pokemon.pl.pokemon.repositories.TokenRepo;
+
 import javax.mail.MessagingException;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.not;
@@ -64,7 +66,6 @@ class AppUserServiceTest {
 ////        then
 //        assertThat(appUserService.getLoggedUserId(), equalTo(id));
 //    }
-
 
 
 }

@@ -9,14 +9,14 @@ import pokemon.pl.pokemon.repositories.TokenRepo;
 @Service
 public class TokenService {
     private final AppUserRepo appUserRepo;
-
     private final TokenRepo tokenRepo;
 
     public TokenService(AppUserRepo appUserRepo, TokenRepo tokenRepo) {
         this.appUserRepo = appUserRepo;
         this.tokenRepo = tokenRepo;
     }
-    public void validateAppUser(String value){
+
+    public void validateAppUser(String value) {
         Token byValue = tokenRepo.findByValue(value);
         AppUser appUser = byValue.getAppUser();
         appUser.setEnabled(true);

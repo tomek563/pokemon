@@ -26,12 +26,11 @@ public class IndexController {
 
     @GetMapping("/no-coach")
     public String getNoCoach() {
-
         return "no-coach";
     }
+
     @GetMapping("/no-card")
     public String getNoCard() {
-
         return "no-card";
     }
 

@@ -11,21 +11,15 @@ import java.util.Objects;
 
 @Entity
 public class Card {
-
     @Id
     private String id;
-
     private String name;
-
     @JsonProperty(value = "imageUrl")
     private String url;
-
     @PositiveOrZero(message = "Karta nie może kosztować mniej niż 0")
     @NotNull(message = "Podaj cenę!")
-    private int price = 50; /*default value*/
-
+    private int price = 50;
     private boolean onSale = false;
-
     @ManyToOne
     private Coach coach;
 

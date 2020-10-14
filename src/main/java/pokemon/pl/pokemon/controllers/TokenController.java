@@ -11,7 +11,6 @@ import pokemon.pl.pokemon.services.TokenService;
 
 @Controller
 public class TokenController {
-
     private final TokenService tokenService;
 
     public TokenController(TokenService tokenService) {

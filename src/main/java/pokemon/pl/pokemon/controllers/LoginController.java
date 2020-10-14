@@ -21,16 +21,14 @@ public class LoginController {
     }
 
     @GetMapping("/login")
-    public String loginPage(){
+    public String loginPage() {
         return "login";
     }
 
-
     @GetMapping("/success")
     public String loginSuccess(Model model, RedirectAttributes redirectAttributes) {
-
         if (coachService.hasUserGotCoach()) {
-            model.addAttribute( "successMessage", "Zostałeś poprawnie zalogowany");
+            model.addAttribute("successMessage", "Zostałeś poprawnie zalogowany");
         } else {
             redirectAttributes.addFlashAttribute("redirect", true);
             return "redirect:coach";

@@ -20,6 +20,7 @@ public class PrepareData {
     public static AppUser prepareAppUser() {
         return new AppUser(2L, "jannowak@gmail.com");
     }
+
     public static List<Card> prepareCards() {
         List<Card> cards = new ArrayList<>();
         cards.add(new Card("1", "Pikachu", 50, false));
@@ -37,17 +38,20 @@ public class PrepareData {
         Session session = Session.getInstance(properties);
         return new MimeMessage(session);
     }
+
     public static Page<Card> preparePages(List<Card> cards, int page) {
         Pageable pageable = PageRequest.of(page, 4);
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), cards.size());
         return new PageImpl<>(cards.subList(start, end), pageable, cards.size());
     }
+
     public static Token prepareToken() {
         Token token = new Token();
         token.setAppUser(new AppUser(2L, "jannowak@gmail.com"));
         return token;
     }
+
     public static Coach prepareCoach() {
         Coach coach = new Coach();
         coach.setCoachName("Mark");
@@ -55,6 +59,7 @@ public class PrepareData {
         coach.setCards(prepareCards());
         return coach;
     }
+
     public static Card prepareCard() {
         return new Card("4", "Squirtle", 50, true);
     }

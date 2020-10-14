@@ -17,17 +17,13 @@ public class AppUser implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @NotEmpty(message = "Musisz podać email")
     @Email(message = "Podany username musi zawierać '@'")
     private String username;
-
     @NotEmpty(message = "Musisz wpisać hasło użytkownika")
     @Size(min = 5, message = "Hasło musi mieć przynajmniej 5 znaków")
     private String password;
-
     private String role;
-
     private boolean isEnabled;
 
     public AppUser() {
@@ -65,7 +61,6 @@ public class AppUser implements UserDetails {
     public void setEnabled(boolean enabled) {
         isEnabled = enabled;
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
