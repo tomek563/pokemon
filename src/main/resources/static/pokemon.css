@@ -39,7 +39,7 @@
     background-size: cover;
 }
 .body-market {
-    background:#FFD700;;
+    background:#FFD700;
     height: 100vh;
     background-position: center;
     background-repeat: no-repeat;
@@ -47,7 +47,7 @@
 }
 .body-failure {
     background:url(https://www.tapeciarnia.pl/tapety/normalne/61305_pikachu_grozny_pokemon.jpg);
-    background-color: #2f528a
+    background-color: #2f528a;
     height: 100vh;
     background-position: center;
     background-repeat: no-repeat;
@@ -72,7 +72,4 @@
     font-size: 40px;
     margin: 0;
 }
-
-
-
 

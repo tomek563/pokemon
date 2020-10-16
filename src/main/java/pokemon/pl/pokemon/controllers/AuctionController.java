@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pokemon.pl.pokemon.exceptions.CoachNotFoundException;
 import pokemon.pl.pokemon.model.Card;
 import pokemon.pl.pokemon.model.Coach;
+import pokemon.pl.pokemon.services.AuctionService;
 import pokemon.pl.pokemon.services.CardService;
 import pokemon.pl.pokemon.services.CoachService;
 
@@ -40,18 +41,15 @@ public class AuctionController {
         if (bindingResult.hasErrors()) {
             return "pokemon";
         }
-        Coach coach = coachService.findCoachOfLoggedUser();
-        cardService.setCardOnSaleAndOwner(card, coach);
+        cardService.setCardOnSaleAndOwner(card);
         model.addAttribute("successMessage", "Wystawiono kartę na sprzedaż");
         return "success";
     }
 
     @PostMapping("/bought")
     public String buyCard(@ModelAttribute Card card, Model model) {
-        Coach currentOwnerOfTheCard = coachService.findByCardsName(card);
-        Coach currentCoach = coachService.findCoachOfLoggedUser();
-        if (coachService.hasCoachEnoughMoneyToBuyCard(currentCoach, card)) {
-            coachService.finishTransaction(currentOwnerOfTheCard, currentCoach, card);
+        if (coachService.hasCoachEnoughMoneyToBuyCard(card)) {
+            coachService.finishTransaction(card);
             model.addAttribute("successMessage", "Zakupiono nową kartę");
             return "success";
         } else {

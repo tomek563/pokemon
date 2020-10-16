@@ -116,18 +116,22 @@ class CoachServiceTest {
     @Test
     void hasCoachEnoughMoneyToBuyCard_Should_ReturnTrue_When_He_HasGot() {
 //        given
-        CoachService coachService = new CoachService(null, null, null);
+        when(appUserService.getLoggedUserId()).thenReturn(1L);
+        when(coachRepo.findByAppUserId(anyLong())).thenReturn(coachFirst);
+        CoachService coachService = new CoachService(coachRepo, null, appUserService);
 //        then
-        assertThat(coachService.hasCoachEnoughMoneyToBuyCard(coachFirst, card), equalTo(true));
+        assertThat(coachService.hasCoachEnoughMoneyToBuyCard(card), equalTo(true));
     }
 
     @Test
     void hasCoachEnoughMoneyToBuyCard_Should_ReturnFalse_When_He_HasNot() {
 //        given
         coachFirst.setAmountMoney(40);
-        CoachService coachService = new CoachService(null, null, null);
+        when(appUserService.getLoggedUserId()).thenReturn(1L);
+        when(coachRepo.findByAppUserId(anyLong())).thenReturn(coachFirst);
+        CoachService coachService = new CoachService(coachRepo, null, appUserService);
 //        then
-        assertThat(coachService.hasCoachEnoughMoneyToBuyCard(coachFirst, card), equalTo(false));
+        assertThat(coachService.hasCoachEnoughMoneyToBuyCard(card), equalTo(false));
     }
 
     @Test
@@ -211,8 +215,12 @@ class CoachServiceTest {
     @Test
     void finishTransaction_Should_Ask_CoachRepo_TwoTimes() {
 //        given
-        CoachService coachService = new CoachService(coachRepo, cardRepo, null);
-        coachService.finishTransaction(coachFirst, coachSecond, card);
+        when(coachRepo.findByCardsName(anyString())).thenReturn(coachFirst);
+        when(appUserService.getLoggedUserId()).thenReturn(1L);
+        when(coachRepo.findByAppUserId(anyLong())).thenReturn(coachSecond);
+
+        CoachService coachService = new CoachService(coachRepo, cardRepo, appUserService);
+        coachService.finishTransaction(card);
 //        then
         verify(coachRepo, times(2)).save(any());
     }
@@ -220,8 +228,12 @@ class CoachServiceTest {
     @Test
     void finishTransaction_Should_Ask_CardRepo_OneTime() {
 //        given
-        CoachService coachService = new CoachService(coachRepo, cardRepo, null);
-        coachService.finishTransaction(coachFirst, coachSecond, card);
+        when(coachRepo.findByCardsName(anyString())).thenReturn(coachFirst);
+        when(appUserService.getLoggedUserId()).thenReturn(1L);
+        when(coachRepo.findByAppUserId(anyLong())).thenReturn(coachSecond);
+
+        CoachService coachService = new CoachService(coachRepo, cardRepo, appUserService);
+        coachService.finishTransaction(card);
 //        then
         verify(cardRepo).save(any());
     }
@@ -232,8 +244,12 @@ class CoachServiceTest {
         boolean cardNotOnSaleBeforeTest = card.isOnSale();
         Coach noCoachBeforeTest = card.getCoach();
 
-        CoachService coachService = new CoachService(coachRepo, cardRepo, null);
-        coachService.finishTransaction(coachFirst, coachSecond, card);
+        when(coachRepo.findByCardsName(anyString())).thenReturn(coachFirst);
+        when(appUserService.getLoggedUserId()).thenReturn(1L);
+        when(coachRepo.findByAppUserId(anyLong())).thenReturn(coachSecond);
+
+        CoachService coachService = new CoachService(coachRepo, cardRepo, appUserService);
+        coachService.finishTransaction(card);
 
 //        then
         assertThat(card.isOnSale(), equalTo(!cardNotOnSaleBeforeTest));
@@ -245,8 +261,12 @@ class CoachServiceTest {
 //        given
         int coachFirstMoneyBeforeTest = coachFirst.getAmountMoney();
 
-        CoachService coachService = new CoachService(coachRepo, cardRepo, null);
-        coachService.finishTransaction(coachFirst, coachSecond, card);
+        when(coachRepo.findByCardsName(anyString())).thenReturn(coachFirst);
+        when(appUserService.getLoggedUserId()).thenReturn(1L);
+        when(coachRepo.findByAppUserId(anyLong())).thenReturn(coachSecond);
+
+        CoachService coachService = new CoachService(coachRepo, cardRepo, appUserService);
+        coachService.finishTransaction(card);
 //        then
         assertThat(coachFirst.getAmountMoney(), equalTo(coachFirstMoneyBeforeTest + card.getPrice()));
     }
@@ -256,8 +276,13 @@ class CoachServiceTest {
 //        given
         int coachAmountMoneyBeforeTest = coachSecond.getAmountMoney();
         int coachAmountOfCardsBeforeTest = coachSecond.getCards().size();
-        CoachService coachService = new CoachService(coachRepo, cardRepo, null);
-        coachService.finishTransaction(coachFirst, coachSecond, card);
+
+        when(coachRepo.findByCardsName(anyString())).thenReturn(coachFirst);
+        when(appUserService.getLoggedUserId()).thenReturn(1L);
+        when(coachRepo.findByAppUserId(anyLong())).thenReturn(coachSecond);
+
+        CoachService coachService = new CoachService(coachRepo, cardRepo, appUserService);
+        coachService.finishTransaction(card);
 //        then
         assertThat(coachSecond.getAmountMoney(), equalTo(coachAmountMoneyBeforeTest - card.getPrice()));
         assertThat(coachSecond.getCards().size(), equalTo(coachAmountOfCardsBeforeTest + 1));

@@ -25,6 +25,8 @@ class CardServiceTest {
     CardRepo cardRepo;
     @Mock
     CoachRepo coachRepo;
+    @Mock
+    CoachService coachService;
     @InjectMocks
     CardService cardService;
     List<Card> cards;
@@ -65,7 +67,8 @@ class CardServiceTest {
     @Test
     void setCardOnSaleAndOwner_Should_Set_Card_Properties() {
 //        given
-        cardService.setCardOnSaleAndOwner(card, coach);
+        when(coachService.findCoachOfLoggedUser()).thenReturn(coach);
+        cardService.setCardOnSaleAndOwner(card);
 //        when
 //        then
         assertThat(card.getCoach(), equalTo(coach));
@@ -81,7 +84,7 @@ class CardServiceTest {
 
         List<Card> preparedFiveCards = cards.subList(0, 5);
         when(cardRepo.findAll()).thenReturn(preparedFiveCards);
-        CardService cardService = new CardService(cardRepo, coachRepo);
+        CardService cardService = new CardService(cardRepo, coachRepo, null);
         cardService.getFivePokemonCardsAndPayForThem(coach);
 
         for (Card card : preparedFiveCards) {

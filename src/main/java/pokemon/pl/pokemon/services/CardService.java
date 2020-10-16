@@ -16,16 +16,13 @@ import java.util.stream.Stream;
 public class CardService {
     private final CardRepo cardRepo;
     private final CoachRepo coachRepo;
+    private final CoachService coachService;
+    private static final int DRAW_CARD_COST = 50;
 
-    public CardService(CardRepo cardRepo, CoachRepo coachRepo) {
+    public CardService(CardRepo cardRepo, CoachRepo coachRepo, CoachService coachService) {
         this.cardRepo = cardRepo;
         this.coachRepo = coachRepo;
-    }
-
-    public List<Card> drawFiveRandomCards() {
-        List<Card> randomCards = cardRepo.findAll();
-        Collections.shuffle(randomCards);
-        return randomCards.subList(0, 5);
+        this.coachService = coachService;
     }
 
     public List<Card> getCardsOnSale() {
@@ -35,7 +32,8 @@ public class CardService {
                 .collect(Collectors.toList());
     }
 
-    public void setCardOnSaleAndOwner(Card card, Coach coach) {
+    public void setCardOnSaleAndOwner(Card card) {
+        Coach coach = coachService.findCoachOfLoggedUser();
         card.setCoach(coach);
         card.setOnSale(true);
         coachRepo.save(coach);
@@ -46,9 +44,15 @@ public class CardService {
         List<Card> sublistedCards = drawFiveRandomCards();
         sublistedCards.forEach(card -> card.setCoach(coach));
         coach.getCards().addAll(sublistedCards);
-        int drawCardCost = 50;
-        coach.setAmountMoney(coach.getAmountMoney() - drawCardCost);
+        coach.setAmountMoney(coach.getAmountMoney() - DRAW_CARD_COST);
         coachRepo.save(coach);
         return sublistedCards;
+    }
+    public List<Card> drawFiveRandomCards() {
+        List<Card> randomCards = cardRepo.findAll().stream()
+                .filter(card -> card.getCoach()==null)
+                .collect(Collectors.toList());
+        Collections.shuffle(randomCards);
+        return randomCards.subList(0, 5);
     }
 }

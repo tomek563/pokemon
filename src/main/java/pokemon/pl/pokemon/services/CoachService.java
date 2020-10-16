@@ -1,7 +1,6 @@
 package pokemon.pl.pokemon.services;
 
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import pokemon.pl.pokemon.exceptions.CardNotFoundException;
@@ -12,16 +11,15 @@ import pokemon.pl.pokemon.model.Coach;
 import pokemon.pl.pokemon.repositories.CardRepo;
 import pokemon.pl.pokemon.repositories.CoachRepo;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.Timer;
 
 @Service
 public class CoachService {
     private final CoachRepo coachRepo;
     private final CardRepo cardRepo;
     private final AppUserService appUserService;
-    private final int extraMoney = 100;
+    private static final int EXTRA_MONEY = 100;
+    private static final int DRAW_CARD_COST = 50;
 
     public CoachService(CoachRepo coachRepo, CardRepo cardRepo, AppUserService appUserService) {
         this.coachRepo = coachRepo;
@@ -54,29 +52,32 @@ public class CoachService {
     public void addMoneyAfterSomeTime() {
         coachRepo.findAll()
                 .forEach(coach -> {
-                    coach.setAmountMoney(coach.getAmountMoney() + extraMoney);
+                    coach.setAmountMoney(coach.getAmountMoney() + EXTRA_MONEY);
                     coachRepo.save(coach);
                 });
     }
 
-    public boolean hasCoachEnoughMoneyToBuyCard(Coach coach, Card card) {
-        return coach.getAmountMoney() >= card.getPrice();
+    public boolean hasCoachEnoughMoneyToBuyCard(Card card) {
+        Coach currentCoach = findCoachOfLoggedUser();
+        return currentCoach.getAmountMoney() >= card.getPrice();
     }
 
-    public void finishTransaction(Coach currentOwnerOfTheCard, Coach coachOfLoggedUser, Card card) {
+    public void finishTransaction(Card card) {
+        Coach currentOwnerOfTheCard = findByCardsName(card);
+        Coach currentCoach = findCoachOfLoggedUser();
+
         card.setOnSale(false);
-        card.setCoach(coachOfLoggedUser);
-        coachOfLoggedUser.getCards().add(card);
-        coachOfLoggedUser.setAmountMoney(coachOfLoggedUser.getAmountMoney() - card.getPrice());
+        card.setCoach(currentCoach);
+        currentCoach.getCards().add(card);
+        currentCoach.setAmountMoney(currentCoach.getAmountMoney() - card.getPrice());
         currentOwnerOfTheCard.setAmountMoney(currentOwnerOfTheCard.getAmountMoney() + card.getPrice());
         cardRepo.save(card);
-        coachRepo.save(coachOfLoggedUser);
+        coachRepo.save(currentCoach);
         coachRepo.save(currentOwnerOfTheCard);
     }
 
     public boolean hasCoachHasMoneyToDrawCard(Coach coach) {
-        int drawCardCost = 50;
-        return coach.getAmountMoney() >= drawCardCost;
+        return coach.getAmountMoney() >= DRAW_CARD_COST;
     }
 
     public Card getCardOfCurrentCoachWithCard(String name) {

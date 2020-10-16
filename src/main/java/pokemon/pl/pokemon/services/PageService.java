@@ -17,16 +17,16 @@ import java.util.stream.IntStream;
 @Service
 public class PageService {
     private final CoachService coachService;
+    private static final int PAGE_SIZE = 10;
 
     public PageService(CoachService coachService) {
         this.coachService = coachService;
     }
 
     public Page<Card> buildPagesToShowPokemon(Optional<Integer> page) {
-//        page = page < 0 ? 0 : page;
         Coach currentCoach = coachService.findCoachOfLoggedUser();
         List<Card> allCards = currentCoach.getCards();
-        Pageable pageable = PageRequest.of(page.orElse(0), 10);
+        Pageable pageable = PageRequest.of(page.orElse(0), PAGE_SIZE);
         int start = (int) pageable.getOffset();
         int end = Math.min((start + pageable.getPageSize()), allCards.size());
         return new PageImpl<>(allCards.subList(start, end), pageable, allCards.size());
@@ -39,7 +39,6 @@ public class PageService {
                     .boxed()
                     .collect(Collectors.toList());
         }
-//        return null;
         return new ArrayList<>();
     }
 }
