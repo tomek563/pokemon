@@ -44,12 +44,12 @@ public class CoachService {
         return coachRepo.findByAppUserId(principalId) != null;
     }
 
-    public Coach findByCardsName(Card card) { /*test done*/
+    Coach findByCardsName(Card card) { /*test done*/
         return coachRepo.findByCardsName(card.getName());
     }
 
     @Scheduled(fixedRate = 300000, initialDelay = 300000)
-    public void addMoneyAfterSomeTime() {
+    void addMoneyAfterSomeTime() {
         coachRepo.findAll()
                 .forEach(coach -> {
                     coach.setAmountMoney(coach.getAmountMoney() + EXTRA_MONEY);
@@ -87,7 +87,7 @@ public class CoachService {
                 .orElseThrow(CardNotFoundException::new);
     }
 
-    public boolean isCoachRepoEmpty() {
+    boolean isCoachRepoEmpty() {
         return coachRepo.count() == 0;
     }
 }

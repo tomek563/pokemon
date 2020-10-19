@@ -48,7 +48,7 @@ public class CardService {
         coachRepo.save(coach);
         return sublistedCards;
     }
-    public List<Card> drawFiveRandomCards() {
+    List<Card> drawFiveRandomCards() {
         List<Card> randomCards = cardRepo.findAll().stream()
                 .filter(card -> card.getCoach()==null)
                 .collect(Collectors.toList());

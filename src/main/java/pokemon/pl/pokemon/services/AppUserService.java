@@ -53,11 +53,11 @@ public class AppUserService {
         }
     }
 
-    public AppUser getCurrentUser() {
+    AppUser getCurrentUser() {
         return (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
-    public Long getLoggedUserId() {
+    Long getLoggedUserId() {
         AppUser currentUser = getCurrentUser();
         return currentUser.getId();
     }
