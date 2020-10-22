@@ -29,6 +29,8 @@ class AppUserServiceTest {
     PasswordEncoder passwordEncoder;
     @Mock
     MailService mailService;
+    @Mock
+    CurrentUserProvider currentUserProvider;
     @InjectMocks
     AppUserService appUserService;
     AppUser appUser;
@@ -57,15 +59,13 @@ class AppUserServiceTest {
         Token token = argumentCaptor.getValue();
         assertThat(token.getAppUser(), equalTo(appUser));
     }
-//    @Test
-//    void getLoggedUserId_Should_Return_LoggedUserId() { /*chyba nie do przetestowania, bo nie mam jak utowrzyc mocka z SecurityContext, co uwazasz Daniel?*/
-////        given
-//        when(SecurityContextHolder.getContext().getAuthentication().getPrincipal()).thenReturn(appUser);
-//        Long id = appUser.getId();
-//
-////        then
-//        assertThat(appUserService.getLoggedUserId(), equalTo(id));
-//    }
-
+    @Test
+    void getLoggedUserId_Should_Return_LoggedUserId() {
+//        given
+        when(currentUserProvider.getCurrentUser()).thenReturn(appUser);
+        Long id = appUser.getId();
+//        then
+        assertThat(appUserService.getLoggedUserId(), equalTo(id));
+    }
 
 }

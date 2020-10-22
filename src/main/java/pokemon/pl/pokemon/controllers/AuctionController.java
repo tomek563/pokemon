@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import pokemon.pl.pokemon.model.Card;
+import pokemon.pl.pokemon.model.Coach;
 import pokemon.pl.pokemon.services.CardService;
 import pokemon.pl.pokemon.services.CoachService;
 
@@ -33,6 +34,8 @@ public class AuctionController {
     @PostMapping("/on-sale")
     public String putUpOnSale(@Valid @ModelAttribute Card card, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            Coach currentCoach = coachService.findCoachOfLoggedUser();
+            model.addAttribute("coach", currentCoach);
             return "pokemon";
         }
         cardService.setCardOnSaleAndOwner(card);

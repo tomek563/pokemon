@@ -16,14 +16,16 @@ public class AppUserService {
     private final TokenRepo tokenRepo;
     private final MailService mailService;
     private final AppUserRepo appUserRepo;
+    private final CurrentUserProvider currentUserProvider;
     private final PasswordEncoder passwordEncoder;
     private static final String url = "http://localhost:8080/token?value=";
 
     public AppUserService(TokenRepo tokenRepo, MailService mailService, AppUserRepo appUserRepo,
-                          PasswordEncoder passwordEncoder) {
+                          CurrentUserProvider currentUserProvider, PasswordEncoder passwordEncoder) {
         this.tokenRepo = tokenRepo;
         this.mailService = mailService;
         this.appUserRepo = appUserRepo;
+        this.currentUserProvider = currentUserProvider;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -53,12 +55,8 @@ public class AppUserService {
         }
     }
 
-    AppUser getCurrentUser() {
-        return (AppUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    }
-
     Long getLoggedUserId() {
-        AppUser currentUser = getCurrentUser();
+        AppUser currentUser = currentUserProvider.getCurrentUser();
         return currentUser.getId();
     }
 }

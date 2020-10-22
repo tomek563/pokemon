@@ -20,24 +20,25 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class UserDetailsServiceImplTest {
-    //CZY TE TESTY MAJĄ SENS?
+    //CZY TE TESTY MAJĄ SENS? do poprawy
     @Mock
     AppUserRepo appUserRepo;
 
     AppUser appUser;
+    UserDetailsServiceImpl userDetailsService;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.initMocks(this);
+        userDetailsService = new UserDetailsServiceImpl(appUserRepo);
         appUser = PrepareData.prepareAppUser();
     }
 
     @Test
     void loadUserByUsername_Should_Return_AppUser_If_UserName_Was_Found() {
 //        given
-        String userName = "jannowak@gmail.com";
+        String userName = appUser.getUsername();
         when(appUserRepo.findByUsername(userName)).thenReturn(appUser);
-        UserDetailsServiceImpl userDetailsService = new UserDetailsServiceImpl(appUserRepo);
         userDetailsService.loadUserByUsername(userName);
 //        then
         assertThat(userName, equalTo(PrepareData.prepareAppUser().getUsername()));
@@ -47,7 +48,6 @@ class UserDetailsServiceImplTest {
     void loadUserByUsername_Should_Throw_UsernameNotFoundException_If_UserName_Was_Not_Found() {
 //        given
         when(appUserRepo.findByUsername(anyString())).thenThrow(UsernameNotFoundException.class);
-        UserDetailsServiceImpl userDetailsService = new UserDetailsServiceImpl(appUserRepo);
 //        then
         assertThrows(UsernameNotFoundException.class, () -> userDetailsService.loadUserByUsername(anyString()));
     }

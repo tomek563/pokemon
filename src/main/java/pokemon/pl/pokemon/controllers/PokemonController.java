@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import pokemon.pl.pokemon.model.Card;
+import pokemon.pl.pokemon.model.Coach;
 import pokemon.pl.pokemon.services.CoachService;
 import pokemon.pl.pokemon.services.PageService;
 
@@ -37,7 +38,9 @@ public class PokemonController {
     @GetMapping("/pokemon/{name}")
     public String showPokemonCard(@PathVariable String name, Model model) {
         Card chosenCard = coachService.getCardOfCurrentCoachWithCard(name);
+        Coach currentCoach = coachService.findCoachOfLoggedUser();
         model.addAttribute("card", chosenCard);
+        model.addAttribute("coach", currentCoach);
         return "pokemon";
     }
 }

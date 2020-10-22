@@ -63,4 +63,5 @@ public class PrepareData {
     public static Card prepareCard() {
         return new Card("4", "Squirtle", 50, true);
     }
+
 }

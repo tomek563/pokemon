@@ -12,16 +12,16 @@
     <div class="container" style="text-align:center">
         <p></p>
         <h1>Nazwa karty: <span th:text="${card.name}"></span></h1>
-        <h2>Trener: <span th:text="${card.coach}"></span></h2>
+        <h2>Trener: <span th:text="${coach.coachName}"></span></h2>
         <p></p>
         <p><img th:src="${card.url}"></p>
 
         <form th:action="@{/on-sale}" th:object="${card}" method="post">
             Cena:
-            <input type="text" name="price" placeholder="cena">
+            <input type="number" name="price" placeholder="cena">
             <input type="hidden" name="id" th:value="${card.id}">
             <input type="hidden" name="name" th:value="${card.name}">
-<!--            <input type="hidden" name="coach" th:object="${coach}"> --> <!--jak moge przez thymelefa przesłac obiekt?-->
+            <input type="hidden" name="coach" th:object="${coach}">  <!--jak moge przez thymelefa przesłac obiekt?-->
             <input type="hidden" name="url" th:value="${card.url}"><br>
             <p></p>
             <div class="alert alert-danger" th:if="${#fields.hasErrors('*')}">

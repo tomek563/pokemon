@@ -18,17 +18,19 @@ public class CoachService {
     private final CoachRepo coachRepo;
     private final CardRepo cardRepo;
     private final AppUserService appUserService;
+    private final CurrentUserProvider currentUserProvider;
     private static final int EXTRA_MONEY = 100;
     private static final int DRAW_CARD_COST = 50;
 
-    public CoachService(CoachRepo coachRepo, CardRepo cardRepo, AppUserService appUserService) {
+    public CoachService(CoachRepo coachRepo, CardRepo cardRepo, AppUserService appUserService, CurrentUserProvider currentUserProvider) {
         this.coachRepo = coachRepo;
         this.cardRepo = cardRepo;
         this.appUserService = appUserService;
+        this.currentUserProvider = currentUserProvider;
     }
 
     public void addCoach(Coach coach) {
-        AppUser currentUser = appUserService.getCurrentUser();
+        AppUser currentUser = currentUserProvider.getCurrentUser();
         coach.setAppUser(currentUser);
         coachRepo.save(coach);
     }
