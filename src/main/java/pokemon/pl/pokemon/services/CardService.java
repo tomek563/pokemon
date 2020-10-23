@@ -49,7 +49,8 @@ public class CardService {
         return sublistedCards;
     }
     List<Card> drawFiveRandomCards() {
-        List<Card> randomCards = cardRepo.findAll().stream()
+        List<Card> randomCards = cardRepo.findAll()
+                .stream()
                 .filter(card -> card.getCoach()==null)
                 .collect(Collectors.toList());
         Collections.shuffle(randomCards);

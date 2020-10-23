@@ -21,7 +21,7 @@ public class Card {
     private int price = 50;
     private boolean onSale = false;
     @ManyToOne
-    private Coach coach;
+    private Coach coach = null;
 
     public Card() {
     }
