@@ -3,6 +3,8 @@ package pokemon.pl.pokemon.controllers;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import pokemon.pl.pokemon.services.AppUserService;
+import pokemon.pl.pokemon.services.CoachService;
 
 
 @Controller
