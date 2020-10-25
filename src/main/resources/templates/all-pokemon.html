@@ -21,8 +21,9 @@
             <div th:each="card:${pages}">
                 <div id="pokemon-card-body" class="col">
                     <div id="pokemon-cards-not-on-sale" th:if="${!card.onSale}">
-                        <td><a th:href="@{/pokemon/{cardName}(cardName=${card.name})}"><img class="card-img-top"
-                                                                                            th:src="${card.url}"></a>
+                        <td><a th:href="@{/pokemon/{cardName}(cardName=${card.name})}">
+                            <img class="card-img-top"
+                                 th:src="${card.url}"></a>
                         </td>
                     </div>
                     <div id="pokemon-cards-on-sale" th:if="${card.onSale}">

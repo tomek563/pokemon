@@ -28,7 +28,7 @@ public class AppUserController {
         return "sign-up";
     }
 
-@PostMapping("/register") //
+    @PostMapping("/register") //
     public String register(@Valid @ModelAttribute AppUser appUser,
                            BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {

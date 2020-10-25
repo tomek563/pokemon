@@ -59,4 +59,6 @@ public class AppUserService {
         AppUser currentUser = currentUserProvider.getCurrentUser();
         return currentUser.getId();
     }
+
+
 }

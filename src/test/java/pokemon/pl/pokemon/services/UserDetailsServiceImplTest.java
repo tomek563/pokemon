@@ -16,8 +16,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class UserDetailsServiceImplTest {
     //CZY TE TESTY MAJĄ SENS? do poprawy
@@ -39,17 +38,17 @@ class UserDetailsServiceImplTest {
 //        given
         String userName = appUser.getUsername();
         when(appUserRepo.findByUsername(userName)).thenReturn(appUser);
-        userDetailsService.loadUserByUsername(userName);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
 //        then
-        assertThat(userName, equalTo(PrepareData.prepareAppUser().getUsername()));
+        assertThat(userDetails.getUsername(), equalTo(appUser.getUsername()));
     }
 
     @Test
-    void loadUserByUsername_Should_Throw_UsernameNotFoundException_If_UserName_Was_Not_Found() {
+    void loadUserByUsername_Should_Ask_AppUserRepo_OneTime() {
 //        given
-        when(appUserRepo.findByUsername(anyString())).thenThrow(UsernameNotFoundException.class);
+        userDetailsService.loadUserByUsername(anyString());
 //        then
-        assertThrows(UsernameNotFoundException.class, () -> userDetailsService.loadUserByUsername(anyString()));
+        verify(appUserRepo).findByUsername(anyString());
     }
 
 }
