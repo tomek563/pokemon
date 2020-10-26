@@ -50,7 +50,7 @@ public class CoachService {
         return coachRepo.findByCardsName(card.getName());
     }
 
-    @Scheduled(fixedRate = 300000, initialDelay = 300000)
+    @Scheduled(fixedRate = 3600000, initialDelay = 3600000)
     void addMoneyAfterSomeTime() {
         coachRepo.findAll()
                 .forEach(coach -> {

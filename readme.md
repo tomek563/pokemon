@@ -2,14 +2,13 @@
 
 ##Goal of the project:
 The main goal of the project was to practice the basics of the web development
- and related technologies i.e Spring, OOP, Hibernate, Maven, Thymeleaf, Mockito etc.
- Application allows to draw and collect random pokemon cards as well as swap them with 
- other users.   
+ and related technologies i.e Spring, OOP, Hibernate, Maven, PostgreSQL, Thymeleaf, Mockito etc.
+ Application allows to draw and collect random pokemon cards as well as swap them with other users.   
 
 ##Technologies:
 1. Java 11
 2. Spring Framework 2.3.2.RELEASE
-3. h2 database
+3. PostgreSQL 12
 4. Thymeleaf 3.0.9
 5. Hibernate 6.0.13.Final
 6. Junit 4.13
@@ -21,6 +20,15 @@ The main goal of the project was to practice the basics of the web development
 ##How to run a project?
 Link to page on Heroku: https://pokemon563.herokuapp.com/
 Link to page on GitHub: https://github.com/tomek563/pokemon
+
+##Project screenshots:
+![Strona główna](./images/pok1.jpg)
+
+![Strona główna](./images/pok2.jpg)
+
+![Strona główna](./images/pok3.jpg)
+
+![Strona główna](./images/pok4.jpg)
 
 ##Project status:
 Project is finished. 
