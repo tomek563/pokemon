@@ -68,4 +68,19 @@ class AppUserServiceTest {
         assertThat(appUserService.getLoggedUserId(), equalTo(id));
     }
 
+
+    @Test
+    void isAppUserInAppUserRepo_Should_Return_True_If_There_Is_AppUser() {
+//        given
+        when(appUserRepo.findByUsername(anyString())).thenReturn(appUser);
+//        then
+        assertThat(appUserService.isAppUserInAppUserRepo(anyString()),equalTo(true));
+    }
+    @Test
+    void isAppUserInAppUserRepo_Should_Return_False_If_There_Is_No_AppUser() {
+//        given
+        when(appUserRepo.findByUsername(anyString())).thenReturn(null);
+//        then
+        assertThat(appUserService.isAppUserInAppUserRepo(anyString()),equalTo(false));
+    }
 }

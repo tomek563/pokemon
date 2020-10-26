@@ -34,9 +34,15 @@ public class AppUserController {
         if (bindingResult.hasErrors()) {
             return "sign-up";
         } else {
-            appUserService.addUser(appUser);
-            model.addAttribute("successMessage","Dodano nowego użytkownika. Zaloguj się");
-            return "success";
+            if (!appUserService.isAppUserInAppUserRepo(appUser.getUsername())) {
+                appUserService.addUser(appUser);
+                model.addAttribute("successMessage","Dodano nowego użytkownika. Zaloguj się");
+                return "success";
+            } else {
+                model.addAttribute("errorMessage","Dany użytkownik jest już zajęty");
+                return "failure";
+            }
+
         }
     }
 

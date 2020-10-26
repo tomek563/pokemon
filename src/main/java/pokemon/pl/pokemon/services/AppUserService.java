@@ -9,6 +9,7 @@ import pokemon.pl.pokemon.repositories.AppUserRepo;
 import pokemon.pl.pokemon.repositories.TokenRepo;
 
 import javax.mail.MessagingException;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -59,6 +60,9 @@ public class AppUserService {
         AppUser currentUser = currentUserProvider.getCurrentUser();
         return currentUser.getId();
     }
-
+    public boolean isAppUserInAppUserRepo(String name) {
+        Optional<AppUser> byUsername = Optional.ofNullable(appUserRepo.findByUsername(name));
+        return byUsername.isPresent();
+    }
 
 }
