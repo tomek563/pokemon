@@ -55,7 +55,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.headers().disable(); /*tylko do dostepu do bazy danych*/
         http.authorizeRequests()
-                .antMatchers("/").authenticated()
+                .antMatchers("/","/market", "/sign-up", "/login", "/failure", "/success", "/register")
+                .permitAll()
+                .antMatchers("/*").authenticated()
                 .and()
                 .formLogin(form->form
                 .loginPage("/login")
@@ -65,6 +67,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and())
                 .logout().permitAll()
                 .logoutSuccessUrl("/");
-
     }
 }

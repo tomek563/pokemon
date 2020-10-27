@@ -8,16 +8,18 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pokemon.pl.pokemon.model.AppUser;
 import pokemon.pl.pokemon.model.Coach;
+import pokemon.pl.pokemon.services.AppUserService;
 import pokemon.pl.pokemon.services.CoachService;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class CoachController {
     private final CoachService coachService;
 
-    public CoachController(CoachService coachService) {
+    public CoachController(CoachService coachService, AppUserService appUserService) {
         this.coachService = coachService;
     }
 

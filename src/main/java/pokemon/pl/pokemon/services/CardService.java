@@ -3,6 +3,7 @@ package pokemon.pl.pokemon.services;
 import org.springframework.stereotype.Service;
 import pokemon.pl.pokemon.model.Card;
 import pokemon.pl.pokemon.model.Coach;
+import pokemon.pl.pokemon.repositories.AppUserRepo;
 import pokemon.pl.pokemon.repositories.CardRepo;
 import pokemon.pl.pokemon.repositories.CoachRepo;
 
