@@ -41,9 +41,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .password("admin1")
                 .roles("ADMIN")
                 .build();
-        return new InMemoryUserDetailsManager(moderator,admin);
+        return new InMemoryUserDetailsManager(moderator, admin);
     }
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -55,16 +54,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.headers().disable(); /*tylko do dostepu do bazy danych*/
         http.authorizeRequests()
-                .antMatchers("/").authenticated()
-                .and()
-                .formLogin(form->form
-                .loginPage("/login")
+                .antMatchers("/", "/market", "/sign-up", "/login", "/failure",
+                        "/success", "/register", "/pokemon.css")
                 .permitAll()
-                .defaultSuccessUrl("/success", true)
-                .failureUrl("/failure?error=true")
-                .and())
+                .antMatchers("/*").authenticated()
+                .and()
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .permitAll()
+                        .defaultSuccessUrl("/success", true)
+                        .failureUrl("/failure?error=true")
+                        .and())
                 .logout().permitAll()
                 .logoutSuccessUrl("/");
-
     }
 }
