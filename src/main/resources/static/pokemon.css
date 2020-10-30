@@ -1,12 +1,7 @@
 .body-index {
     background:#FFD700;
 }
-.body-scheme {
-    height: 100vh;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
+
 .body-all {
     background:url(http://img.fliptab.io/pokemon/1920x1200/pokemon-31.jpg);
     background-color: #fec901
@@ -22,13 +17,31 @@
 }
 .random-body{
     background:url(https://images6.alphacoders.com/423/thumb-1920-423150.jpg);
+        height: 100vh;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
 }
 .body-market {
     background:#FFD700;
+        height: 100vh;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
 }
 .body-failure {
     background:url(https://www.tapeciarnia.pl/tapety/normalne/61305_pikachu_grozny_pokemon.jpg);
     background-color: #2f528a;
+        height: 100vh;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+}
+.body-scheme {
+    height: 100vh;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 #pokemon-cards-not-on-sale:hover {
     -webkit-filter: brightness(50%);
