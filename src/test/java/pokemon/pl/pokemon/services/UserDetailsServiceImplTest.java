@@ -19,7 +19,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 class UserDetailsServiceImplTest {
-    //CZY TE TESTY MAJĄ SENS? do poprawy
     @Mock
     AppUserRepo appUserRepo;
 

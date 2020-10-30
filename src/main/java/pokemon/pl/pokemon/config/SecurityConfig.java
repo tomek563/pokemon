@@ -57,7 +57,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/market", "/sign-up", "/login", "/failure",
                         "/success", "/register", "/pokemon.css")
                 .permitAll()
-                .antMatchers("/*").authenticated()
+                .anyRequest().authenticated()/* .hasRole("VERIFIED_USER")*/
                 .and()
                 .formLogin(form -> form
                         .loginPage("/login")

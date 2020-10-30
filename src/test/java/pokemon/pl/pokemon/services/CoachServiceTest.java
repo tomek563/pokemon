@@ -71,29 +71,35 @@ class CoachServiceTest {
     }
 
     @Test
-    void findByCardsName_Should_Ask_Repo_For_CardOfGivenName() { // refactor na przekazywanie name
+    void findByCardsName_Should_Ask_Repo_For_CardOfGivenName() {
 //        given
         CoachService coachService = new CoachService(coachRepo, null, null, currentUserProvider);
+//        when
         coachService.findByCardsName(card);
 //        then
-        verify(coachRepo, times(1)).findByCardsName(card.getName());
+        verify(coachRepo).findByCardsName(card.getName());
     }
 
     @Test
     void hasCoachMoneyToDrawCard_Should_ReturnTrue_When_Coach_Has_Enough_Money() {
 //        given
         CoachService coachService = new CoachService(null, null, null, currentUserProvider);
+//        when
+        boolean hasCoachMoney = coachService.hasCoachHasMoneyToDrawCard(coachFirst);
 //        then
-        assertThat(coachService.hasCoachHasMoneyToDrawCard(coachFirst), equalTo(true));
+        assertThat(hasCoachMoney, equalTo(true));
     }
 
     @Test
     void hasCoachMoneyToDrawCard_Should_ReturnFalse_When_Coach_Has_Not_Sufficient_Money() {
 //        given
-        coachFirst.setAmountMoney(40);
+        int tooLittleMoney = 40;
+        coachFirst.setAmountMoney(tooLittleMoney);
         CoachService coachService = new CoachService(null, null, null, currentUserProvider);
+//        when
+        boolean hasCoachMoney = coachService.hasCoachHasMoneyToDrawCard(coachFirst);
 //        then
-        assertThat(coachService.hasCoachHasMoneyToDrawCard(coachFirst), equalTo(false));
+        assertThat(hasCoachMoney, equalTo(false));
     }
 
     @Test
@@ -121,7 +127,7 @@ class CoachServiceTest {
 //        given
         when(appUserService.getLoggedUserId()).thenReturn(1L);
         when(coachRepo.findByAppUserId(anyLong())).thenReturn(coachFirst);
-        CoachService coachService = new CoachService(coachRepo, null, appUserService,currentUserProvider);
+        CoachService coachService = new CoachService(coachRepo, null, appUserService, currentUserProvider);
 //        then
         assertThat(coachService.hasCoachEnoughMoneyToBuyCard(card), equalTo(true));
     }
@@ -132,7 +138,7 @@ class CoachServiceTest {
         coachFirst.setAmountMoney(40);
         when(appUserService.getLoggedUserId()).thenReturn(1L);
         when(coachRepo.findByAppUserId(anyLong())).thenReturn(coachFirst);
-        CoachService coachService = new CoachService(coachRepo, null, appUserService,currentUserProvider);
+        CoachService coachService = new CoachService(coachRepo, null, appUserService, currentUserProvider);
 //        then
         assertThat(coachService.hasCoachEnoughMoneyToBuyCard(card), equalTo(false));
     }
@@ -140,7 +146,7 @@ class CoachServiceTest {
     @Test
     void addMoneyAfterOneHour_Should_AskCoachRepo_OneTime() {
 //        given
-        CoachService coachService = new CoachService(coachRepo, null, null,currentUserProvider);
+        CoachService coachService = new CoachService(coachRepo, null, null, currentUserProvider);
         coachService.addMoneyAfterSomeTime();
 //        then
         verify(coachRepo, times(1)).findAll();
@@ -154,9 +160,8 @@ class CoachServiceTest {
         List<Coach> coaches = new ArrayList<>();
         coaches.add(coachFirst);
         coaches.add(coachSecond);
-
         when(coachRepo.findAll()).thenReturn(coaches);
-        CoachService coachService = new CoachService(coachRepo, null, null,currentUserProvider);
+        CoachService coachService = new CoachService(coachRepo, null, null, currentUserProvider);
         coachService.addMoneyAfterSomeTime();
 //        then
         assertThat(coaches.get(0).getAmountMoney(), equalTo(coachFirstMoneyBeforeTest + 100));
@@ -169,7 +174,7 @@ class CoachServiceTest {
 //        given
         when(coachRepo.findByAppUserId(anyLong())).thenReturn(null);
         when(currentUserProvider.getCurrentUser()).thenReturn(appUser);
-        CoachService coachService = new CoachService(coachRepo, null, appUserService,currentUserProvider);
+        CoachService coachService = new CoachService(coachRepo, null, appUserService, currentUserProvider);
 //        then
         assertThat(coachService.hasUserGotCoach(), equalTo(false));
     }
@@ -179,7 +184,7 @@ class CoachServiceTest {
 //        given
         when(coachRepo.findByAppUserId(anyLong())).thenReturn(coachFirst);
         when(currentUserProvider.getCurrentUser()).thenReturn(appUser);
-        CoachService coachService = new CoachService(coachRepo, null, appUserService,currentUserProvider);
+        CoachService coachService = new CoachService(coachRepo, null, appUserService, currentUserProvider);
 //        then
         assertThat(coachService.hasUserGotCoach(), equalTo(true));
     }
@@ -188,7 +193,7 @@ class CoachServiceTest {
     void addCoach_Should_Ask_CoachRepo_OneTime_And_Set_User_ToCoach() {
 //        given
         when(currentUserProvider.getCurrentUser()).thenReturn(appUser);
-        CoachService coachService = new CoachService(coachRepo, null, appUserService,currentUserProvider);
+        CoachService coachService = new CoachService(coachRepo, null, appUserService, currentUserProvider);
         coachService.addCoach(coachFirst);
 //        then
         assertThat(coachFirst.getAppUser(), equalTo(appUser));
@@ -200,7 +205,7 @@ class CoachServiceTest {
 //        given
         when(coachRepo.findByAppUserId(anyLong())).thenReturn(coachFirst);
         when(currentUserProvider.getCurrentUser()).thenReturn(appUser);
-        CoachService coachService = new CoachService(coachRepo, null, appUserService,currentUserProvider);
+        CoachService coachService = new CoachService(coachRepo, null, appUserService, currentUserProvider);
 //        then
         assertThat(coachService.findCoachOfLoggedUser(), equalTo(coachFirst));
     }
@@ -210,32 +215,30 @@ class CoachServiceTest {
 //        given
         when(coachRepo.findByAppUserId(anyLong())).thenReturn(null);
         when(currentUserProvider.getCurrentUser()).thenReturn(appUser);
-        CoachService coachService = new CoachService(coachRepo, null, appUserService,currentUserProvider);
+        CoachService coachService = new CoachService(coachRepo, null, appUserService, currentUserProvider);
 //        then
         assertThrows(CoachNotFoundException.class, coachService::findCoachOfLoggedUser);
     }
 
     @Test
-    void finishTransaction_Should_Ask_CoachRepo_TwoTimes() {
+    void finishTransaction_Should_Save_State_Of_Both_Coaches() {
 //        given
         when(coachRepo.findByCardsName(anyString())).thenReturn(coachFirst);
         when(appUserService.getLoggedUserId()).thenReturn(1L);
         when(coachRepo.findByAppUserId(anyLong())).thenReturn(coachSecond);
-
-        CoachService coachService = new CoachService(coachRepo, cardRepo, appUserService,currentUserProvider);
+        CoachService coachService = new CoachService(coachRepo, cardRepo, appUserService, currentUserProvider);
         coachService.finishTransaction(card);
 //        then
         verify(coachRepo, times(2)).save(any());
     }
 
     @Test
-    void finishTransaction_Should_Ask_CardRepo_OneTime() {
+    void finishTransaction_Should_Save_State_Of_Card() {
 //        given
         when(coachRepo.findByCardsName(anyString())).thenReturn(coachFirst);
         when(appUserService.getLoggedUserId()).thenReturn(1L);
         when(coachRepo.findByAppUserId(anyLong())).thenReturn(coachSecond);
-
-        CoachService coachService = new CoachService(coachRepo, cardRepo, appUserService,currentUserProvider);
+        CoachService coachService = new CoachService(coachRepo, cardRepo, appUserService, currentUserProvider);
         coachService.finishTransaction(card);
 //        then
         verify(cardRepo).save(any());
@@ -246,14 +249,11 @@ class CoachServiceTest {
 //        given
         boolean cardNotOnSaleBeforeTest = card.isOnSale();
         Coach noCoachBeforeTest = card.getCoach();
-
         when(coachRepo.findByCardsName(anyString())).thenReturn(coachFirst);
         when(appUserService.getLoggedUserId()).thenReturn(1L);
         when(coachRepo.findByAppUserId(anyLong())).thenReturn(coachSecond);
-
-        CoachService coachService = new CoachService(coachRepo, cardRepo, appUserService,currentUserProvider);
+        CoachService coachService = new CoachService(coachRepo, cardRepo, appUserService, currentUserProvider);
         coachService.finishTransaction(card);
-
 //        then
         assertThat(card.isOnSale(), equalTo(!cardNotOnSaleBeforeTest));
         assertThat(card.getCoach(), not(equalTo(noCoachBeforeTest)));
@@ -263,12 +263,10 @@ class CoachServiceTest {
     void finishTransaction_ShouldHaveBeenGiven_CurrentOwnerOfTheCard_Money_For_Card() {
 //        given
         int coachFirstMoneyBeforeTest = coachFirst.getAmountMoney();
-
         when(coachRepo.findByCardsName(anyString())).thenReturn(coachFirst);
         when(appUserService.getLoggedUserId()).thenReturn(1L);
         when(coachRepo.findByAppUserId(anyLong())).thenReturn(coachSecond);
-
-        CoachService coachService = new CoachService(coachRepo, cardRepo, appUserService,currentUserProvider);
+        CoachService coachService = new CoachService(coachRepo, cardRepo, appUserService, currentUserProvider);
         coachService.finishTransaction(card);
 //        then
         assertThat(coachFirst.getAmountMoney(), equalTo(coachFirstMoneyBeforeTest + card.getPrice()));
@@ -279,12 +277,10 @@ class CoachServiceTest {
 //        given
         int coachAmountMoneyBeforeTest = coachSecond.getAmountMoney();
         int coachAmountOfCardsBeforeTest = coachSecond.getCards().size();
-
         when(coachRepo.findByCardsName(anyString())).thenReturn(coachFirst);
         when(appUserService.getLoggedUserId()).thenReturn(1L);
         when(coachRepo.findByAppUserId(anyLong())).thenReturn(coachSecond);
-
-        CoachService coachService = new CoachService(coachRepo, cardRepo, appUserService,currentUserProvider);
+        CoachService coachService = new CoachService(coachRepo, cardRepo, appUserService, currentUserProvider);
         coachService.finishTransaction(card);
 //        then
         assertThat(coachSecond.getAmountMoney(), equalTo(coachAmountMoneyBeforeTest - card.getPrice()));

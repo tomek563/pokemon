@@ -48,8 +48,8 @@ class CardServiceTest {
 //        given
         when(cardRepo.findAll()).thenReturn(cards);
 //        when
-//        then
         List<Card> returnedCards = cardService.drawFiveRandomCards();
+//        then
         assertThat(returnedCards, hasSize(5));
         assertTrue(cards.containsAll(returnedCards));
     }
@@ -58,18 +58,20 @@ class CardServiceTest {
     void getCardsOnSale_Should_Get_Only_Cards_OnSale() {
 //        given
         when(cardRepo.findAll()).thenReturn(cards);
+        card.setId("2");
+        card.setName("Charmander");
 //        when
 //        then
         assertThat(cardService.getCardsOnSale().size(), equalTo(3));
-        assertThat(cardService.getCardsOnSale().get(0).getName(), equalTo("Charmander"));
+        assertThat(cardService.getCardsOnSale().get(0), equalTo(card));
     }
 
     @Test
     void setCardOnSaleAndOwner_Should_Set_Card_Properties() {
 //        given
         when(coachService.findCoachOfLoggedUser()).thenReturn(coach);
-        cardService.setCardOnSaleAndOwner(card);
 //        when
+        cardService.setCardOnSaleAndOwner(card);
 //        then
         assertThat(card.getCoach(), equalTo(coach));
         assertThat(card.isOnSale(), equalTo(true));

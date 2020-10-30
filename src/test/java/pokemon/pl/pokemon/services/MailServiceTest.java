@@ -46,6 +46,7 @@ class MailServiceTest {
 //        given
         when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
         MailService mailService = new MailService(javaMailSender);
+//        when
         mailService.sendMail(to, subject, text, isHtmlContent);
         ArgumentCaptor<MimeMessage> argumentCaptor = ArgumentCaptor.forClass(MimeMessage.class);
 //        then

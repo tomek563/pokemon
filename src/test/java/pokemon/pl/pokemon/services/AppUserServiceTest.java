@@ -47,6 +47,7 @@ class AppUserServiceTest {
         String passwordBeforeTest = appUser.getPassword();
         String roleBeforeTest = appUser.getRole();
         when(passwordEncoder.encode(any())).thenReturn(anyString());
+//        when
         appUserService.addUser(appUser);
         ArgumentCaptor<Token> argumentCaptor = ArgumentCaptor.forClass(Token.class);
 //        then
@@ -55,7 +56,6 @@ class AppUserServiceTest {
         verify(tokenRepo).save(argumentCaptor.capture());
         assertThat(appUser.getPassword(), not(equalTo(passwordBeforeTest)));
         assertThat(appUser.getRole(), not(equalTo(roleBeforeTest)));
-
         Token token = argumentCaptor.getValue();
         assertThat(token.getAppUser(), equalTo(appUser));
     }

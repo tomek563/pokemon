@@ -43,6 +43,7 @@ class PageServiceTest {
 //        given
         Optional<Integer> page = Optional.of(0);
         when(coachService.findCoachOfLoggedUser()).thenReturn(coach);
+//        when
         Page<Card> cards = pageService.buildPagesToShowPokemon(page);
 //        then
         assertThat(cards.getTotalPages(), equalTo(1));
@@ -66,6 +67,7 @@ class PageServiceTest {
 //        given
         cards.clear();
         Page<Card> pages = PrepareData.preparePages(cards, 0);
+//        when
         List<Integer> listOfPageNumbers = pageService.getListOfPageNumbers(pages);
 //        then
         assertThat(pages.getTotalPages(), equalTo(0));
