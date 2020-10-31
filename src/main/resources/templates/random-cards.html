@@ -10,7 +10,6 @@
 <body class="body-scheme random-body">
 <section layout:fragment="content">
     <div class="container" style="text-align:center">
-        <p></p>
         <br>
         <br>
         <br>
@@ -20,12 +19,11 @@
     </div>
     <form th:action="@{/drawn}" style="text-align:center" method="post">
         <br>
-        <div th:if="${not #lists.isEmpty(randomCards)}">
-            <tr th:each="card:${randomCards}">
-                <td><img th:src="${card.url}"></td>
-            </tr>
+        <div class="row justify-content-center" th:if="${not #lists.isEmpty(randomCards)}">
+            <div th:each="card:${randomCards}">
+                <div><img class="pokemon-image" th:src="${card.url}"></div>
+            </div>
         </div>
-        <br>
         <p th:if="${money>=50}"><input class="btn btn-success btn-lg" type="submit" value="Losuj karty!"></p>
         <p th:if="${money<50}"><input class="btn btn-success btn-lg" type="submit" value="Losuj karty!" disabled>
         </p>

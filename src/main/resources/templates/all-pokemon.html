@@ -16,21 +16,22 @@
         <p></p>
     </div>
     <div class="container">
-        <!--        row-cols-md-4"-->
-        <div class="row row-cols-5" style="text-align:center" th:if="${not #lists.isEmpty(pages)}">
+
+        <div class="row justify-content-center" th:if="${not #lists.isEmpty(pages)}">
             <div th:each="card:${pages}">
-                <div id="pokemon-card-body" class="col">
+                <div id="pokemon-card-body">
                     <div id="pokemon-cards-not-on-sale" th:if="${!card.onSale}">
-                        <td><a th:href="@{/pokemon/{cardName}(cardName=${card.name})}">
-                            <img class="card-img-top"
+                        <div class="col"><a th:href="@{/pokemon/{cardName}(cardName=${card.name})}">
+                            <img class="pokemon-image"
                                  th:src="${card.url}"></a>
-                        </td>
+                        </div>
                     </div>
                     <div id="pokemon-cards-on-sale" th:if="${card.onSale}">
-                        <td><a th:href="@{/pokemon/{cardName}(cardName=${card.name})}">
-                            <img class="card-img-top" th:src="${card.url}">
+                        <div class="col"><a th:href="@{/pokemon/{cardName}(cardName=${card.name})}">
+                            <img class="pokemon-image" th:src="${card.url}">
                             <div class="text-on-picture"><strong>NA SPRZEDAŻ</strong></div>
-                        </a></td>
+                        </a>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,7 +1,6 @@
 .body-index {
     background:#FFD700;
 }
-
 .body-all {
     background:url(http://img.fliptab.io/pokemon/1920x1200/pokemon-31.jpg);
     background-color: #fec901
@@ -63,6 +62,10 @@
     margin: 0;
 }
 .single-card {
+    margin: 5px;
+}
+.pokemon-image {
+    height:250px;
     margin: 5px;
 }
 
