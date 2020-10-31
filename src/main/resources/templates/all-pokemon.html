@@ -28,7 +28,7 @@
                     </div>
                     <div id="pokemon-cards-on-sale" th:if="${card.onSale}">
                         <div class="col"><a th:href="@{/pokemon/{cardName}(cardName=${card.name})}">
-                            <img class="pokemon-image" th:src="${card.url}">
+                            <img class="pokemon-image-on-sale" th:src="${card.url}">
                             <div class="text-on-picture"><strong>NA SPRZEDAŻ</strong></div>
                         </a>
                         </div>

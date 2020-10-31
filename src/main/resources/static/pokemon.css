@@ -1,12 +1,12 @@
 .body-index {
     background:#FFD700;
 }
+.body-pokemon {
+    background:url(https://images6.alphacoders.com/884/thumb-1920-884402.jpg);
+}
 .body-all {
     background:url(http://img.fliptab.io/pokemon/1920x1200/pokemon-31.jpg);
     background-color: #fec901
-}
-.body-pokemon {
-    background:url(https://images6.alphacoders.com/884/thumb-1920-884402.jpg);
 }
 .body-layout {
     background:url(https://cdn.hipwallpaper.com/i/55/71/H8X67z.png);
@@ -16,25 +16,13 @@
 }
 .random-body{
     background:url(https://images6.alphacoders.com/423/thumb-1920-423150.jpg);
-        height: 100vh;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
 }
 .body-market {
     background:#FFD700;
-        height: 100vh;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
 }
 .body-failure {
     background:url(https://www.tapeciarnia.pl/tapety/normalne/61305_pikachu_grozny_pokemon.jpg);
     background-color: #2f528a;
-        height: 100vh;
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
 }
 .body-scheme {
     height: 100vh;
@@ -47,25 +35,31 @@
     filter: brightness(50%);
     cursor: pointer;
 }
-#pokemon-cards-on-sale {
-    position:relative;
-    display: inline-block;
-    border: 5px solid red;
-}
-.text-on-picture {
-    position: absolute;
-    top: 40%;
-    left: 40%;
-    transform: translate(-50%,-50%) rotate(-45deg);
-    color: red;
-    font-size: 40px;
-    margin: 0;
-}
 .single-card {
     margin: 5px;
 }
 .pokemon-image {
     height:250px;
     margin: 5px;
+}
+.pokemon-image-on-sale {
+    height:250px;
+    margin: 5px;
+    border:5px solid red;
+}
+
+#pokemon-cards-on-sale {
+    position:relative;
+    display: inline-block;
+}
+.text-on-picture {
+    position: absolute;
+    text-align:center;
+    top: 40%;
+    left: 40%;
+    transform: translate(-50%,-50%) rotate(-45deg);
+    color: red;
+    font-size: 40px;
+    margin: 0;
 }
 

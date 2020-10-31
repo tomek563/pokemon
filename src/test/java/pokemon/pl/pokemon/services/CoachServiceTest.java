@@ -287,5 +287,4 @@ class CoachServiceTest {
         assertThat(coachSecond.getCards().size(), equalTo(coachAmountOfCardsBeforeTest + 1));
     }
 
-
 }

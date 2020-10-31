@@ -29,21 +29,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails moderator = User.withDefaultPasswordEncoder()
-                .username("moderator")
-                .password("moderator")
-                .roles("MODERATOR")
-                .build();
-        UserDetails admin = User.withDefaultPasswordEncoder()
-                .username("admin")
-                .password("admin1")
-                .roles("ADMIN")
-                .build();
-        return new InMemoryUserDetailsManager(moderator, admin);
-    }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsServiceImpl);
@@ -52,12 +37,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.headers().disable(); /*tylko do dostepu do bazy danych*/
+        http.headers().disable();
         http.authorizeRequests()
                 .antMatchers("/", "/market", "/sign-up", "/login", "/failure",
                         "/success", "/register", "/pokemon.css")
                 .permitAll()
-                .anyRequest().authenticated()/* .hasRole("VERIFIED_USER")*/
+                .anyRequest().authenticated()
                 .and()
                 .formLogin(form -> form
                         .loginPage("/login")
