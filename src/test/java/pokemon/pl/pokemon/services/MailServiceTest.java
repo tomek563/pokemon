@@ -42,7 +42,7 @@ class MailServiceTest {
     }
 
     @Test
-    void sendMail_Should_Capture_ArgumentCaptor_With_Its_Correct_Properties() throws MessagingException {
+    void sendMail_Should_SendMail_OnGiven_Address() throws MessagingException {
 //        given
         when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
         MailService mailService = new MailService(javaMailSender);
@@ -51,7 +51,6 @@ class MailServiceTest {
         ArgumentCaptor<MimeMessage> argumentCaptor = ArgumentCaptor.forClass(MimeMessage.class);
 //        then
         verify(javaMailSender).send(argumentCaptor.capture());
-//        assertThat(argumentCaptor.getValue().getRecipients(Message.RecipientType.TO), equalTo(to)); JAK TO MOZNA ZAPISAC?
         assertThat(argumentCaptor.getValue().getAllHeaderLines().nextElement(), equalTo("To: " + to));
         assertThat(argumentCaptor.getValue().getSubject(), equalTo(subject));
     }
