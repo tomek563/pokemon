@@ -253,7 +253,7 @@ class CoachServiceTest {
         when(appUserService.getLoggedUserId()).thenReturn(1L);
         when(coachRepo.findByAppUserId(anyLong())).thenReturn(coachSecond);
         CoachService coachService = new CoachService(coachRepo, cardRepo, appUserService, currentUserProvider);
-        coachService.finishTransaction(card);
+        coachService.finishTransaction(card); 
 //        then
         assertThat(card.isOnSale(), equalTo(!cardNotOnSaleBeforeTest));
         assertThat(card.getCoach(), not(equalTo(noCoachBeforeTest)));
