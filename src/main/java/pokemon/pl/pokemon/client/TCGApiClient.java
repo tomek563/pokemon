@@ -18,7 +18,7 @@ public class TCGApiClient {
     private final CardRepo cardRepo;
     private final RestTemplate restTemplate;
     private static final String URL = "https://api.pokemontcg.io/v1/";
-    private static final int pageNumber = 11;
+    private static final int pageNumber = 10;
 
     public TCGApiClient(CardRepo cardRepo, RestTemplate restTemplate) {
         this.cardRepo = cardRepo;
