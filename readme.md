@@ -18,8 +18,8 @@ The main goal of the project was to practice the basics of the web development
 10. Maven 3.8.1
 
 ## How to run a project?
+User should provide its own datasource, username and password for Postgresql db and username and password for mail. You can check app on website.
 Link to page on Heroku: https://pokemon563.herokuapp.com/
-Link to page on GitHub: https://github.com/tomek563/pokemon
 
 ## Project screenshots:
 ![Strona główna](./images/pok1.jpg)
